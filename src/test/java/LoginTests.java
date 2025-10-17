@@ -38,17 +38,23 @@ public class LoginTests extends BaseTest {
     page.locator(String.format(GREETING_MESSAGE, USERNAME)).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
     assertTrue(page.locator("#username").isVisible());
     assertTrue(page.locator("a:has-text('Logout')").isVisible());
-
-//    String greet = page.locator("h3#username").textContent().trim();
-//    assertTrue(greet.startsWith("Hi,"), "Unexpected greeting: " + greet);
-//
-//    assertTrue(page.locator("a:has-text('Logout')").isVisible(), "Logout button not visible");
-
-
-
-
-
-
   }
 
+  @Test
+  public void userLogoutTest() {
+    linkClick(LOGIN_PAGE_LINK);
+    page.locator(LOGIN_PAGE_TEXT).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
+    page.fill(USERNAME_FIELD, USERNAME);
+    page.fill(PASSWORD_FIELD, PASSWORD);
+    page.click(LOGIN_BUTTON);
+
+    page.waitForURL("https://practice.expandtesting.com/secure");
+
+    page.locator(String.format(GREETING_MESSAGE, USERNAME)).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
+    assertTrue(page.locator("#username").isVisible());
+    assertTrue(page.locator("a:has-text('Logout')").isVisible());
+
+    page.click("a:has-text('Logout')");
+    page.locator(LOGIN_PAGE_TEXT).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
+  }
 }
