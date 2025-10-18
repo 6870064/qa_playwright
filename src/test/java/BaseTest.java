@@ -1,21 +1,22 @@
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.Video;
 import org.example.utils.PropertyReader;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.condition.DisabledIfSystemProperties;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import static com.microsoft.playwright.options.WaitForSelectorState.VISIBLE;
+import static org.example.utils.Constants.AUTOMATION_PRACTICE_TEXT;
+import static org.example.utils.Constants.BASE_URL;
 
 public abstract class BaseTest {
   private final Playwright playwright = Playwright.create();
-  protected PropertyReader propertyReader = new PropertyReader("src/main/resources/configuration.properties");
   Browser browser;
   Page page;
   BrowserContext context;
@@ -31,6 +32,8 @@ public abstract class BaseTest {
         .setRecordVideoDir(Paths.get("./target/video")));
     page = context.newPage();
 
+    navigateToPageUrl(BASE_URL);
+    page.locator(AUTOMATION_PRACTICE_TEXT).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
   }
 
   @AfterEach
