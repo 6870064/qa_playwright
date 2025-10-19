@@ -48,7 +48,6 @@ public class LoginTests extends BaseTest {
     page.waitForURL(BASE_URL + LOGIN_URL);
     assertEquals(BASE_URL + LOGIN_URL, page.url(), "Login page for Automation Testing Practise");
 
-
     Boolean isLoginPageVisible = page
         .locator(String.format(TEXT_LOCATOR, "Login page for Automation Testing Practice"))
         .isVisible();
