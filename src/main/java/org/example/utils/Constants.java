@@ -15,8 +15,11 @@ public class Constants {
   public static final String GREETING_MESSAGE = "//h3[@id='username' and normalize-space()='Hi, %s!']";
   public static final String USERNAME_LOCATOR = "#username";
   public static final String LOGOUT_BUTTON = "//a[@class='button secondary radius btn btn-danger']";
+  public static final String ERROR_MESSAGE_LOCATOR = "//*[@id='flash']//b[normalize-space(text())='%s']";
+
 
   //URLs
-  public static final String SECURE = "secure";
-  public static final String LOGIN = "login";
+  public static final String SECURE_URL = "secure";
+  public static final String LOGIN_URL = "login";
+  public static final String REGISTER_URL = "register";
 }

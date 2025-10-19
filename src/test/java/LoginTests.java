@@ -23,8 +23,8 @@ public class LoginTests extends BaseTest {
     page.fill(String.format(INPUT_LOCATOR, "password"), PASSWORD);
     page.click(LOGIN_BUTTON);
 
-    page.waitForURL(BASE_URL + SECURE);
-    assertEquals(BASE_URL + SECURE, page.url(), "Login page is opened");
+    page.waitForURL(BASE_URL + SECURE_URL);
+    assertEquals(BASE_URL + SECURE_URL, page.url(), "Login page is opened");
 
     page.locator(String.format(GREETING_MESSAGE, USERNAME)).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
     assertTrue(page.locator(USERNAME_LOCATOR).isVisible());
@@ -37,16 +37,16 @@ public class LoginTests extends BaseTest {
     page.fill(String.format(INPUT_LOCATOR, "password"), PASSWORD);
     page.click(LOGIN_BUTTON);
 
-    page.waitForURL(BASE_URL + SECURE);
-    assertEquals(BASE_URL + SECURE, page.url(), "Login page is opened");
+    page.waitForURL(BASE_URL + SECURE_URL);
+    assertEquals(BASE_URL + SECURE_URL, page.url(), "Login page is opened");
 
-    page.locator(String.format(GREETING_MESSAGE, USERNAME)).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
+    page.locator(String.format(GREETING_MESSAGE, USERNAME.toLowerCase())).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
     assertTrue(page.locator(USERNAME_LOCATOR).isVisible());
     assertTrue(page.locator(LOGOUT_BUTTON).isVisible());
 
     page.click(LOGOUT_BUTTON);
-    page.waitForURL(BASE_URL + LOGIN);
-    assertEquals(BASE_URL + LOGIN, page.url(), "Login page for Automation Testing Practise");
+    page.waitForURL(BASE_URL + LOGIN_URL);
+    assertEquals(BASE_URL + LOGIN_URL, page.url(), "Login page for Automation Testing Practise");
 
 
     Boolean isLoginPageVisible = page

@@ -5,10 +5,10 @@ public class User {
   String password;
   String confirmPassword;
 
-  public User(String username, String password) {
+  public User(String username, String password, String confirmPassword) {
     this.username = username;
     this.password = password;
-    this.confirmPassword = password;
+    this.confirmPassword = confirmPassword;
   }
 
   public String getUsername() {
