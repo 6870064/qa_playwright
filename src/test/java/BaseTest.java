@@ -5,15 +5,14 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.Video;
-import org.example.utils.PropertyReader;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.nio.file.Paths;
 
 import static com.microsoft.playwright.options.WaitForSelectorState.VISIBLE;
-import static org.example.utils.Constants.AUTOMATION_PRACTICE_TEXT;
-import static org.example.utils.Constants.BASE_URL;
+import static org.example.constants.Constants.AUTOMATION_PRACTICE_TEXT;
+import static org.example.constants.Constants.BASE_URL;
 
 public abstract class BaseTest {
   private final Playwright playwright = Playwright.create();

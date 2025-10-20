@@ -12,15 +12,12 @@ import java.util.stream.Stream;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static com.microsoft.playwright.options.WaitForSelectorState.VISIBLE;
-import static org.example.utils.Constants.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.example.constants.Alerts.*;
+import static org.example.constants.Constants.*;
+import static org.example.constants.PageTitle.LOGIN_PAGE_TITLE;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RegistrationTests extends BaseTest {
-
-  public static String USER_TAKEN_MESSAGE = "Username is already taken.";
-  public static String PASSWORDS_NOT_MATCH_MESSAGE = "Passwords do not match.";
-  public static String ALL_FIELDS_REQUIRED_MESSAGE = "All fields are required.";
 
   private static Stream<Arguments> provideTestData() {
     return Stream.of(
@@ -28,24 +25,24 @@ public class RegistrationTests extends BaseTest {
                 new DataGenerator().generateRandomName(4, 30),
                 new DataGenerator().generateRandomPassword(8, 20),
                 new DataGenerator().generateRandomPassword(8, 20)),
-            PASSWORDS_NOT_MATCH_MESSAGE),
+            PASSWORDS_NOT_MATCH_ALERT_TEXT),
         Arguments.of(new User(
                 USERNAME,
                 PASSWORD,
                 PASSWORD),
-            USER_TAKEN_MESSAGE),
+            USER_TAKEN_ALERT_TEXT),
         Arguments.of(new User(
                 "",
                 "",
                 ""),
-            ALL_FIELDS_REQUIRED_MESSAGE));
+            ALL_FIELDS_REQUIRED_ALERT_TEXT));
   }
 
   @BeforeEach
   public void beforeEachTest() {
     linkClick(String.format(LINK_LOCATOR, "Test Register Page"));
     page
-        .locator(String.format(TEXT_LOCATOR, "Test Register page for Automation Testing Practice"))
+        .locator(String.format(PAGE_TITLE_LOCATOR, "Test Register page for Automation Testing Practice"))
         .waitFor(new Locator.WaitForOptions().setState(VISIBLE));
   }
 
@@ -63,13 +60,13 @@ public class RegistrationTests extends BaseTest {
     page.click(REGISTRATION_BUTTON);
 
     page.waitForURL(BASE_URL + LOGIN_URL);
-    assertEquals(BASE_URL + LOGIN_URL, page.url(), "Login page for Automation Testing Practise");
+    assertEquals(BASE_URL + LOGIN_URL, page.url(), LOGIN_PAGE_TITLE);
 
     Boolean isLoginPageVisible = page
-        .locator(String.format(TEXT_LOCATOR, "Login page for Automation Testing Practice"))
+        .locator(String.format(PAGE_TITLE_LOCATOR, "Login page for Automation Testing Practice"))
         .isVisible();
 
-    assertTrue(isLoginPageVisible, "Login page text is not visible after registration");
+    assertTrue(isLoginPageVisible, "Login page text is visible after registration");
 
     page.fill(String.format(INPUT_LOCATOR, "username"), user.getUsername());
     page.fill(String.format(INPUT_LOCATOR, "password"), user.getPassword());
@@ -86,13 +83,13 @@ public class RegistrationTests extends BaseTest {
 
     page.click(LOGOUT_BUTTON);
     page.waitForURL(BASE_URL + LOGIN_URL);
-    assertEquals(BASE_URL + LOGIN_URL, page.url(), "Login page for Automation Testing Practise");
 
-    isLoginPageVisible = page
-        .locator(String.format(TEXT_LOCATOR, "Login page for Automation Testing Practice"))
+    Boolean finalIsLoginPageVisible = page
+        .locator(String.format(PAGE_TITLE_LOCATOR, LOGIN_PAGE_TITLE))
         .isVisible();
-
-    assertTrue(isLoginPageVisible, "Login page text is not visible after registration");
+    assertAll("Assert URL and text message",
+        ()->assertEquals(BASE_URL + LOGIN_URL, page.url(), "Login page is opened"),
+        ()->assertTrue(finalIsLoginPageVisible, "Login page text is not visible after registration"));
   }
 
   @MethodSource("provideTestData")
@@ -103,15 +100,16 @@ public class RegistrationTests extends BaseTest {
     page.fill(String.format(INPUT_LOCATOR, "confirmPassword"), user.getConfirmPassword());
     page.click(REGISTRATION_BUTTON);
 
-    assertEquals(BASE_URL + REGISTER_URL, page.url(), "Registration page is opened");
-
     Locator alert = page.getByRole(AriaRole.ALERT);
     assertThat(alert).isVisible(); // дождётся появления автоматически
     assertThat(alert).containsText(errorMessage);
 
     Boolean isRegistrationPageVisible = page
-        .locator(String.format(TEXT_LOCATOR, "Test Register page for Automation Testing Practice"))
+        .locator(String.format(PAGE_TITLE_LOCATOR, LOGIN_PAGE_TITLE))
         .isVisible();
-    assertTrue(isRegistrationPageVisible, "Registration page title is displayed");
+
+    assertAll("Assert URL and text message",
+        ()-> assertEquals(BASE_URL + REGISTER_URL, page.url(), "Registration page is opened"),
+        ()->assertTrue(isRegistrationPageVisible, "Registration page title is displayed"));
   }
 }

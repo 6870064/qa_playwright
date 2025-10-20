@@ -3,9 +3,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static com.microsoft.playwright.options.WaitForSelectorState.VISIBLE;
-import static org.example.utils.Constants.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.example.constants.Constants.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LoginTests extends BaseTest {
 
@@ -13,7 +12,7 @@ public class LoginTests extends BaseTest {
   public void beforeEachTest(){
     linkClick(String.format(LINK_LOCATOR, "Test Login Page"));
     page
-        .locator(String.format(TEXT_LOCATOR, "Login page for Automation Testing Practice"))
+        .locator(String.format(PAGE_TITLE_LOCATOR, "Login page for Automation Testing Practice"))
         .waitFor(new Locator.WaitForOptions().setState(VISIBLE));
   }
 
@@ -24,11 +23,12 @@ public class LoginTests extends BaseTest {
     page.click(LOGIN_BUTTON);
 
     page.waitForURL(BASE_URL + SECURE_URL);
-    assertEquals(BASE_URL + SECURE_URL, page.url(), "Login page is opened");
-
     page.locator(String.format(GREETING_MESSAGE, USERNAME)).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
-    assertTrue(page.locator(USERNAME_LOCATOR).isVisible());
-    assertTrue(page.locator(LOGOUT_BUTTON).isVisible());
+
+    assertAll("Assert URL and UI elements",
+        ()->assertEquals(BASE_URL + SECURE_URL, page.url(), "Login page is opened"),
+        ()-> assertTrue(page.locator(USERNAME_LOCATOR).isVisible()),
+        ()-> assertTrue(page.locator(LOGOUT_BUTTON).isVisible()));
   }
 
   @Test
@@ -46,12 +46,13 @@ public class LoginTests extends BaseTest {
 
     page.click(LOGOUT_BUTTON);
     page.waitForURL(BASE_URL + LOGIN_URL);
-    assertEquals(BASE_URL + LOGIN_URL, page.url(), "Login page for Automation Testing Practise");
 
     Boolean isLoginPageVisible = page
-        .locator(String.format(TEXT_LOCATOR, "Login page for Automation Testing Practice"))
+        .locator(String.format(PAGE_TITLE_LOCATOR, "Login page for Automation Testing Practice"))
         .isVisible();
 
-    assertTrue(isLoginPageVisible, "Login page text is not visible after registration");
+    assertAll("Assert URL and text messages",
+        ()->assertEquals(BASE_URL + LOGIN_URL, page.url(), "Login page for Automation Testing Practise"),
+        ()->assertTrue(isLoginPageVisible, "Login page text is opened"));
   }
 }

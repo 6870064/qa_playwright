@@ -2,6 +2,9 @@ package org.example.helpers;
 
 import com.github.javafaker.Faker;
 
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class DataGenerator {
   String fakeName;
 
@@ -26,5 +29,20 @@ public class DataGenerator {
 
   public String generateRandomPassword(int minLength, int maxLength) {
     return new Faker().internet().password(minLength, maxLength);
+  }
+
+  public int generateRandomInt(int minLength, int maxLength) {
+    return ThreadLocalRandom.current().nextInt(minLength, maxLength + 1);
+  }
+
+  public int generateRandomInt(int length) {
+    if(length <=0) {
+      throw new IllegalArgumentException("Lenght must be positive");
+    }
+
+    int minLength = (int) Math.pow(10, length - 1);
+    int maxLength = (int) Math.pow(10, length) - 1;
+
+    return ThreadLocalRandom.current().nextInt(minLength, maxLength + 1);
   }
 }
