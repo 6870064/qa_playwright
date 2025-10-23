@@ -23,12 +23,12 @@ public class Constants {
   public static final String ERROR_MESSAGE_LOCATOR = "//*[@id='flash']//b[normalize-space(text())='%s']";
   public static final String OTP_MESSAGE_LOCATOR = "//p[@id='otp-message' and contains(normalize-space(.), \"We've sent an OTP code to your email: %s\")]";
   public static final String OTP_ERROR_MESSAGE_LOCATOR = "//p[@id='otp-message' and contains(text(), 'The provided OTP code is incorrect. Please check your code and try again.')]";
+  public static final String PAGE_COMMON_TITLE = " page for Automation Testing Practice";
 
 
   //URLs
   public static final String SECURE_URL = "secure";
   public static final String LOGIN_URL = "login";
   public static final String REGISTER_URL = "register";
-  public static final String OTP_LOGIN_URL = "otp-login";
-  public static final String OTP_VERIFICATION_URL = "otp-verification";
+
 }

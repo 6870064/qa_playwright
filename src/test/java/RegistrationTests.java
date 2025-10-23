@@ -1,8 +1,11 @@
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.AriaRole;
 import org.example.helpers.DataGenerator;
+import org.example.pages.HomePage;
+import org.example.pages.LoginPage;
+import org.example.pages.RegisterPage;
+import org.example.pages.SecurePage;
 import org.example.user.User;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -11,7 +14,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-import static com.microsoft.playwright.options.WaitForSelectorState.VISIBLE;
 import static org.example.constants.Alerts.*;
 import static org.example.constants.Constants.*;
 import static org.example.constants.PageTitle.LOGIN_PAGE_TITLE;
@@ -38,58 +40,82 @@ public class RegistrationTests extends BaseTest {
             ALL_FIELDS_REQUIRED_ALERT_TEXT));
   }
 
-  @BeforeEach
-  public void beforeEachTest() {
-    linkClick(String.format(LINK_LOCATOR, "Test Register Page"));
-    page
-        .locator(String.format(PAGE_TITLE_LOCATOR, "Test Register page for Automation Testing Practice"))
-        .waitFor(new Locator.WaitForOptions().setState(VISIBLE));
-  }
+//  @BeforeEach
+//  public void beforeEachTest() {
+//    linkClick(String.format(LINK_LOCATOR, REGISTER.linkTitle()));
+//    page
+//        .locator(String.format(PAGE_TITLE_LOCATOR, REGISTER.title() + PAGE_COMMON_TITLE))
+//        .waitFor(new Locator.WaitForOptions().setState(VISIBLE));
+//  }
 
   @Test
-  public void userRegistrationTest() {
-    String password = new DataGenerator().generateRandomPassword(8, 20);
-    User user = new User(
-        new DataGenerator().generateRandomName(4, 30),
-        password,
-        password);
+  public void userRegistrationAndLoginTest() {
+    String pwd = new DataGenerator().generateRandomPassword(8, 20);
+    User u = new User(
+        new DataGenerator().generateRandomName(4, 30), pwd, pwd);
 
-    page.fill(String.format(INPUT_LOCATOR, "username"), user.getUsername());
-    page.fill(String.format(INPUT_LOCATOR, "password"), user.getPassword());
-    page.fill(String.format(INPUT_LOCATOR, "confirmPassword"), user.getConfirmPassword());
-    page.click(REGISTRATION_BUTTON);
+    HomePage homePage = new HomePage(page).open();
+    RegisterPage registerPage = homePage.goToRegister();
+    LoginPage loginPage = registerPage
+        .fill(u.getUsername(), u.getPassword(), u.getConfirmPassword())
+        .submitSuccess();
 
-    page.waitForURL(BASE_URL + LOGIN_URL);
-    assertEquals(BASE_URL + LOGIN_URL, page.url(), LOGIN_PAGE_TITLE);
+    //login
+    SecurePage securePage = loginPage
+        .fill(u.getUsername(), u.getPassword())
+        .login();
 
-    Boolean isLoginPageVisible = page
-        .locator(String.format(PAGE_TITLE_LOCATOR, "Login page for Automation Testing Practice"))
-        .isVisible();
+    //подождать появления приветствия
+    securePage.waitUntilLoaded(u.getUsername());
 
-    assertTrue(isLoginPageVisible, "Login page text is visible after registration");
+    //проверка алерта
+    securePage.flashAlert().shouldBeVisible();
+    securePage.flashAlert().shouldContain("You logged into a secure area!");
 
-    page.fill(String.format(INPUT_LOCATOR, "username"), user.getUsername());
-    page.fill(String.format(INPUT_LOCATOR, "password"), user.getPassword());
-    System.out.println("username: " + user.getUsername());
-    System.out.println("password: " + user.getPassword());
-    page.click(LOGIN_BUTTON);
+    // проверить текст
+    assertThat(securePage.greeting(u.getUsername()))
+        .containsText(String.format("Hi, %s!", u.getUsername().toLowerCase()));
 
-    page.waitForURL(BASE_URL + SECURE_URL);
-    assertEquals(BASE_URL + SECURE_URL, page.url(), "Login page is opened");
+    // выход
+    LoginPage backToLogin = securePage.logout();
+    assertTrue(page.url().endsWith("/login"));
 
-    page.locator(String.format(GREETING_MESSAGE, user.getUsername().toLowerCase())).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
-    assertTrue(page.locator(USERNAME_LOCATOR).isVisible());
-    assertTrue(page.locator(LOGOUT_BUTTON).isVisible());
-
-    page.click(LOGOUT_BUTTON);
-    page.waitForURL(BASE_URL + LOGIN_URL);
-
-    Boolean finalIsLoginPageVisible = page
-        .locator(String.format(PAGE_TITLE_LOCATOR, LOGIN_PAGE_TITLE))
-        .isVisible();
-    assertAll("Assert URL and text message",
-        ()->assertEquals(BASE_URL + LOGIN_URL, page.url(), "Login page is opened"),
-        ()->assertTrue(finalIsLoginPageVisible, "Login page text is not visible after registration"));
+//    page.fill(String.format(INPUT_LOCATOR, "username"), user.getUsername());
+//    page.fill(String.format(INPUT_LOCATOR, "password"), user.getPassword());
+//    page.fill(String.format(INPUT_LOCATOR, "confirmPassword"), user.getConfirmPassword());
+//    page.click(REGISTRATION_BUTTON);
+//
+//    page.waitForURL(BASE_URL + LOGIN_URL);
+//    assertEquals(BASE_URL + LOGIN_URL, page.url(), LOGIN_PAGE_TITLE);
+//
+//    Boolean isLoginPageVisible = page
+//        .locator(String.format(PAGE_TITLE_LOCATOR, "Login page for Automation Testing Practice"))
+//        .isVisible();
+//
+//    assertTrue(isLoginPageVisible, "Login page text is visible after registration");
+//
+//    page.fill(String.format(INPUT_LOCATOR, "username"), user.getUsername());
+//    page.fill(String.format(INPUT_LOCATOR, "password"), user.getPassword());
+//    System.out.println("username: " + user.getUsername());
+//    System.out.println("password: " + user.getPassword());
+//    page.click(LOGIN_BUTTON);
+//
+//    page.waitForURL(BASE_URL + SECURE_URL);
+//    assertEquals(BASE_URL + SECURE_URL, page.url(), "Login page is opened");
+//
+//    page.locator(String.format(GREETING_MESSAGE, user.getUsername().toLowerCase())).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
+//    assertTrue(page.locator(USERNAME_LOCATOR).isVisible());
+//    assertTrue(page.locator(LOGOUT_BUTTON).isVisible());
+//
+//    page.click(LOGOUT_BUTTON);
+//    page.waitForURL(BASE_URL + LOGIN_URL);
+//
+//    Boolean finalIsLoginPageVisible = page
+//        .locator(String.format(PAGE_TITLE_LOCATOR, LOGIN_PAGE_TITLE))
+//        .isVisible();
+//    assertAll("Assert URL and text message",
+//        ()->assertEquals(BASE_URL + LOGIN_URL, page.url(), "Login page is opened"),
+//        ()->assertTrue(finalIsLoginPageVisible, "Login page text is not visible after registration"));
   }
 
   @MethodSource("provideTestData")
@@ -109,7 +135,7 @@ public class RegistrationTests extends BaseTest {
         .isVisible();
 
     assertAll("Assert URL and text message",
-        ()-> assertEquals(BASE_URL + REGISTER_URL, page.url(), "Registration page is opened"),
-        ()->assertTrue(isRegistrationPageVisible, "Registration page title is displayed"));
+        () -> assertEquals(BASE_URL + REGISTER_URL, page.url(), "Registration page is opened"),
+        () -> assertTrue(isRegistrationPageVisible, "Registration page title is displayed"));
   }
 }

@@ -39,6 +39,8 @@ public abstract class BaseTest {
   public void afterEach() {
     Video video = page.video();
     context.close();
+    browser.close();
+    playwright.close();
   }
 
   public void navigateToPageUrl(String url) {
