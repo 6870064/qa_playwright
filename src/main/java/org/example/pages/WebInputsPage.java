@@ -3,6 +3,7 @@ package org.example.pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+import com.microsoft.playwright.options.WaitForSelectorState;
 
 public class WebInputsPage extends BasePage {
   public final Locator inputNumberField = page.locator("//input[@id='input-number']");
@@ -61,8 +62,15 @@ public class WebInputsPage extends BasePage {
   }
 
   public WebInputsPage goToWebInputs() {
-    page.getByRole(AriaRole.LINK,
-        new Page.GetByRoleOptions().setName("Web inputs")).click();
+    Locator webInputsLink = page.getByRole(AriaRole.LINK,
+        new Page.GetByRoleOptions().setName("Web inputs"));
+
+    // Ждём, пока ссылка реально появится и станет видимой
+    webInputsLink.waitFor(new Locator.WaitForOptions()
+        .setState(WaitForSelectorState.VISIBLE)
+        .setTimeout(5000));
+
+    webInputsLink.click();
     return new WebInputsPage(page);
   }
 

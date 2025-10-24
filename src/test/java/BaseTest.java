@@ -5,6 +5,8 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.Video;
+import org.example.helpers.AdBlocker;
+import org.example.helpers.NetworkUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -30,6 +32,8 @@ public abstract class BaseTest {
         .setViewportSize(1920, 1080)
         .setRecordVideoDir(Paths.get("./target/video")));
     page = context.newPage();
+    AdBlocker.blockInterstitialAds(page);
+    //NetworkUtils.blockAdsAndMedia(page);
 
     navigateToPageUrl(BASE_URL);
     page.locator(AUTOMATION_PRACTICE_TEXT).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
