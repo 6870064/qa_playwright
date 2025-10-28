@@ -30,7 +30,7 @@ public class RegisterPage extends BasePage{
 
   public LoginPage submitSuccess() {
     submit.click();
-    return new LoginPage(page);
+    return new LoginPage(page, new FlashAlert(page));
   }
 
   public FlashAlert submitExpectingError() {

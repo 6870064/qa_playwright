@@ -6,7 +6,7 @@ import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
 public class WebInputsPage extends BasePage {
-  public final Locator inputNumberField = page.locator("//input[@id='input-number']");
+  public Locator inputNumberField = page.locator("//input[@id='input-number']");
   private final Locator inputTextField = page.locator("//input[@id='input-text']");
   private final Locator inputPasswordField = page.locator("//input[@id='input-password']");
   private final Locator inputDateField = page.locator("//input[@id='input-date']");
@@ -19,6 +19,7 @@ public class WebInputsPage extends BasePage {
 
   public WebInputsPage(Page page) {
     super(page);
+    this.inputNumberField = page.locator("//input[@id='input-number']");
   }
 
   @Override
@@ -32,6 +33,9 @@ public class WebInputsPage extends BasePage {
   }
 
   public WebInputsPage inputNumber(String value) {
+    inputNumberField.waitFor(new Locator.WaitForOptions()
+        .setState(WaitForSelectorState.VISIBLE)
+        .setTimeout(5000));
     inputNumberField.fill(value);
     return this;
   }

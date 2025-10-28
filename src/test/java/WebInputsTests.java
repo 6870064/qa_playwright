@@ -19,8 +19,7 @@ public class WebInputsTests extends BaseTest {
     String inputDate = new DataGenerator().generateRandomDate(START_DATE, END_DATE);
 
     HomePage homePage = new HomePage(page).open();
-    WebInputsPage webInputsPage = new WebInputsPage(page).goToWebInputs();
-
+    WebInputsPage webInputsPage = homePage.goToWebInputs();
     webInputsPage.inputNumber(inputNumber);
     webInputsPage.inputText(inputText);
     webInputsPage.inputPassword(password);

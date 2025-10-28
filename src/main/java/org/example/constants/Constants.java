@@ -7,6 +7,7 @@ public class Constants {
   protected static PropertyReader propertyReader = new PropertyReader("src/main/resources/configuration.properties");
   public static final String BASE_URL = System.getProperty("baseUrl", propertyReader.getPropertyValueByKey("baseUrl"));
   public static final String USERNAME = System.getProperty("username", propertyReader.getPropertyValueByKey("username"));
+  public static final String INVALID_USERNAME = "wrongUser";
   public static final String PASSWORD = System.getProperty("password", propertyReader.getPropertyValueByKey("password"));
   public static final String USER_EMAIL = System.getProperty("email", propertyReader.getPropertyValueByKey("email"));
   public static final String OTP_CODE = System.getProperty("otp_code", propertyReader.getPropertyValueByKey("otp_code"));
@@ -27,7 +28,7 @@ public class Constants {
 
 
   //URLs
-  public static final String SECURE_URL = "secure";
+  public static final String SECURE_URL = "/secure";
   public static final String LOGIN_URL = "login";
   public static final String REGISTER_URL = "register";
 

@@ -62,8 +62,7 @@ public class RegistrationTests extends BaseTest {
 
     //login
     SecurePage securePage = loginPage
-        .fill(u.getUsername(), u.getPassword())
-        .login();
+        .loginAs(USERNAME, PASSWORD);
 
     //подождать появления приветствия
     securePage.waitUntilLoaded(u.getUsername());

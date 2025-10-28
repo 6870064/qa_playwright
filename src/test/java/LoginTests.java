@@ -1,60 +1,70 @@
 import com.microsoft.playwright.Locator;
-import org.junit.jupiter.api.BeforeEach;
+import org.example.components.FlashAlert;
+import org.example.helpers.DataGenerator;
+import org.example.pages.HomePage;
+import org.example.pages.LoginPage;
+import org.example.pages.SecurePage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static com.microsoft.playwright.options.WaitForSelectorState.VISIBLE;
 import static org.example.constants.Constants.*;
 import static org.example.enums.PageInfo.LOGIN;
-import static org.example.enums.PageInfo.WEB_INPUT;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LoginTests extends BaseTest {
 
-  @BeforeEach
-  public void beforeEachTest(){
-    linkClick(String.format(LINK_LOCATOR, LOGIN.linkTitle()));
-    page
-        .locator(String.format(PAGE_TITLE_LOCATOR, LOGIN.title() + PAGE_COMMON_TITLE))
-        .waitFor(new Locator.WaitForOptions().setState(VISIBLE));
+  @Test
+  public void userLoginTest() {
+    SecurePage securePage =  new HomePage(page)
+        .goToLogin()
+        .loginAs(USERNAME, PASSWORD)
+        .waitUntilLoaded(USERNAME);
+
+    assertAll("User is successfully logged in",
+        ()-> securePage.securePageShouldBeOpened(),
+        ()->securePage.greetingMessageShouldBeDisplayed(USERNAME),
+        ()->securePage.isLogoutButtonVisible(),
+        ()->securePage.flashAlert().shouldContain("You logged into a secure area!"));
   }
 
   @Test
-  public void userLoginTest() {
-    page.fill(String.format(INPUT_LOCATOR, "username"), USERNAME);
-    page.fill(String.format(INPUT_LOCATOR, "password"), PASSWORD);
-    page.click(LOGIN_BUTTON);
+  public void attemptToLoginWithInvalidUserNameTest() {
+    SecurePage securePage =  new HomePage(page)
+        .goToLogin()
+        .loginAs(new DataGenerator().generateRandomName(8, 10), PASSWORD);
+    LoginPage loginPage = new LoginPage(page, new FlashAlert(page));
 
-    page.waitForURL(BASE_URL + SECURE_URL);
-    page.locator(String.format(GREETING_MESSAGE, USERNAME)).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
+    assertAll("User is not logged in due to invalid username",
+        ()->loginPage.loginPageShouldBeOpened(),
+        ()->loginPage.flashAlert().shouldContain("Your username is invalid!"));
+  }
 
-    assertAll("Assert URL and UI elements",
-        ()->assertEquals(BASE_URL + SECURE_URL, page.url(), "Login page is opened"),
-        ()->assertTrue(page.locator(USERNAME_LOCATOR).isVisible()),
-        ()->assertTrue(page.locator(LOGOUT_BUTTON).isVisible()));
+  @Test
+  public void attemptToLoginWithInvalidPasswordNameTest() {
+    SecurePage securePage =  new HomePage(page)
+        .goToLogin()
+        .loginAs(USERNAME, new DataGenerator().generateRandomPassword(8, 10));
+    LoginPage loginPage = new LoginPage(page, new FlashAlert(page));
+
+    assertAll("User is not logged in due to invalid username",
+        ()->loginPage.loginPageShouldBeOpened(),
+        ()->loginPage.flashAlert().shouldContain("Your password is invalid!"));
   }
 
   @Test
   public void userLogoutTest() {
-    page.fill(String.format(INPUT_LOCATOR, "username"), USERNAME);
-    page.fill(String.format(INPUT_LOCATOR, "password"), PASSWORD);
-    page.click(LOGIN_BUTTON);
+    SecurePage securePage = new HomePage(page)
+        .goToLogin()
+        .loginAs(USERNAME, PASSWORD)
+        .waitUntilLoaded(USERNAME);
+        LoginPage loginPage = securePage.logout();
+        loginPage.loginPageShouldBeOpened();
 
-    page.waitForURL(BASE_URL + SECURE_URL);
-    assertEquals(BASE_URL + SECURE_URL, page.url(), "Login page is opened");
-
-    page.locator(String.format(GREETING_MESSAGE, USERNAME.toLowerCase())).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
-    assertTrue(page.locator(USERNAME_LOCATOR).isVisible());
-    assertTrue(page.locator(LOGOUT_BUTTON).isVisible());
-
-    page.click(LOGOUT_BUTTON);
-    page.waitForURL(BASE_URL + LOGIN_URL);
-
-    Boolean isLoginPageVisible = page
-        .locator(String.format(PAGE_TITLE_LOCATOR, LOGIN.title() + PAGE_COMMON_TITLE))
-        .isVisible();
-
-    assertAll("Assert URL and text messages",
-        ()->assertEquals(BASE_URL + LOGIN_URL, page.url(), "Login page is opened"),
-        ()->assertTrue(isLoginPageVisible, "Login page text is opened"));
+        assertAll("User logged out successfully",
+            ()-> loginPage.loginPageShouldBeOpened(),
+            ()-> loginPage.flashAlert().shouldBeVisible(),
+            ()-> loginPage.flashAlert().shouldContain("You logged out of the secure area!"),
+            ()-> assertEquals(BASE_URL + loginPage.path(), page.url()));
   }
 }

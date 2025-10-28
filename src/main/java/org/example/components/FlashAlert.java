@@ -10,14 +10,18 @@ public class FlashAlert {
   private final Locator root;
 
   public FlashAlert(Page page) {
-    this.root = page.getByRole(AriaRole.ALERT);
+    this.root = page.locator("#flash");
+  }
+
+  public void shouldBeVisible() {
+    assertThat(root).isVisible();
   }
 
   public void shouldContain(String text) {
     assertThat(root).containsText(text);
   }
 
-  public void shouldBeVisible() {
-    assertThat(root).isVisible();
+  public String text() {
+    return root.innerText();
   }
 }
