@@ -16,6 +16,11 @@ public class HomePage extends BasePage {
       new Page.GetByRoleOptions().setName("Web inputs")
   );
 
+  private final Locator registrationLink = page.getByRole(
+      AriaRole.LINK,
+      new Page.GetByRoleOptions().setName("Test Register Page")
+  );
+
   private final Locator loginPageLink = page.getByRole(
       AriaRole.LINK,
       new Page.GetByRoleOptions().setName("Test Login Page")
@@ -45,6 +50,26 @@ public class HomePage extends BasePage {
     return new LoginPage(page, new FlashAlert(page));
   }
 
+  public RegisterPage goToRegister() {
+    waitInterstitialAdToDisappear();
+    registrationLink.waitFor(new Locator.WaitForOptions()
+        .setState(WaitForSelectorState.VISIBLE)
+        .setTimeout(5000));
+
+    registrationLink.click();
+    page.waitForURL("**/register",
+        new Page.WaitForURLOptions().setTimeout(7000));
+
+// 5. Контрольная проверка контента страницы Inputs
+    page.waitForSelector("//h1[contains(.,'Test Register page')]",
+        new Page.WaitForSelectorOptions()
+            .setState(WaitForSelectorState.VISIBLE)
+            .setTimeout(5000)
+    );
+
+    return new RegisterPage(page);
+  }
+
   public WebInputsPage goToWebInputs() {
     // 1. Ждём, пока исчезнет межстраничная реклама и страница реально кликабельна
     waitInterstitialAdToDisappear();
@@ -59,8 +84,7 @@ public class HomePage extends BasePage {
 
     // 4. Ждём смену URL на /inputs (до 7 сек)
     page.waitForURL("**/inputs",
-        new Page.WaitForURLOptions().setTimeout(7000)
-    );
+        new Page.WaitForURLOptions().setTimeout(7000));
 
     // 5. Контрольная проверка контента страницы Inputs
     page.waitForSelector("//h1[contains(.,'Web inputs page')]",
@@ -85,11 +109,5 @@ public class HomePage extends BasePage {
   @Override
   protected String path() {
     return "/";
-  }
-
-  public RegisterPage goToRegister() {
-    page.getByRole(AriaRole.LINK,
-        new Page.GetByRoleOptions().setName("Test Register page")).click();
-    return new RegisterPage(page);
   }
  }

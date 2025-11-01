@@ -1,11 +1,11 @@
-package org.example.user;
+package org.example.requests.user;
 
-public class User {
+public class UiUser {
   String username;
   String password;
   String confirmPassword;
 
-  public User(String username, String password, String confirmPassword) {
+  public UiUser(String username, String password, String confirmPassword) {
     this.username = username;
     this.password = password;
     this.confirmPassword = confirmPassword;

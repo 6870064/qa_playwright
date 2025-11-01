@@ -17,6 +17,6 @@ public abstract class BasePage {
   public <T extends BasePage> T open() {
     page.navigate(AppConfig.baseUrl() + path());
     return (T) this;
-
   }
+
 }

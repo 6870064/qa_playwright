@@ -1,3 +1,5 @@
+package ui;
+
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.AriaRole;
 import org.example.helpers.DataGenerator;

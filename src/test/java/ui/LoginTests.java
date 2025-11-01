@@ -1,15 +1,13 @@
-import com.microsoft.playwright.Locator;
+package ui;
+
 import org.example.components.FlashAlert;
 import org.example.helpers.DataGenerator;
 import org.example.pages.HomePage;
 import org.example.pages.LoginPage;
 import org.example.pages.SecurePage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static com.microsoft.playwright.options.WaitForSelectorState.VISIBLE;
 import static org.example.constants.Constants.*;
-import static org.example.enums.PageInfo.LOGIN;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LoginTests extends BaseTest {
