@@ -6,6 +6,7 @@ import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.example.requests.user.UiUser;
+import utils.AllureUtils;
 
 import java.util.Map;
 
@@ -16,12 +17,10 @@ import static org.example.constants.Constants.BASE_URL;
 
 public class RequestLibrary {
 
-  @Step("Sending POST request")
+  @Step("Sending POST request on {url}")
   public static Response sendPostRequest(UiUser user, String url) {
 
     Response response = RestAssured.given()
-
-       // .cookie("TESP_AUTH_ACCESS_TOKEN", authContent.getAccessToken())
         .baseUri(BASE_API_URL)
         .contentType(URLENC)
         .formParams(toForm(user))
@@ -34,10 +33,11 @@ public class RequestLibrary {
         .extract()
         .response();
 
+    AllureUtils.attachResponseToAllure(response);
     return response;
   }
 
-  @Step("Sending POST request")
+  @Step("Sending POST request on {url}")
   public static Response sendPostRequest(Record record, String authContent, String url) {
     ObjectMapper objectMapper = new ObjectMapper();
     String jsonBody = null;
@@ -62,10 +62,11 @@ public class RequestLibrary {
         .extract()
         .response();
 
+    AllureUtils.attachResponseToAllure(response);
     return response;
   }
 
-  @Step("Sending GET request")
+  @Step("Sending GET request on {url}")
   public static Response sendGetRequest(String url, String token) {
     Response response = given()
         .header("accept", "application/json")
@@ -76,24 +77,25 @@ public class RequestLibrary {
         .log().all()
         .extract().response();
 
+    AllureUtils.attachResponseToAllure(response);
     return response;
   }
 
-  @Step("Sending GET request")
+  @Step("Sending GET request on {url}")
   public static Response sendGetRequest(String url) {
     Response response = given()
         .header("accept", "application/json")
-      //  .header("x-auth-token", token)
         .when()
         .get(BASE_URL + url)
         .then()
         .log().all()
         .extract().response();
 
+    AllureUtils.attachResponseToAllure(response);
     return response;
   }
 
-  @Step("Sending DELETE request")
+  @Step("Sending DELETE request on {url}")
   public static Response sendDeleteRequest(String url, String token) {
     Response response = given()
         .header("accept", "application/json")
@@ -104,6 +106,7 @@ public class RequestLibrary {
         .log().all()
         .extract().response();
 
+    AllureUtils.attachResponseToAllure(response);
     return response;
   }
 
@@ -114,7 +117,7 @@ public class RequestLibrary {
     );
   }
 
-  @Step("Sending PATCH request")
+  @Step("Sending PATCH request on {url}")
   public static Response sendPatchRequest(Record record, String authContent, String url) {
     ObjectMapper objectMapper = new ObjectMapper();
     String jsonBody = null;
@@ -139,10 +142,11 @@ public class RequestLibrary {
         .extract()
         .response();
 
+    AllureUtils.attachResponseToAllure(response);
     return response;
   }
 
-  @Step("Sending PUT request")
+  @Step("Sending PUT request on {url}")
   public static Response sendPutRequest(Record record, String authContent, String url) {
     ObjectMapper objectMapper = new ObjectMapper();
     String jsonBody = null;
@@ -167,6 +171,7 @@ public class RequestLibrary {
         .extract()
         .response();
 
+    AllureUtils.attachResponseToAllure(response);
     return response;
   }
 }
