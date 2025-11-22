@@ -1,5 +1,6 @@
 package api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.qameta.allure.Description;
 import io.restassured.response.Response;
 import org.example.enums.HttpStatus;

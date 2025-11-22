@@ -1,4 +1,5 @@
 package requests;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.example.requests.user.UiUser;

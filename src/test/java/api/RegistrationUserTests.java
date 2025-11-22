@@ -43,12 +43,5 @@ public class RegistrationUserTests extends BaseApiTest {
         ()-> assertEquals(apiUser.name(), body.data().name()),
         ()-> assertEquals(apiUser.email().toLowerCase(), body.data().email())
     );
-
-
-
-
-
-
-
   }
 }

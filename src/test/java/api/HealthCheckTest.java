@@ -4,6 +4,7 @@ import io.qameta.allure.Description;
 import io.restassured.response.Response;
 import org.example.enums.HttpStatus;
 import org.example.responses.BaseResponse;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
