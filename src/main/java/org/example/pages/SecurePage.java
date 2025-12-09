@@ -7,11 +7,12 @@ import org.example.components.FlashAlert;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static com.microsoft.playwright.options.WaitForSelectorState.VISIBLE;
-import static org.example.constants.Constants.*;
+import static org.example.constants.Constants.BASE_URL;
+import static org.example.constants.Constants.SECURE_URL;
 
-public class SecurePage extends BasePage{
-  private final FlashAlert flashAlert;
+public class SecurePage extends BasePage {
   public static final String GREETING_MESSAGE = "//h3[@id='username' and normalize-space()='Hi, %s!']";
+  private final FlashAlert flashAlert;
   private final Locator logout = page.getByRole(
       AriaRole.LINK, new Page.GetByRoleOptions().setName("Logout"));
 

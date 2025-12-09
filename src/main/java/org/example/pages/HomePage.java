@@ -7,93 +7,69 @@ import com.microsoft.playwright.options.WaitForSelectorState;
 import org.example.components.FlashAlert;
 
 public class HomePage extends BasePage {
-  public HomePage(Page page) {
-    super(page);
-  }
-
   private final Locator webInputsLink = page.getByRole(
       AriaRole.LINK,
       new Page.GetByRoleOptions().setName("Web inputs")
   );
-
   private final Locator registrationLink = page.getByRole(
       AriaRole.LINK,
       new Page.GetByRoleOptions().setName("Test Register Page")
   );
-
   private final Locator loginPageLink = page.getByRole(
       AriaRole.LINK,
       new Page.GetByRoleOptions().setName("Test Login Page")
   );
+  private final Locator dynamicTablePageLink = page.getByRole(
+      AriaRole.LINK,
+      new Page.GetByRoleOptions().setName("Dynamic Table")
+  );
 
-  public LoginPage goToLogin() {
+  public HomePage(Page page) {
+    super(page);
+  }
+
+  // -------------------------------
+  // 🔥 ЕДИНЫЙ метод переходов
+  // ---
+  private void safeClickAndWait(Locator link, String urlPattern, String headerText) {
     waitInterstitialAdToDisappear();
 
-    // 2. Гарантируем, что линк видимый перед кликом
-    loginPageLink.waitFor(new Locator.WaitForOptions()
+    link.waitFor(new Locator.WaitForOptions()
         .setState(WaitForSelectorState.VISIBLE)
         .setTimeout(5000));
 
-    loginPageLink.click();
+    link.click(new Locator.ClickOptions().setNoWaitAfter(true));
 
-    page.waitForURL("**/login",
-        new Page.WaitForURLOptions().setTimeout(7000)
-    );
+    page.waitForLoadState();
 
-    page.waitForSelector("//h1[contains(.,'Test Login page')]",
+    page.waitForURL(urlPattern,
+        new Page.WaitForURLOptions().setTimeout(7000));
+
+    page.waitForSelector("//h1[contains(.,'" + headerText + "')]",
         new Page.WaitForSelectorOptions()
             .setState(WaitForSelectorState.VISIBLE)
-            .setState(WaitForSelectorState.VISIBLE)
-            .setTimeout(5000)
-    );
+            .setTimeout(5000));
+  }
 
+  // ---------- ПЕРЕХОДЫ ----------
+  public LoginPage goToLogin() {
+    safeClickAndWait(loginPageLink, "**/login", "Test Login page");
     return new LoginPage(page, new FlashAlert(page));
   }
 
   public RegisterPage goToRegister() {
-    waitInterstitialAdToDisappear();
-    registrationLink.waitFor(new Locator.WaitForOptions()
-        .setState(WaitForSelectorState.VISIBLE)
-        .setTimeout(5000));
-
-    registrationLink.click();
-    page.waitForURL("**/register",
-        new Page.WaitForURLOptions().setTimeout(7000));
-
-// 5. Контрольная проверка контента страницы Inputs
-    page.waitForSelector("//h1[contains(.,'Test Register page')]",
-        new Page.WaitForSelectorOptions()
-            .setState(WaitForSelectorState.VISIBLE)
-            .setTimeout(5000)
-    );
-
+    safeClickAndWait(registrationLink, "**/register", "Test Register page");
     return new RegisterPage(page);
   }
 
   public WebInputsPage goToWebInputs() {
-    // 1. Ждём, пока исчезнет межстраничная реклама и страница реально кликабельна
-    waitInterstitialAdToDisappear();
-
-    // 2. Гарантируем, что линк видимый перед кликом
-    webInputsLink.waitFor(new Locator.WaitForOptions()
-        .setState(WaitForSelectorState.VISIBLE)
-        .setTimeout(5000));
-
-    // 3. Кликаем
-    webInputsLink.click();
-
-    // 4. Ждём смену URL на /inputs (до 7 сек)
-    page.waitForURL("**/inputs",
-        new Page.WaitForURLOptions().setTimeout(7000));
-
-    // 5. Контрольная проверка контента страницы Inputs
-    page.waitForSelector("//h1[contains(.,'Web inputs page')]",
-        new Page.WaitForSelectorOptions()
-            .setState(WaitForSelectorState.VISIBLE)
-            .setTimeout(5000)
-    );
-
+    safeClickAndWait(webInputsLink, "**/inputs", "Web inputs page");
     return new WebInputsPage(page);
+  }
+
+  public DynamicTablePage goToDynamicTable() {
+    safeClickAndWait(dynamicTablePageLink, "**/dynamic-table", "Dynamic Table page");
+    return new DynamicTablePage(page);
   }
 
   private void waitInterstitialAdToDisappear() {
@@ -110,4 +86,4 @@ public class HomePage extends BasePage {
   protected String path() {
     return "/";
   }
- }
+}

@@ -13,10 +13,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.example.constants.Alerts.*;
 import static org.example.constants.Constants.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RegistrationTests extends BaseTest {
 
@@ -52,23 +52,23 @@ public class RegistrationTests extends BaseTest {
     loginPage.flashAlert().shouldBeVisible();
     loginPage.flashAlert().shouldContain("Successfully registered, you can log in now.");
 
-   loginPage
-       .loginAs(user.getUsername(), user.getPassword())
-       .waitUntilLoaded(user.getUsername());
+    loginPage
+        .loginAs(user.getUsername(), user.getPassword())
+        .waitUntilLoaded(user.getUsername());
 
     SecurePage securePage = new SecurePage(page);
 
     assertAll(
         "User is successfully logged in",
-        ()-> securePage.securePageShouldBeOpened(),
-        ()->securePage.greetingMessageShouldBeDisplayed(user.getUsername()),
-        ()->securePage.isLogoutButtonVisible(),
-        ()->securePage.flashAlert().shouldContain("You logged into a secure area!"));
+        () -> securePage.securePageShouldBeOpened(),
+        () -> securePage.greetingMessageShouldBeDisplayed(user.getUsername()),
+        () -> securePage.isLogoutButtonVisible(),
+        () -> securePage.flashAlert().shouldContain("You logged into a secure area!"));
   }
 
   @MethodSource("provideTestData")
   @ParameterizedTest(name = "{0}")
-  public void registrateUserWithInvalidCredentialsTest(UiUser user, String errorMessage) {
+  public void registrationUserWithInvalidCredentialsTest(UiUser user, String errorMessage) {
     HomePage homePage = new HomePage(page).open();
     RegisterPage registerPage = homePage.goToRegister();
     registerPage = registerPage.tryToRegisterInvalidUser(user);
@@ -76,7 +76,7 @@ public class RegistrationTests extends BaseTest {
     RegisterPage finalRegisterPage = registerPage;
     assertAll(
         "User is not registered",
-        ()-> finalRegisterPage.flashAlert().shouldContain(errorMessage),
+        () -> finalRegisterPage.flashAlert().shouldContain(errorMessage),
         () -> assertEquals(BASE_URL + "/register", page.url()));
   }
 }

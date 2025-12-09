@@ -6,7 +6,7 @@ import com.microsoft.playwright.options.AriaRole;
 import org.example.components.FlashAlert;
 import org.example.requests.user.UiUser;
 
-public class RegisterPage extends BasePage{
+public class RegisterPage extends BasePage {
   private final FlashAlert flashAlert;
   private final Locator username = page.locator("//input[@name='username']");
   private final Locator password = page.locator("//input[@name='password']");
@@ -56,6 +56,7 @@ public class RegisterPage extends BasePage{
     registerClick();
     return this;
   }
+
   public FlashAlert flashAlert() {
     return flashAlert;
   }

@@ -6,7 +6,6 @@ import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
 public class WebInputsPage extends BasePage {
-  public Locator inputNumberField = page.locator("//input[@id='input-number']");
   private final Locator inputTextField = page.locator("//input[@id='input-text']");
   private final Locator inputPasswordField = page.locator("//input[@id='input-password']");
   private final Locator inputDateField = page.locator("//input[@id='input-date']");
@@ -16,6 +15,7 @@ public class WebInputsPage extends BasePage {
   private final Locator outputText = page.locator("//*[@id='output-text']");
   private final Locator outputPassword = page.locator("//*[@id='output-password']");
   private final Locator outputDate = page.locator("//*[@id='output-date']");
+  public Locator inputNumberField = page.locator("//input[@id='input-number']");
 
   public WebInputsPage(Page page) {
     super(page);

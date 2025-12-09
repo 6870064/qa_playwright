@@ -15,7 +15,7 @@ import static org.example.constants.PageTitle.SECURE_AREA_PAGE_TITLE;
 import static org.example.enums.PageInfo.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class OTPOneTimePasswordTests extends BaseTest{
+public class OTPOneTimePasswordTests extends BaseTest {
 
   @BeforeEach
   public void beforeEachTest() {
@@ -36,7 +36,7 @@ public class OTPOneTimePasswordTests extends BaseTest{
         .locator(String.format(OTP_MESSAGE_LOCATOR, USER_EMAIL))
         .isVisible();
 
-    assertTrue(isMessageIsDisplayed,"OTP Message is displayed");
+    assertTrue(isMessageIsDisplayed, "OTP Message is displayed");
     page.fill(String.format(INPUT_LOCATOR, "otp"), OTP_CODE);
     page.click(String.format(BUTTON_LOCATOR, "btn-send-verify"));
 
@@ -50,8 +50,8 @@ public class OTPOneTimePasswordTests extends BaseTest{
         .locator(String.format(PAGE_TITLE_LOCATOR, SECURE_AREA_PAGE_TITLE))
         .isVisible();
     assertAll("Assert URL, alert and text message",
-        ()->assertEquals(SECURE.url(), page.url(), "User is logged in"),
-        ()-> assertTrue(isSecurePageVisible, "Secure Area page is displayed"));
+        () -> assertEquals(SECURE.url(), page.url(), "User is logged in"),
+        () -> assertTrue(isSecurePageVisible, "Secure Area page is displayed"));
   }
 
   @Test
@@ -65,7 +65,7 @@ public class OTPOneTimePasswordTests extends BaseTest{
         .locator(String.format(OTP_MESSAGE_LOCATOR, USER_EMAIL))
         .isVisible();
 
-    assertTrue(isMessageIsDisplayed,"OTP Message is displayed");
+    assertTrue(isMessageIsDisplayed, "OTP Message is displayed");
     page.fill(String.format(INPUT_LOCATOR, "otp"), String.valueOf(new DataGenerator().generateRandomInt(6)));
     page.click(String.format(BUTTON_LOCATOR, "btn-send-verify"));
 
@@ -76,7 +76,7 @@ public class OTPOneTimePasswordTests extends BaseTest{
         .isVisible();
 
     assertAll("Assert URL and error message",
-        ()->assertEquals(OTP_VERIFICATION.url(), page.url(), "OTP Verification page is opened"),
-        ()->assertTrue(isInvalidOTPErrorMessage, "Invalid OTP code is incorrect message is displayed"));
+        () -> assertEquals(OTP_VERIFICATION.url(), page.url(), "OTP Verification page is opened"),
+        () -> assertTrue(isInvalidOTPErrorMessage, "Invalid OTP code is incorrect message is displayed"));
   }
 }

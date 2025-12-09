@@ -32,9 +32,25 @@ public abstract class BaseTest {
     context = browser.newContext(new Browser.NewContextOptions()
         .setViewportSize(1920, 1080)
         .setRecordVideoDir(Paths.get("./target/video")));
+
+    context.route("**/*", route -> {
+      String url = route.request().url();
+
+      if (url.contains("doubleclick") ||
+          url.contains("googlesyndication") ||
+          url.contains("adservice") ||
+          url.contains("googleads") ||
+          url.contains("g.doubleclick.net")) {
+
+        System.out.println("🚫 Prevented AD request: " + url);
+        route.abort();
+      } else {
+        route.resume();
+      }
+    });
+
     page = context.newPage();
-    AdBlocker.blockInterstitialAds(page);
-    //NetworkUtils.blockAdsAndMedia(page);
+    AdBlocker.killInterstitialAds(page);
 
     navigateToPageUrl(BASE_URL);
     page.locator(AUTOMATION_PRACTICE_TEXT).waitFor(new Locator.WaitForOptions().setState(VISIBLE));

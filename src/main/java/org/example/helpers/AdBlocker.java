@@ -25,4 +25,14 @@ public class AdBlocker {
       }
     });
   }
+
+  public static void killInterstitialAds(Page page) {
+    page.addInitScript("""
+        const observer = new MutationObserver(() => {
+          const ad = document.querySelector("#google_vignette, #adtech_redirect");
+          if (ad) ad.remove();
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+    """);
+  }
 }

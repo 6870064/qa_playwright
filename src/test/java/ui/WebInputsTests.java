@@ -15,9 +15,9 @@ public class WebInputsTests extends BaseTest {
   @Test
   public void InputDataTest() {
     String inputNumber = String.valueOf(new DataGenerator().generateRandomInt(8, 10));
-    String inputText = new DataGenerator().randomString(10);
+    String inputText = DataGenerator.randomString(10);
     String password = new DataGenerator().generateRandomPassword(6, 10);
-    String inputDate = new DataGenerator().generateRandomDate(START_DATE, END_DATE);
+    String inputDate = DataGenerator.generateRandomDate(START_DATE, END_DATE);
 
     HomePage homePage = new HomePage(page).open();
     WebInputsPage webInputsPage = homePage.goToWebInputs();
@@ -28,10 +28,10 @@ public class WebInputsTests extends BaseTest {
     webInputsPage.displayInputsClick();
 
     assertAll("Check output value in the fields",
-        ()-> assertEquals(inputNumber, webInputsPage.getOutputNumber()),
-        ()-> assertEquals(inputText, webInputsPage.getOutputText()),
-        ()-> assertEquals(password, webInputsPage.getOutputPassword()),
-        ()-> assertEquals(inputDate, webInputsPage.getOutputDate()));
+        () -> assertEquals(inputNumber, webInputsPage.getOutputNumber()),
+        () -> assertEquals(inputText, webInputsPage.getOutputText()),
+        () -> assertEquals(password, webInputsPage.getOutputPassword()),
+        () -> assertEquals(inputDate, webInputsPage.getOutputDate()));
 
     //HomePage homePage = new HomePage(page).open();
     //    RegisterPage registerPage = homePage.goToRegister();

@@ -6,7 +6,7 @@ import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import org.example.components.FlashAlert;
 
-public class LoginPage extends BasePage{
+public class LoginPage extends BasePage {
   private final Locator username = page.locator("//input[@name='username']");
   private final Locator password = page.locator("//input[@name='password']");
   private final Locator submit = page.getByRole(AriaRole.BUTTON,

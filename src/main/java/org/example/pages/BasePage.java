@@ -10,9 +10,10 @@ public abstract class BasePage {
     this.page = page;
   }
 
-  /** Каждая страница указывает свой относительный путь */
+  /**
+   * Каждая страница указывает свой относительный путь
+   */
   protected abstract String path();
-
 
   public <T extends BasePage> T open() {
     page.navigate(AppConfig.baseUrl() + path());
