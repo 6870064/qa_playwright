@@ -1,6 +1,6 @@
 package org.example.responses.api_user_response;
 
-public record ApiUserResponse (
+public record RegistrationUserResponse(
   boolean success,
   int status,
   String message,

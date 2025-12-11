@@ -31,6 +31,5 @@ public class HealthCheckTest extends BaseApiTest {
         () -> assertEquals(HttpStatus.OK.code(), body.status(), "Response status is 200 OK"),
         () -> assertEquals(NOTES_API_RUNNING, body.message())
     );
-
   }
 }

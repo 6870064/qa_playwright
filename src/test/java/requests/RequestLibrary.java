@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.example.requests.user.UiUser;
+import org.example.requests.user.LoginApiUser;
 import utils.AllureUtils;
 
 import java.util.Map;
@@ -18,12 +18,12 @@ import static org.example.constants.Constants.BASE_URL;
 public class RequestLibrary {
 
   @Step("Sending POST request on {url}")
-  public static Response sendPostRequest(UiUser user, String url) {
+  public static Response sendPostRequest(LoginApiUser loginApiUser, String url) {
 
     Response response = RestAssured.given()
         .baseUri(BASE_API_URL)
         .contentType(URLENC)
-        .formParams(toForm(user))
+        .formParams(toForm(loginApiUser))
         .log()
         .all()
         .when()
@@ -110,10 +110,10 @@ public class RequestLibrary {
     return response;
   }
 
-  public static Map<String, String> toForm(UiUser user) {
+  public static Map<String, String> toForm(LoginApiUser user) {
     return Map.of(
-        "email", user.getUsername(),
-        "password", user.getPassword()
+        "email", user.email(),
+        "password", user.password()
     );
   }
 

@@ -1,8 +1,7 @@
 package requests;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import org.example.requests.user.UiUser;
+import org.example.requests.user.LoginApiUser;
 
 import static org.example.constants.Constants.*;
 import static requests.RequestLibrary.*;
@@ -10,9 +9,14 @@ import static requests.RequestLibrary.*;
 public interface SimpleAction {
 
   @Step("Authenticate with {user}")
-  static Response authUser(UiUser user) {
+  static Response userLogin(LoginApiUser user) {
     return sendPostRequest(user, LOGIN_URL);
   }
+
+//  @Step("Authenticate with {user}")
+//  static Response authUser(UiUser user) {
+//    return sendPostRequest(user, LOGIN_URL);
+//  }
 
   @Step("Create a user with record: {record}")
   default Response createUser(Record record, String authContent) {
