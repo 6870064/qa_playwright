@@ -18,7 +18,7 @@ import requests.SimpleAction;
 
 import java.util.stream.Stream;
 
-import static org.example.constants.Alerts.INVALID_EMAIL_MESSAGE;
+import static org.example.constants.Alerts.*;
 import static org.example.constants.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static utils.TestUtils.assertResponseCode;
@@ -73,7 +73,7 @@ public class UserTests extends BaseApiTest {
         () -> assertEquals(HttpStatus.CREATED.code(), body.status(),
             "Incorrect status in response body"),
 
-        () -> assertEquals("User account created successfully", body.message(),
+        () -> assertEquals(USER_CREATED_MESSAGE, body.message(),
             "Unexpected creation message"),
 
         () -> assertNotNull(body.data().id(),
@@ -123,7 +123,7 @@ public class UserTests extends BaseApiTest {
         () -> assertEquals(HttpStatus.OK.code(), secondBody.status(),
             "Incorrect status in response body"),
 
-        () -> assertEquals("Login successful", secondBody.message(),
+        () -> assertEquals(OK_LOGIN_MESSAGE, secondBody.message(),
             "Unexpected creation message"),
 
         () -> assertEquals(userId, secondBody.data().id(),
@@ -171,13 +171,13 @@ public class UserTests extends BaseApiTest {
             "Unexpected login message"));
   }
 
-  @DisplayName("[API. User]. POST method. Get user profile")
+  @DisplayName("[API. User]. GET method. Get user profile")
   @Description("""
       1. Create a new apiUser as new instance of the class ApiUser.
       2. Create a new user.
       3. Login user.
       4. Get user profile.
-      4. Assert a response.
+      5. Assert a response.
       """)
   @Test
   public void getUserProfileTest() {
@@ -221,7 +221,7 @@ public class UserTests extends BaseApiTest {
         () -> assertEquals(HttpStatus.OK.code(), thirdBody.status(),
             "Incorrect status in response body"),
 
-        () -> assertEquals("Profile successful", thirdBody.message(),
+        () -> assertEquals(GET_PROFILE_MESSAGE, thirdBody.message(),
             "Unexpected creation message"),
 
         () -> assertEquals(userId, thirdBody.data().id(),
@@ -232,5 +232,109 @@ public class UserTests extends BaseApiTest {
 
         () -> assertEquals(apiUser.email().toLowerCase(), thirdBody.data().email(),
             "Returned email does not match the created one"));
+  }
+
+  @DisplayName("[API. User]. DELETE method. Logout user")
+  @Description("""
+      1. Create a new apiUser as new instance of the class ApiUser.
+      2. Create a new user.
+      3. Login user.
+      4. Logout user.
+      5. Assert a response.
+      """)
+  @Test
+  public void logoutUserTest() {
+    ApiUser apiUser = new ApiUser(
+        new DataGenerator().generateRandomName(8, 30),
+        new DataGenerator().generateRandomEmail(true),
+        new DataGenerator().generateRandomPassword(8, 30));
+
+    Response createUser = createUser(authToken, apiUser);
+    assertResponseCode(HttpStatus.CREATED.code(), createUser);
+
+    UserResponse body = createUser.as(UserResponse.class);
+    assertNotNull(body.data().id(), "User ID must not be null");
+
+    LoginApiUser loginApiUser = new LoginApiUser(apiUser.email(), apiUser.password());
+
+    Response loginUser = SimpleAction.userLogin(loginApiUser);
+    assertResponseCode(HttpStatus.OK.code(), loginUser);
+
+    LoginUserResponse secondBody = loginUser.as(LoginUserResponse.class);
+    assertAll(
+        () -> assertTrue(secondBody.success(),
+            "Expected success=true, but was false"),
+
+        () -> assertEquals(HttpStatus.OK.code(), secondBody.status(),
+            "Incorrect status in response body"));
+
+    String token = secondBody.data().token();
+
+    Response logoutUser = SimpleAction.logoutUser(token);
+    assertResponseCode(HttpStatus.OK.code(), logoutUser);
+    assertResponseSchema(BASE_RESPONSE_SCHEMA, logoutUser);
+
+    BaseResponse thirdBody = logoutUser.as(BaseResponse.class);
+    assertAll(
+        () -> assertTrue(thirdBody.success(),
+            "Expected success=true, but was false"),
+
+        () -> assertEquals(HttpStatus.OK.code(), thirdBody.status(),
+            "Incorrect status in response body"),
+
+        () -> assertEquals(USER_LOGGED_OUT_MESSAGE, thirdBody.message(),
+            "Unexpected logout message"));
+  }
+
+  @DisplayName("[API. User]. DELETE method. Delete user")
+  @Description("""
+      1. Create a new apiUser as new instance of the class ApiUser.
+      2. Create a new user.
+      3. Login user.
+      4. Delete user.
+      5. Assert a response.
+      """)
+  @Test
+  public void deleteUserTest() {
+    ApiUser apiUser = new ApiUser(
+        new DataGenerator().generateRandomName(8, 30),
+        new DataGenerator().generateRandomEmail(true),
+        new DataGenerator().generateRandomPassword(8, 30));
+
+    Response createUser = createUser(authToken, apiUser);
+    assertResponseCode(HttpStatus.CREATED.code(), createUser);
+
+    UserResponse body = createUser.as(UserResponse.class);
+    assertNotNull(body.data().id(), "User ID must not be null");
+
+    LoginApiUser loginApiUser = new LoginApiUser(apiUser.email(), apiUser.password());
+
+    Response loginUser = SimpleAction.userLogin(loginApiUser);
+    assertResponseCode(HttpStatus.OK.code(), loginUser);
+
+    LoginUserResponse secondBody = loginUser.as(LoginUserResponse.class);
+    assertAll(
+        () -> assertTrue(secondBody.success(),
+            "Expected success=true, but was false"),
+
+        () -> assertEquals(HttpStatus.OK.code(), secondBody.status(),
+            "Incorrect status in response body"));
+
+    String token = secondBody.data().token();
+
+    Response deleteUser = SimpleAction.deleteUser(token);
+    assertResponseCode(HttpStatus.OK.code(), deleteUser);
+    assertResponseSchema(BASE_RESPONSE_SCHEMA, deleteUser);
+
+    BaseResponse thirdBody = deleteUser.as(BaseResponse.class);
+    assertAll(
+        () -> assertTrue(thirdBody.success(),
+            "Expected success=true, but was false"),
+
+        () -> assertEquals(HttpStatus.OK.code(), thirdBody.status(),
+            "Incorrect status in response body"),
+
+        () -> assertEquals(USER_DELETED_MESSAGE, thirdBody.message(),
+            "Unexpected logout message"));
   }
 }

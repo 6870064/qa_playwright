@@ -13,6 +13,16 @@ public interface SimpleAction {
     return sendPostRequest(user, LOGIN_URL);
   }
 
+  @Step("Logout user")
+  static Response logoutUser(String authContent) {
+    return sendDeleteRequest(authContent, LOGOUT_URL);
+  }
+
+  @Step("Delete user")
+  static Response deleteUser(String authContent) {
+    return sendDeleteRequest(authContent, DELETE_URL);
+  }
+
   @Step("Create a user with record: {record}")
   default Response createUser(String authContent, Record record) {
     return sendPostRequest(authContent, record, REGISTER_URL);

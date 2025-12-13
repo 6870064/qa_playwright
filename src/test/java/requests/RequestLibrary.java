@@ -101,10 +101,11 @@ public class RequestLibrary {
   @Step("Sending DELETE request on {url}")
   public static Response sendDeleteRequest(String token, String url) {
     Response response = given()
+        .baseUri(BASE_API_URL)
         .header("accept", "application/json")
         .header("x-auth-token", token)
         .when()
-        .delete(BASE_URL + url)
+        .delete(url)
         .then()
         .log().all()
         .extract().response();

@@ -6,6 +6,11 @@ public class Alerts {
   public static String PASSWORDS_NOT_MATCH_ALERT_TEXT = "Passwords do not match.";
   public static String ALL_FIELDS_REQUIRED_ALERT_TEXT = "All fields are required.";
   public static String INVALID_EMAIL_MESSAGE = "A valid email address is required";
+  public static String USER_DELETED_MESSAGE = "Account successfully deleted";
+  public static String USER_LOGGED_OUT_MESSAGE = "User has been successfully logged out";
+  public static String GET_PROFILE_MESSAGE = "Profile successful";
+  public static String OK_LOGIN_MESSAGE = "Login successful";
+  public static String USER_CREATED_MESSAGE = "User account created successfully";
   public static String INVALID_EMAIL_OR_PW_MESSAGE = "A valid email address is required";
   public static final String NOTES_API_RUNNING = "Notes API is Running";
   public static final String NOTE_CREATED = "Note successfully created";

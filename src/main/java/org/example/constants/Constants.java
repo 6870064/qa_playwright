@@ -26,6 +26,8 @@ public class Constants {
   //URLs
   public static final String SECURE_URL = "/secure";
   public static final String LOGIN_URL = "/users/login";
+  public static final String LOGOUT_URL = "/users/logout";
+  public static final String DELETE_URL = "/users/delete-account";
   public static final String GET_PROFILE_URL = "/users/profile";
   public static final String REGISTER_URL = "/notes/api/users/register";
   public static final String CREATE_A_NEW_NOTE = "/notes/api/notes";
