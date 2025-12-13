@@ -1,4 +1,4 @@
-package org.example.responses.api_user_response;
+package org.example.responses.user_response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

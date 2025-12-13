@@ -1,4 +1,4 @@
-package org.example.responses.api_note_response;
+package org.example.responses.note_response;
 
 public record Data(
     String id,

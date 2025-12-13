@@ -38,7 +38,7 @@ public class RequestLibrary {
   }
 
   @Step("Sending POST request on {url}")
-  public static Response sendPostRequest(Record record, String authContent, String url) {
+  public static Response sendPostRequest(String authContent, Record record, String url) {
     ObjectMapper objectMapper = new ObjectMapper();
     String jsonBody = null;
 
@@ -67,12 +67,15 @@ public class RequestLibrary {
   }
 
   @Step("Sending GET request on {url}")
-  public static Response sendGetRequest(String url, String token) {
+  public static Response sendGetRequest(String token, String url) {
     Response response = given()
+        .baseUri(BASE_API_URL)
         .header("accept", "application/json")
         .header("x-auth-token", token)
+        .log()
+        .all()
         .when()
-        .get(BASE_URL + url)
+        .get(url)
         .then()
         .log().all()
         .extract().response();
@@ -88,7 +91,7 @@ public class RequestLibrary {
         .when()
         .get(BASE_URL + url)
         .then()
-        .log().all()
+        .log().body()
         .extract().response();
 
     AllureUtils.attachResponseToAllure(response);
@@ -96,7 +99,7 @@ public class RequestLibrary {
   }
 
   @Step("Sending DELETE request on {url}")
-  public static Response sendDeleteRequest(String url, String token) {
+  public static Response sendDeleteRequest(String token, String url) {
     Response response = given()
         .header("accept", "application/json")
         .header("x-auth-token", token)
@@ -118,7 +121,7 @@ public class RequestLibrary {
   }
 
   @Step("Sending PATCH request on {url}")
-  public static Response sendPatchRequest(Record record, String authContent, String url) {
+  public static Response sendPatchRequest(String authContent, Record record, String url) {
     ObjectMapper objectMapper = new ObjectMapper();
     String jsonBody = null;
 
@@ -147,7 +150,7 @@ public class RequestLibrary {
   }
 
   @Step("Sending PUT request on {url}")
-  public static Response sendPutRequest(Record record, String authContent, String url) {
+  public static Response sendPutRequest(String authContent, Record record, String url) {
     ObjectMapper objectMapper = new ObjectMapper();
     String jsonBody = null;
 

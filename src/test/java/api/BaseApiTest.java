@@ -8,6 +8,7 @@ import requests.SimpleAction;
 
 import static io.restassured.config.EncoderConfig.encoderConfig;
 import static io.restassured.http.ContentType.URLENC;
+import static org.example.constants.Constants.*;
 
 public class BaseApiTest implements SimpleAction {
   public static final String BASE_API_URL = "https://practice.expandtesting.com/notes/api";
@@ -20,8 +21,7 @@ public class BaseApiTest implements SimpleAction {
             .defaultContentCharset("UTF-8")
             .encodeContentTypeAs("application/x-www-form-urlencoded", URLENC));
 
-    LoginApiUser loginApiUser = new LoginApiUser("6870064@gmail.com", "meo5rnyk");
-   // UiUser testUser = new UiUser("6870064@gmail.com", "meo5rnyk", "meo5rnyk");
+    LoginApiUser loginApiUser = new LoginApiUser(API_USER, API_USER_PW);
     AuthContent authorizeContent = new AuthContent(authToken);
 
     Response response = SimpleAction.userLogin(loginApiUser);
