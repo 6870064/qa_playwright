@@ -11,6 +11,7 @@ public class Alerts {
   public static String GET_PROFILE_MESSAGE = "Profile successful";
   public static String OK_LOGIN_MESSAGE = "Login successful";
   public static String USER_CREATED_MESSAGE = "User account created successfully";
+  public static final String PASSWORD_CHANGED_MESSAGE = "The password was successfully updated";
   public static String INVALID_EMAIL_OR_PW_MESSAGE = "A valid email address is required";
   public static final String NOTES_API_RUNNING = "Notes API is Running";
   public static final String NOTE_CREATED = "Note successfully created";

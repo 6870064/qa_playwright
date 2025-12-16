@@ -4,6 +4,7 @@ import io.qameta.allure.Description;
 import io.restassured.response.Response;
 import org.example.enums.HttpStatus;
 import org.example.helpers.DataGenerator;
+import org.example.requests.ChangePasswordDto;
 import org.example.requests.user.ApiUser;
 import org.example.requests.user.LoginApiUser;
 import org.example.responses.BaseResponse;
@@ -336,5 +337,90 @@ public class UserTests extends BaseApiTest {
 
         () -> assertEquals(USER_DELETED_MESSAGE, thirdBody.message(),
             "Unexpected logout message"));
+  }
+
+  @DisplayName("[API. User]. POST method. Change user's password")
+  @Description("""
+      1. Create a new apiUser as new instance of the class ApiUser.
+      2. Create a new user.
+      3. Login user.
+      4. Change user's password.
+      5. Login by new user's password.
+      6. Assert a response.
+      """)
+  @Test
+  public void changeUserTest() {
+    ApiUser apiUser = new ApiUser(
+        new DataGenerator().generateRandomName(8, 30),
+        new DataGenerator().generateRandomEmail(true),
+        new DataGenerator().generateRandomPassword(8, 30));
+
+    Response createUser = createUser(authToken, apiUser);
+    assertResponseCode(HttpStatus.CREATED.code(), createUser);
+
+    UserResponse body = createUser.as(UserResponse.class);
+    assertNotNull(body.data().id(), "User ID must not be null");
+
+    String id = body.data().id();
+
+    LoginApiUser loginApiUser = new LoginApiUser(apiUser.email(), apiUser.password());
+
+    Response loginUser = SimpleAction.userLogin(loginApiUser);
+    assertResponseCode(HttpStatus.OK.code(), loginUser);
+
+    LoginUserResponse secondBody = loginUser.as(LoginUserResponse.class);
+    assertAll(
+        () -> assertTrue(secondBody.success(),
+            "Expected success=true, but was false"),
+
+        () -> assertEquals(HttpStatus.OK.code(), secondBody.status(),
+            "Incorrect status in response body"));
+
+    ChangePasswordDto changePasswordDto = new ChangePasswordDto(
+        apiUser.password(),
+        new DataGenerator().generateRandomPassword(8, 30));
+
+    String token = secondBody.data().token();
+
+    Response changeUsersPassword = changeUsersPassword(token, changePasswordDto);
+    assertResponseCode(HttpStatus.OK.code(), changeUsersPassword);
+
+    BaseResponse thirdBody = changeUsersPassword.as(BaseResponse.class);
+
+    assertAll(
+        () -> assertTrue(thirdBody.success(),
+            "Expected success=true, but was false"),
+
+        () -> assertEquals(thirdBody.status(), HttpStatus.OK.code(),
+            "Incorrect status in response body"),
+
+        () -> assertEquals(thirdBody.message(), PASSWORD_CHANGED_MESSAGE,
+            "Incorrect message in response body")
+    );
+
+    LoginApiUser newLoginApiUser = new LoginApiUser(apiUser.email(), changePasswordDto.newPassword());
+
+    Response newLoginUser = SimpleAction.userLogin(newLoginApiUser);
+    assertResponseCode(HttpStatus.OK.code(), newLoginUser);
+
+    LoginUserResponse fourthBody = loginUser.as(LoginUserResponse.class);
+    assertAll(
+        ()-> assertTrue(fourthBody.success(),
+            "Expected success=true, but was false"),
+
+        ()-> assertEquals(HttpStatus.OK.code(), fourthBody.status(),
+            "Incorrect status in response body"),
+
+        ()-> assertEquals(OK_LOGIN_MESSAGE, fourthBody.message(),
+            "Incorrect message in response body"),
+
+        ()-> assertEquals(id, fourthBody.data().id(),
+        "Incorrect user Id in response body"),
+
+        ()-> assertEquals(apiUser.name(), fourthBody.data().name(),
+            "Incorrect name Id in response body"),
+
+        ()-> assertEquals(apiUser.email().toLowerCase(), fourthBody.data().email(),
+            "Incorrect email Id in response body"));
   }
 }

@@ -33,6 +33,11 @@ public interface SimpleAction {
     return sendGetRequest(authContent, GET_PROFILE_URL);
   }
 
+  @Step("Change user's password")
+  default Response changeUsersPassword(String authContent, Record record) {
+    return sendPostRequest(authContent, record, CHANGE_PASSWORD_URL);
+  }
+
   @Step("Create a note with record: {record}")
   default Response createNote(Record record, String authContent) {
     return sendPostRequest(authContent, record, CREATE_A_NEW_NOTE);
