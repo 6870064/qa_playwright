@@ -33,6 +33,11 @@ public interface SimpleAction {
     return sendGetRequest(authContent, GET_PROFILE_URL);
   }
 
+  @Step("update User profile")
+  static Response updateUserProfile(String authContent, Record record) {
+    return sendPatchRequest(authContent, record, PATCH_PROFILE_URL);
+  }
+
   @Step("Change user's password")
   default Response changeUsersPassword(String authContent, Record record) {
     return sendPostRequest(authContent, record, CHANGE_PASSWORD_URL);

@@ -85,6 +85,35 @@ public class DataGenerator {
   }
 
   /**
+   * Generates a random phone number in format +<countryCode><number>.
+   * Example: +44567989021
+   *
+   * @param countryCode country calling code without '+', e.g. "48", "44", "45"
+   * @return phone number in E.164-like format
+   */
+  public static String generateRandomPhoneNumber(String countryCode) {
+    if (countryCode == null || !countryCode.matches("\\d+")) {
+      throw new IllegalArgumentException("Country code must contain digits only");
+    }
+
+    // Общая длина номера без '+' обычно 10–15 цифр (E.164)
+    int minTotalLength = 10;
+    int maxTotalLength = 15;
+
+    int totalLength = ThreadLocalRandom.current()
+        .nextInt(minTotalLength, maxTotalLength + 1);
+
+    int localNumberLength = totalLength - countryCode.length();
+    if (localNumberLength <= 0) {
+      throw new IllegalArgumentException("Country code is too long");
+    }
+
+    String localNumber = randomNumeric(localNumberLength);
+
+    return "+" + countryCode + localNumber;
+  }
+
+  /**
    * Generates a random alphanumeric string of given length.
    *
    * @param length desired string length
@@ -147,6 +176,10 @@ public class DataGenerator {
     Category category = Category.values()[random.nextInt(Category.values().length)];
 
     return new ApiNote(title.trim(), description, category);
+  }
+
+  public static String generateRandomCompanyName() {
+    return faker.company().name();
   }
 
   public static UpdateApiNote generateUpdateApiNote(

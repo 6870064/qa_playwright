@@ -29,6 +29,7 @@ public class Constants {
   public static final String LOGOUT_URL = "/users/logout";
   public static final String DELETE_URL = "/users/delete-account";
   public static final String GET_PROFILE_URL = "/users/profile";
+  public static final String PATCH_PROFILE_URL = "/notes/api/users/profile";
   public static final String REGISTER_URL = "/notes/api/users/register";
   public static final String CHANGE_PASSWORD_URL = "/notes/api/users/change-password";
   public static final String CREATE_A_NEW_NOTE = "/notes/api/notes";
@@ -43,4 +44,5 @@ public class Constants {
   public static final String USER_RESPONSE_SCHEMA = "json_schemas/user_response.json";
   public static final String BASE_RESPONSE_SCHEMA = "json_schemas/base_response.json";
   public static final String CREATE_NOTE_SCHEMA = "json_schemas/create_note.json";
+  public static final String UPDATE_USER_RESPONSE_SCHEMA = "json_schemas/update_user_response.json";
 }
