@@ -6,7 +6,7 @@ import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.example.requests.user.LoginApiUser;
-import utils.AllureUtils;
+import org.example.utils.AllureUtils;
 
 import java.util.Map;
 

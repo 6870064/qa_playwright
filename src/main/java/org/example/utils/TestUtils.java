@@ -1,4 +1,4 @@
-package utils;
+package org.example.utils;
 
 import io.qameta.allure.Step;
 import io.restassured.module.jsv.JsonSchemaValidator;
@@ -14,7 +14,7 @@ public class TestUtils {
 
   @Step("Validate response code is {expectedStatus}")
   public static void assertResponseCode(int expectedResponseCode, Response response) {
-    assertEquals(expectedResponseCode, response.getStatusCode(),
+    Assertions.assertEquals(expectedResponseCode, response.getStatusCode(),
         "Unexpected response code: " + response.asPrettyString());
   }
 
