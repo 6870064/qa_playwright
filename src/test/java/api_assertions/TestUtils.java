@@ -1,13 +1,12 @@
-package org.example.utils;
+package api_assertions;
 
 import io.qameta.allure.Step;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.Assertions;
 import ui.BaseTest;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestUtils {
   public static final Logger logger = LogManager.getLogger(BaseTest.class);
