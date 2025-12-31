@@ -33,9 +33,9 @@ public class Constants {
   public static final String REGISTER_URL = "/notes/api/users/register";
   public static final String CHANGE_PASSWORD_URL = "/notes/api/users/change-password";
   public static final String CREATE_A_NEW_NOTE = "/notes/api/notes";
-  public static final String GET_NOTES = "/notes/api/notes";
-  public static final String GET_NOTE_BY_ID = "/notes/api/notes/%s";
-  public static final String DELETE_NOTE = "/notes/api/notes/%s";
+  public static final String GET_NOTES = "/notes";
+  public static final String GET_NOTE_BY_ID = "/notes/%s";
+  public static final String DELETE_NOTE = "/notes/%s";
   public static final String PATCH_NOTE = "/notes/api/notes/%s";
   public static final String PUT_NOTE = "/notes/api/notes/%s";
   public static final String HEALTH_CHECK_URL = "/notes/api/health-check";

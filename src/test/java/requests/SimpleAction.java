@@ -33,7 +33,7 @@ public interface SimpleAction {
     return sendGetRequest(authContent, GET_PROFILE_URL);
   }
 
-  @Step("update User profile")
+  @Step("Update User profile")
   static Response updateUserProfile(String authContent, Record record) {
     return sendPatchRequest(authContent, record, PATCH_PROFILE_URL);
   }
