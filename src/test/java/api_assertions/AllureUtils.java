@@ -1,4 +1,4 @@
-package org.example.utils;
+package api_assertions;
 
 import io.qameta.allure.Allure;
 import io.restassured.response.Response;

@@ -3,6 +3,7 @@ package api;
 import io.restassured.response.Response;
 import org.example.helpers.AuthContent;
 import org.example.requests.user.LoginApiUser;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import requests.SimpleAction;
 
@@ -10,9 +11,9 @@ import static io.restassured.config.EncoderConfig.encoderConfig;
 import static io.restassured.http.ContentType.URLENC;
 import static org.example.constants.Constants.*;
 
-public class BaseApiTest implements SimpleAction {
+public abstract class BaseApiTest implements SimpleAction {
   public static final String BASE_API_URL = "https://practice.expandtesting.com/notes/api";
-  public static String authToken = "";
+  private static ThreadLocal<String> authToken = new ThreadLocal<>();
 
   @BeforeAll
   public static void authUser() {
@@ -25,7 +26,15 @@ public class BaseApiTest implements SimpleAction {
     AuthContent authorizeContent = new AuthContent(authToken);
 
     Response response = SimpleAction.userLogin(loginApiUser);
-    authToken = response.getBody().jsonPath().getString("data.token");
+    authToken.set(response.getBody().jsonPath().getString("data.token"));
   }
 
+  protected String token() {
+    return authToken.get();
+  }
+
+  @AfterEach
+  void cleanUp() {
+    authToken.remove();
+  }
 }

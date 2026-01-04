@@ -3,7 +3,7 @@ package org.example.helpers;
 public class AuthContent {
   private String accessToken;
 
-  public AuthContent(String accessToken) {
+  public AuthContent(ThreadLocal<String> accessToken) {
     this.accessToken = accessToken;
   }
 

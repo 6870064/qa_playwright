@@ -34,7 +34,7 @@ public class NotesTests extends BaseApiTest {
   public void createNewNoteTest() {
     ApiNote note = generateNewRandomApiNote(20, 20);
 
-    Response createApiNote = createNote(note, authToken);
+    Response createApiNote = createNote(note, token());
     assertResponseCode(HttpStatus.OK.code(), createApiNote);
     assertResponseSchema(CREATE_NOTE_SCHEMA, createApiNote);
 
@@ -65,14 +65,14 @@ public class NotesTests extends BaseApiTest {
   public void getNoteByIdTest() {
     ApiNote note = generateNewRandomApiNote(20, 20);
 
-    Response createApiNote = createNote(note, authToken);
+    Response createApiNote = createNote(note, token());
     assertResponseCode(HttpStatus.OK.code(), createApiNote);
     assertResponseSchema(CREATE_NOTE_SCHEMA, createApiNote);
 
     ApiNoteResponse zeroBody = createApiNote.as(ApiNoteResponse.class);
     String noteId = zeroBody.data().id();
 
-    Response getApiNote = getNoteById(authToken, noteId);
+    Response getApiNote = getNoteById(token(), noteId);
     assertResponseCode(HttpStatus.OK.code(), getApiNote);
 
     ApiNoteResponse body = getApiNote.as(ApiNoteResponse.class);
@@ -104,7 +104,7 @@ public class NotesTests extends BaseApiTest {
   public void getNoteByInvalidIdTest() {
     String noteId = generateRandomId();
 
-    Response getApiNote = getNoteById(authToken, noteId);
+    Response getApiNote = getNoteById(token(), noteId);
     assertResponseCode(HttpStatus.NOT_FOUND.code(), getApiNote);
 
     BaseResponse body = getApiNote.as(BaseResponse.class);
@@ -127,11 +127,11 @@ public class NotesTests extends BaseApiTest {
   public void getNotesTest() {
     ApiNote note = generateNewRandomApiNote(20, 20);
 
-    Response createApiNote = createNote(note, authToken);
+    Response createApiNote = createNote(note, token());
     assertResponseCode(HttpStatus.OK.code(), createApiNote);
     assertResponseSchema(CREATE_NOTE_SCHEMA, createApiNote);
 
-    Response getApiNotes = getNotes(authToken);
+    Response getApiNotes = getNotes(token());
     assertResponseCode(HttpStatus.OK.code(), getApiNotes);
 
     ApiNotesResponse body = getApiNotes.as(ApiNotesResponse.class);
@@ -157,14 +157,14 @@ public class NotesTests extends BaseApiTest {
   public void deleteNoteTest() {
     ApiNote note = generateNewRandomApiNote(20, 20);
 
-    Response createApiNote = createNote(note, authToken);
+    Response createApiNote = createNote(note, token());
     assertResponseCode(HttpStatus.OK.code(), createApiNote);
     assertResponseSchema(CREATE_NOTE_SCHEMA, createApiNote);
 
     ApiNoteResponse zeroBody = createApiNote.as(ApiNoteResponse.class);
     String noteId = zeroBody.data().id();
 
-    Response deleteApiNote = deleteNote(noteId, authToken);
+    Response deleteApiNote = deleteNote(noteId, token());
     assertResponseCode(HttpStatus.OK.code(), deleteApiNote);
 
     BaseResponse body = deleteApiNote.as(BaseResponse.class);
@@ -174,7 +174,7 @@ public class NotesTests extends BaseApiTest {
         () -> assertEquals("Note successfully deleted", body.message())
     );
 
-    Response getApiNote = getNoteById(authToken, noteId);
+    Response getApiNote = getNoteById(token(), noteId);
     assertResponseCode(HttpStatus.NOT_FOUND.code(), getApiNote);
 
     BaseResponse getBody = getApiNote.as(BaseResponse.class);
@@ -197,7 +197,7 @@ public class NotesTests extends BaseApiTest {
   public void putNoteTest() {
     ApiNote note = generateNewRandomApiNote(20, 20);
 
-    Response createApiNote = createNote(note, authToken);
+    Response createApiNote = createNote(note, token());
     assertResponseCode(HttpStatus.OK.code(), createApiNote);
     assertResponseSchema(CREATE_NOTE_SCHEMA, createApiNote);
 
@@ -209,7 +209,7 @@ public class NotesTests extends BaseApiTest {
         20,
         true);
 
-    Response updateNote = updateNote(authToken, updateApiNote, noteId);
+    Response updateNote = updateNote(token(), updateApiNote, noteId);
     assertResponseCode(HttpStatus.OK.code(), updateNote);
 
     ApiNoteResponse body = updateNote.as(ApiNoteResponse.class);
@@ -241,7 +241,7 @@ public class NotesTests extends BaseApiTest {
     boolean completed = true;
     ApiNote note = generateNewRandomApiNote(20, 20);
 
-    Response createApiNote = createNote(note, authToken);
+    Response createApiNote = createNote(note, token());
     assertResponseCode(HttpStatus.OK.code(), createApiNote);
     assertResponseSchema(CREATE_NOTE_SCHEMA, createApiNote);
 
@@ -250,7 +250,7 @@ public class NotesTests extends BaseApiTest {
 
     PatchNote patchNote = new PatchNote(completed);
 
-    Response patchApiNote = patchNote(authToken, patchNote, noteId);
+    Response patchApiNote = patchNote(token(), patchNote, noteId);
     assertResponseCode(HttpStatus.OK.code(), patchApiNote);
 
     ApiNoteResponse body = patchApiNote.as(ApiNoteResponse.class);
