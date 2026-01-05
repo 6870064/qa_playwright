@@ -19,8 +19,8 @@ import static org.example.constants.Alerts.*;
 import static org.example.constants.Constants.CREATE_NOTE_SCHEMA;
 import static org.example.helpers.DataGenerator.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static api_assertions.TestUtils.assertResponseCode;
-import static api_assertions.TestUtils.assertResponseSchema;
+import static test_utils.TestUtils.assertResponseCode;
+import static test_utils.TestUtils.assertResponseSchema;
 
 public class NotesTests extends BaseApiTest {
 

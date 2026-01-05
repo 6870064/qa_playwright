@@ -1,4 +1,4 @@
-package api_assertions;
+package test_utils;
 
 import io.qameta.allure.Step;
 import io.restassured.module.jsv.JsonSchemaValidator;

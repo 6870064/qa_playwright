@@ -24,8 +24,8 @@ import java.util.stream.Stream;
 import static org.example.constants.Alerts.*;
 import static org.example.constants.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static api_assertions.TestUtils.assertResponseCode;
-import static api_assertions.TestUtils.assertResponseSchema;
+import static test_utils.TestUtils.assertResponseCode;
+import static test_utils.TestUtils.assertResponseSchema;
 
 public class UserTests extends BaseApiTest {
 
