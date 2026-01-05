@@ -15,7 +15,7 @@ public class LoginTests extends BaseTest {
 
   @Test
   public void userLoginTest() {
-    SecurePage securePage = new HomePage(page)
+    SecurePage securePage = new HomePage(page())
         .goToLogin()
         .loginAs(USERNAME, PASSWORD)
         .waitUntilLoaded(USERNAME);
@@ -29,10 +29,10 @@ public class LoginTests extends BaseTest {
 
   @Test
   public void attemptToLoginWithInvalidUserNameTest() {
-    SecurePage securePage = new HomePage(page)
+    SecurePage securePage = new HomePage(page())
         .goToLogin()
         .loginAs(new DataGenerator().generateRandomName(8, 10), PASSWORD);
-    LoginPage loginPage = new LoginPage(page, new FlashAlert(page));
+    LoginPage loginPage = new LoginPage(page(), new FlashAlert(page()));
 
     assertAll("User is not logged in due to invalid username",
         () -> loginPage.loginPageShouldBeOpened(),
@@ -41,10 +41,10 @@ public class LoginTests extends BaseTest {
 
   @Test
   public void attemptToLoginWithInvalidPasswordNameTest() {
-    SecurePage securePage = new HomePage(page)
+    SecurePage securePage = new HomePage(page())
         .goToLogin()
         .loginAs(USERNAME, new DataGenerator().generateRandomPassword(8, 10));
-    LoginPage loginPage = new LoginPage(page, new FlashAlert(page));
+    LoginPage loginPage = new LoginPage(page(), new FlashAlert(page()));
 
     assertAll("User is not logged in due to invalid username",
         () -> loginPage.loginPageShouldBeOpened(),
@@ -53,7 +53,7 @@ public class LoginTests extends BaseTest {
 
   @Test
   public void userLogoutTest() {
-    SecurePage securePage = new HomePage(page)
+    SecurePage securePage = new HomePage(page())
         .goToLogin()
         .loginAs(USERNAME, PASSWORD)
         .waitUntilLoaded(USERNAME);
@@ -64,6 +64,6 @@ public class LoginTests extends BaseTest {
         () -> loginPage.loginPageShouldBeOpened(),
         () -> loginPage.flashAlert().shouldBeVisible(),
         () -> loginPage.flashAlert().shouldContain("You logged out of the secure area!"),
-        () -> assertEquals(BASE_URL + loginPage.path(), page.url()));
+        () -> assertEquals(BASE_URL + loginPage.path(), page().url()));
   }
 }
