@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -13,8 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up JDK 22
         uses: actions/setup-java@v4
@@ -23,10 +22,8 @@ jobs:
           distribution: 'temurin'
 
       - name: Run tests & generate allure-results
-        run: |
-          mvn clean test -Dsurefire.printSummary=true -Dsurefire.useFile=false -B -V
+        run: mvn clean test -B
 
-      # ----- загрузка прошлого history -----
       - name: Download previous history
         uses: actions/checkout@v4
         with:
@@ -34,28 +31,21 @@ jobs:
           path: old-pages
         continue-on-error: true
 
-      - name: Copy old history (if exists)
+      - name: Copy old history
         run: |
           mkdir -p target/allure-results/history
           if [ -d "old-pages/history" ]; then
             cp -r old-pages/history/* target/allure-results/history/
           fi
 
-      # ----- генерация Allure отчёта -----
       - name: Generate Allure Report
         run: mvn io.qameta.allure:allure-maven:report
 
-      - name: Prepare report for GitHub Pages
+      - name: Prepare report
         run: |
           mkdir -p public
           cp -r target/site/allure-maven-plugin/* public/
-          # сохраняем fresh history — пригодится для следующего pipeline
-          mkdir -p history
-          if [ -d "public/history" ]; then
-            cp -r public/history/* history/
-          fi
 
-      # ----- загружаем как артефакт (обязательное требование GitHub Pages) -----
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -70,5 +60,8 @@ jobs:
       id-token: write
 
     steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
