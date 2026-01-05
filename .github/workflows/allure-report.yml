@@ -1,4 +1,4 @@
-name: API Tests + Allure Report (GitHub Pages)
+name: AQA Tests + Allure Report (GitHub Pages)
 
 on:
   workflow_dispatch:
@@ -22,13 +22,14 @@ jobs:
           java-version: '22'
           distribution: 'temurin'
 
+      # ❗️ВАЖНО: БЕЗ clean
       - name: Run tests (generate allure-results)
         run: |
-          mvn clean test \
+          mvn test \
             -Dallure.results.directory=target/allure-results \
             -B
 
-      # ===== history (опционально, но правильно) =====
+      # ===== history =====
       - name: Download previous history
         uses: actions/checkout@v4
         with:
@@ -45,7 +46,9 @@ jobs:
 
       # ===== generate report =====
       - name: Generate Allure Report
-        run: mvn io.qameta.allure:allure-maven:report
+        run: |
+          mvn io.qameta.allure:allure-maven:report \
+            -Dallure.results.directory=target/allure-results
 
       - name: Prepare static site
         run: |
