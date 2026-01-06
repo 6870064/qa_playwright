@@ -3,38 +3,50 @@ name: AQA Tests + Allure Report (GitHub Pages)
 on:
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 jobs:
-  test-and-deploy:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Set up JDK 22
+      - name: Set up JDK 22 (Temurin)
         uses: actions/setup-java@v4
         with:
           java-version: '22'
           distribution: 'temurin'
 
-      - name: Run tests + generate Allure report
-        run: |
-          mvn clean test io.qameta.allure:allure-maven:report -B
+      - name: Verify Java version
+        run: java -version
 
-      - name: Prepare Pages root
+      - name: Run tests & generate Allure report
         run: |
-          mkdir -p public
-          cp -r target/site/allure-maven-plugin/* public/
+          mvn clean test -Dsurefire.printSummary=true -Dsurefire.useFile=false -B -V
+          mvn io.qameta.allure:allure-maven:report
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload Allure HTML report
+        uses: actions/upload-artifact@v4
         with:
-          path: public
+          name: allure-report
+          path: target/site/allure-maven-plugin
 
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+      - name: Upload Surefire report
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-report
+          path: target/surefire-reports
+
+      - name: Upload Allure results (raw)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: target/allure-results
+
+      - name: Upload Surefire reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: target/surefire-reports
