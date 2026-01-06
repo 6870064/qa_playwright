@@ -9,11 +9,12 @@ permissions:
   id-token: write
 
 jobs:
-  test-and-allure:
+  test-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Set up JDK 22
         uses: actions/setup-java@v4
@@ -21,52 +22,19 @@ jobs:
           java-version: '22'
           distribution: 'temurin'
 
-      - name: Run tests
-        run: mvn clean test -B
-
-      # ===== restore history =====
-      - name: Download previous history
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          path: old-pages
-        continue-on-error: true
-
-      - name: Restore history
+      - name: Run tests + generate Allure report
         run: |
-          mkdir -p target/allure-results/history
-          if [ -d "old-pages/history" ]; then
-            cp -r old-pages/history/* target/allure-results/history/
-          fi
+          mvn clean test io.qameta.allure:allure-maven:report -B
 
-      # ===== generate report =====
-      - name: Generate Allure Report
-        run: mvn io.qameta.allure:allure-maven:report
-
-      # ===== prepare GitHub Pages root =====
-      - name: Prepare static site
+      - name: Prepare Pages root
         run: |
           mkdir -p public
           cp -r target/site/allure-maven-plugin/* public/
-          cp target/site/allure-maven-plugin/index.html public/index.html
-
-      # ===== debug (можно убрать потом) =====
-      - name: Debug public
-        run: ls -la public
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: public
 
-  deploy:
-    needs: test-and-allure
-    runs-on: ubuntu-latest
-
-    permissions:
-      pages: write
-      id-token: write
-
-    steps:
-      - uses: actions/configure-pages@v5
-      - uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
