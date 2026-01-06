@@ -1,4 +1,4 @@
-package utils;
+package test_utils;
 
 import io.qameta.allure.Allure;
 import io.restassured.response.Response;

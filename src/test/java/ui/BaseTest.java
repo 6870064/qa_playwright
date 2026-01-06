@@ -18,22 +18,28 @@ import static org.example.constants.Constants.AUTOMATION_PRACTICE_TEXT;
 import static org.example.constants.Constants.BASE_URL;
 
 public abstract class BaseTest {
-  private final Playwright playwright = Playwright.create();
-  Browser browser;
-  Page page;
-  BrowserContext context;
+  private final ThreadLocal<Playwright> playwright = new ThreadLocal<>();
+  private static final ThreadLocal<Browser> browser = new ThreadLocal<>();
+  private static final ThreadLocal<BrowserContext> context = new ThreadLocal<>();
+  private static final ThreadLocal<Page> page = new ThreadLocal<>();
 
   @BeforeEach
   public void beforeEach() {
-    String isHeadlessString = System.getenv("HEADLESS");
-    Boolean isHeadless = Boolean.parseBoolean(isHeadlessString);
-    browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(isHeadless));
-    System.out.println(browser.version());
-    context = browser.newContext(new Browser.NewContextOptions()
+    Boolean isHeadless = Boolean.parseBoolean(
+        System.getenv().getOrDefault("HEADLESS", "true")
+    );
+
+    Playwright pw = Playwright.create();
+    Browser br = pw
+        .chromium()
+        .launch(new BrowserType.LaunchOptions()
+        .setHeadless(isHeadless));
+    System.out.println(br.version());
+    BrowserContext ctx = br.newContext(new Browser.NewContextOptions()
         .setViewportSize(1920, 1080)
         .setRecordVideoDir(Paths.get("./target/video")));
 
-    context.route("**/*", route -> {
+    ctx.route("**/*", route -> {
       String url = route.request().url();
 
       if (url.contains("doubleclick") ||
@@ -49,26 +55,31 @@ public abstract class BaseTest {
       }
     });
 
-    page = context.newPage();
-    AdBlocker.killInterstitialAds(page);
+    Page pg = ctx.newPage();
+    playwright.set(pw);
+    browser.set(br);
+    context.set(ctx);
+    page.set(pg);
+    AdBlocker.killInterstitialAds(pg);
 
-    navigateToPageUrl(BASE_URL);
-    page.locator(AUTOMATION_PRACTICE_TEXT).waitFor(new Locator.WaitForOptions().setState(VISIBLE));
+    pg.navigate(BASE_URL);
+    pg.locator(AUTOMATION_PRACTICE_TEXT)
+        .waitFor(new Locator.WaitForOptions().setState(VISIBLE));
   }
 
   @AfterEach
   public void afterEach() {
-    Video video = page.video();
-    context.close();
-    browser.close();
-    playwright.close();
+    context.get().close();
+    browser.get().close();
+    playwright.get().close();
+
+    page.remove();
+    context.remove();
+    browser.remove();
+    playwright.remove();
   }
 
-  public void navigateToPageUrl(String url) {
-    page.navigate(url);
-  }
-
-  public void linkClick(String linkTitle) {
-    page.locator(linkTitle).click();
+  protected Page page() {
+    return page.get();
   }
 }

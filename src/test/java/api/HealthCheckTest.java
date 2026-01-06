@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.example.constants.Alerts.NOTES_API_RUNNING;
 import static org.junit.jupiter.api.Assertions.*;
-import static utils.TestUtils.assertResponseCode;
+import static test_utils.TestUtils.assertResponseCode;
 
 public class HealthCheckTest extends BaseApiTest {
 

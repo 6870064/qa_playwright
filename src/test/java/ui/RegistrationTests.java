@@ -44,7 +44,7 @@ public class RegistrationTests extends BaseTest {
     String pwd = new DataGenerator().generateRandomPassword(8, 20);
     UiUser user = new UiUser(new DataGenerator().generateRandomName(4, 30), pwd, pwd);
 
-    HomePage homePage = new HomePage(page).open();
+    HomePage homePage = new HomePage(page()).open();
     RegisterPage registerPage = homePage.goToRegister();
     LoginPage loginPage = registerPage.registerNewUser(user);
 
@@ -56,7 +56,7 @@ public class RegistrationTests extends BaseTest {
         .loginAs(user.getUsername(), user.getPassword())
         .waitUntilLoaded(user.getUsername());
 
-    SecurePage securePage = new SecurePage(page);
+    SecurePage securePage = new SecurePage(page());
 
     assertAll(
         "User is successfully logged in",
@@ -69,7 +69,7 @@ public class RegistrationTests extends BaseTest {
   @MethodSource("provideTestData")
   @ParameterizedTest(name = "{0}")
   public void registrationUserWithInvalidCredentialsTest(UiUser user, String errorMessage) {
-    HomePage homePage = new HomePage(page).open();
+    HomePage homePage = new HomePage(page()).open();
     RegisterPage registerPage = homePage.goToRegister();
     registerPage = registerPage.tryToRegisterInvalidUser(user);
 
@@ -77,6 +77,6 @@ public class RegistrationTests extends BaseTest {
     assertAll(
         "User is not registered",
         () -> finalRegisterPage.flashAlert().shouldContain(errorMessage),
-        () -> assertEquals(BASE_URL + "/register", page.url()));
+        () -> assertEquals(BASE_URL + "/register", page().url()));
   }
 }

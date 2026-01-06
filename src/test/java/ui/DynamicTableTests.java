@@ -10,7 +10,7 @@ public class DynamicTableTests extends BaseTest {
 
   @Test
   public void compareChromeCpuTest() {
-    HomePage homePage = new HomePage(page).open();
+    HomePage homePage = new HomePage(page()).open();
     DynamicTablePage dynamicTablePage = homePage.goToDynamicTable();
 
     String cpuFromTable = dynamicTablePage.getChromeFromTable();

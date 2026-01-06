@@ -24,8 +24,8 @@ import java.util.stream.Stream;
 import static org.example.constants.Alerts.*;
 import static org.example.constants.Constants.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static utils.TestUtils.assertResponseCode;
-import static utils.TestUtils.assertResponseSchema;
+import static test_utils.TestUtils.assertResponseCode;
+import static test_utils.TestUtils.assertResponseSchema;
 
 public class UserTests extends BaseApiTest {
 
@@ -73,7 +73,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(authToken, apiUser);
+    Response createUser = createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
     assertResponseSchema(USER_RESPONSE_SCHEMA, createUser);
 
@@ -113,7 +113,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(authToken, apiUser);
+    Response createUser = createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -198,7 +198,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(authToken, apiUser);
+    Response createUser = createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -261,7 +261,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(authToken, apiUser);
+    Response createUser = createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -313,7 +313,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(authToken, apiUser);
+    Response createUser = createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -365,7 +365,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(authToken, apiUser);
+    Response createUser = createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -440,7 +440,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(authToken, apiUser);
+    Response createUser = createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -525,7 +525,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(authToken, apiUser);
+    Response createUser = createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -582,7 +582,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(authToken, apiUser);
+    Response createUser = createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
