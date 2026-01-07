@@ -52,6 +52,11 @@ public class NotesTests extends BaseApiTest {
         () -> assertFalse(body.data().completed(), "Status of the note is not completed"),
         () -> assertNotNull(body.data().user_id(), "User_id is not null")
     );
+
+    String noteId = body.data().id();
+
+    Response deleteApiNote = deleteNote(noteId, token());
+    assertResponseCode(HttpStatus.OK.code(), deleteApiNote);
   }
 
   @DisplayName("[API. Notes]. GET method. Get a note by its Id")
