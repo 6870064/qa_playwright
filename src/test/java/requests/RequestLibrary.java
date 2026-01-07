@@ -66,6 +66,35 @@ public class RequestLibrary {
     return response;
   }
 
+  @Step("Sending POST request on {url}")
+  public static Response sendPostRequest(Record record, String url) {
+    ObjectMapper objectMapper = new ObjectMapper();
+    String jsonBody = null;
+
+    try {
+      jsonBody = objectMapper.writeValueAsString(record);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
+
+    Response response = RestAssured.given()
+        .body(jsonBody)
+        .header("accept", "application/json")
+        .contentType("application/json")
+        //.header("x-auth-token", authContent)
+        .log()
+        .all()
+        .when()
+        .post(BASE_URL + url)
+        .then()
+        .log().body()
+        .extract()
+        .response();
+
+    AllureUtils.attachResponseToAllure(response);
+    return response;
+  }
+
   @Step("Sending GET request on {url}")
   public static Response sendGetRequest(String token, String url) {
     Response response = given()

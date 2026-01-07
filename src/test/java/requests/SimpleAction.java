@@ -24,9 +24,15 @@ public interface SimpleAction {
   }
 
   @Step("Create a user with record: {record}")
-  default Response createUser(String authContent, Record record) {
+  static Response createUser(String authContent, Record record) {
     return sendPostRequest(authContent, record, REGISTER_URL);
   }
+
+  @Step("Create a user with record: {record}")
+  static Response createUser(Record record) {
+    return sendPostRequest(record, REGISTER_URL);
+  }
+
 
   @Step("Get a user profile")
   default Response getUserProfile(String authContent) {

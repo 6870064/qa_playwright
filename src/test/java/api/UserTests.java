@@ -73,7 +73,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
     assertResponseSchema(USER_RESPONSE_SCHEMA, createUser);
 
@@ -113,7 +113,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -198,7 +198,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -261,7 +261,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -313,7 +313,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -365,7 +365,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -440,7 +440,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -525,7 +525,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -582,7 +582,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
