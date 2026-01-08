@@ -12,6 +12,7 @@ import org.example.responses.note_response.ApiNotesResponse;
 import org.example.responses.note_response.Data;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import requests.SimpleAction;
 
 import java.util.List;
 
@@ -53,10 +54,7 @@ public class NotesTests extends BaseApiTest {
         () -> assertNotNull(body.data().user_id(), "User_id is not null")
     );
 
-    String noteId = body.data().id();
-
-    Response deleteApiNote = deleteNote(noteId, token());
-    assertResponseCode(HttpStatus.OK.code(), deleteApiNote);
+    registeredNoteForCleanUp(body.data().id());
   }
 
   @DisplayName("[API. Notes]. GET method. Get a note by its Id")
@@ -96,6 +94,8 @@ public class NotesTests extends BaseApiTest {
         () -> assertEquals(zeroBody.data().updated_at(), body.data().updated_at(), "updated_at is correct"),
         () -> assertNotNull(body.data().user_id(), "User_id is not null")
     );
+
+    registeredNoteForCleanUp(body.data().id());
   }
 
   @DisplayName("[API. Notes]. GET method. Get a note by invalid Id")
@@ -148,6 +148,10 @@ public class NotesTests extends BaseApiTest {
         () -> assertEquals(NOTES_RETRIEVED, body.message()),
         () -> assertNotNull(notes.size())
     );
+
+    for (Data apiNote : notes) {
+      registeredNoteForCleanUp(apiNote.id());
+    }
   }
 
   @DisplayName("[API. Notes]. DELETE method. Delete a note")
@@ -169,7 +173,7 @@ public class NotesTests extends BaseApiTest {
     ApiNoteResponse zeroBody = createApiNote.as(ApiNoteResponse.class);
     String noteId = zeroBody.data().id();
 
-    Response deleteApiNote = deleteNote(noteId, token());
+    Response deleteApiNote = SimpleAction.deleteNote(noteId, token());
     assertResponseCode(HttpStatus.OK.code(), deleteApiNote);
 
     BaseResponse body = deleteApiNote.as(BaseResponse.class);
@@ -232,6 +236,8 @@ public class NotesTests extends BaseApiTest {
         () -> assertNotEquals(body.data().created_at(),
             body.data().updated_at(), "created_at and updated_at are not equal")
     );
+
+    registeredNoteForCleanUp(noteId);
   }
 
   @DisplayName("[API. Notes]. PATCH method. Update the completed status of a note")
@@ -265,5 +271,7 @@ public class NotesTests extends BaseApiTest {
         () -> assertEquals("Note successfully Updated", body.message()),
         () -> assertTrue(body.data().completed())
     );
+
+    registeredNoteForCleanUp(noteId);
   }
 }

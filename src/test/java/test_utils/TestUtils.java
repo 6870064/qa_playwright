@@ -1,5 +1,6 @@
 package test_utils;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
@@ -24,6 +25,9 @@ public class TestUtils {
   @Step("Validation of response schema")
   public static boolean assertResponseSchema(String pathToSchema, Response response) {
     boolean result = false;
+
+    Allure.addAttachment("Response Body", "application/json", response.getBody().asPrettyString());
+
     try {
       if (response.getBody().asString().equals("[]")) {
         logger.info("Response for {} has empty array. Skipping schema validation.", pathToSchema);

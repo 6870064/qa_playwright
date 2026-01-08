@@ -65,7 +65,7 @@ public interface SimpleAction {
   }
 
   @Step("Delete a note with id: {id}")
-  default Response deleteNote(String id,String authContent) {
+  static Response deleteNote(String id, String authContent) {
     return sendDeleteRequest(authContent, String.format(DELETE_NOTE, id));
   }
 
