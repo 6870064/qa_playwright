@@ -62,10 +62,6 @@ public abstract class BaseApiTest implements SimpleAction {
   static void cleanUp() {
     cleanUpNotes();
     cleanUpUsers();
-
-    Response deleteUser = SimpleAction.deleteUser(authToken);
-    assertResponseCode(HttpStatus.OK.code(), deleteUser);
-    log.info("[CLEANUP] Base User is deleted");
   }
 
   protected static String token() {
