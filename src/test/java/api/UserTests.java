@@ -103,10 +103,8 @@ public class UserTests extends BaseApiTest {
     assertResponseCode(HttpStatus.OK.code(), loginUser);
 
     LoginUserResponse secondBody = loginUser.as(LoginUserResponse.class);
-    String token = secondBody.data().token();
 
-    Response deleteUser = SimpleAction.deleteUser(token);
-    assertResponseCode(HttpStatus.OK.code(), deleteUser);
+    registeredUserForCleanUp(secondBody.data().token());
   }
 
   @DisplayName("[API. User]. POST method. Login user")
@@ -159,10 +157,7 @@ public class UserTests extends BaseApiTest {
 
         () -> assertNotNull(secondBody.data().token()));
 
-    String token = secondBody.data().token();
-
-    Response deleteUser = SimpleAction.deleteUser(token);
-    assertResponseCode(HttpStatus.OK.code(), deleteUser);
+    registeredUserForCleanUp(secondBody.data().token());
   }
 
   @DisplayName("[API. User]. POST method. Attempt to Login by user")
@@ -260,8 +255,7 @@ public class UserTests extends BaseApiTest {
         () -> assertEquals(apiUser.email().toLowerCase(), thirdBody.data().email(),
             "Returned email does not match the created one"));
 
-    Response deleteUser = SimpleAction.deleteUser(token);
-    assertResponseCode(HttpStatus.OK.code(), deleteUser);
+    registeredUserForCleanUp(secondBody.data().token());
   }
 
   @DisplayName("[API. User]. DELETE method. Logout user")
@@ -441,8 +435,7 @@ public class UserTests extends BaseApiTest {
         ()->assertEquals(updateUserProfileDto.company(), thirdBody.data().company(),
             "Incorrect user company title in response body"));
 
-    Response deleteUser = SimpleAction.deleteUser(token);
-    assertResponseCode(HttpStatus.OK.code(), deleteUser);
+    registeredUserForCleanUp(secondBody.data().token());
   }
 
   @DisplayName("[API. User]. POST method. Change user's password")
@@ -529,8 +522,8 @@ public class UserTests extends BaseApiTest {
         ()-> assertEquals(apiUser.email().toLowerCase(), fourthBody.data().email(),
             "Incorrect email Id in response body"));
 
-    Response deleteUser = SimpleAction.deleteUser(token);
-    assertResponseCode(HttpStatus.OK.code(), deleteUser);
+    registeredUserForCleanUp(secondBody.data().token());
+    registeredUserForCleanUp(fourthBody.data().token());
   }
 
   @DisplayName("[API. User]. POST method. Change user's password by invalid data")
@@ -589,8 +582,7 @@ public class UserTests extends BaseApiTest {
         () -> assertEquals(thirdBody.message(), PASSWORD_LENGTH_MESSAGE,
             "Incorrect message in response body")
     );
-    Response deleteUser = SimpleAction.deleteUser(token);
-    assertResponseCode(HttpStatus.OK.code(), deleteUser);
+    registeredUserForCleanUp(token);
   }
 
   @DisplayName("[API. User]. POST method. Change user's password by the same password")
@@ -648,7 +640,6 @@ public class UserTests extends BaseApiTest {
         () -> assertEquals(thirdBody.message(), SAME_PASSWORD_MESSAGE,
             "Incorrect message in response body"));
 
-    Response deleteUser = SimpleAction.deleteUser(token);
-    assertResponseCode(HttpStatus.OK.code(), deleteUser);
+    registeredUserForCleanUp(token);
   }
 }

@@ -16,7 +16,6 @@ import requests.SimpleAction;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Set;
 
 import static io.restassured.config.EncoderConfig.encoderConfig;
 import static io.restassured.http.ContentType.URLENC;
@@ -24,12 +23,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static test_utils.TestUtils.assertResponseCode;
 
 public abstract class BaseApiTest implements SimpleAction {
-  private static final Logger log = LoggerFactory.getLogger(BaseApiTest.class);
   public static final String BASE_API_URL = "https://practice.expandtesting.com/notes/api";
-  private static String authToken;
   protected static final ThreadLocal<Set<String>> createdNotes =
       ThreadLocal.withInitial(HashSet::new);
 
+  protected static final ThreadLocal<Set<String>> createdUsers =
+      ThreadLocal.withInitial(HashSet::new);
+
+  private static final Logger log = LoggerFactory.getLogger(BaseApiTest.class);
+  private static String authToken;
 
   @BeforeAll
   public static void authUser() {
@@ -59,17 +61,15 @@ public abstract class BaseApiTest implements SimpleAction {
   @AfterAll
   static void cleanUp() {
     cleanUpNotes();
+    cleanUpUsers();
 
     Response deleteUser = SimpleAction.deleteUser(authToken);
     assertResponseCode(HttpStatus.OK.code(), deleteUser);
+    log.info("[CLEANUP] Base User is deleted");
   }
 
   protected static String token() {
     return authToken;
-  }
-
-  protected void registeredNoteForCleanUp(String noteId) {
-    createdNotes.get().add(noteId);
   }
 
   @Step("[CLEANUP] Delete all notes created")
@@ -99,5 +99,38 @@ public abstract class BaseApiTest implements SimpleAction {
       }
     }
     createdNotes.get().clear();
+  }
+
+  protected void registeredNoteForCleanUp(String noteId) {
+    createdNotes.get().add(noteId);
+  }
+
+  protected void registeredUserForCleanUp(String userToken) {
+    createdUsers.get().add(userToken);
+  }
+
+  @Step("[CLEANUP] Delete all users created in tests")
+  public static void cleanUpUsers() {
+    Set<String> users = createdUsers.get();
+
+    Allure.addAttachment("Users token to delete", "application/json", users.toString());
+
+    if (users.isEmpty()) {
+      log.info("[CLEANUP] No users to delete");
+      return;
+    }
+
+    log.info("[CLEANUP] Deleting {} users", users.size());
+
+    for (String userToken : users) {
+      try {
+        Response response = SimpleAction.deleteUser(userToken);
+
+        log.info("[CLEANUP Delete user token={} status{}", userToken, response.statusCode());
+      } catch (Exception e) {
+        log.error("[CLEANUP] Failed to delete user token={}", userToken, e);
+      }
+    }
+    createdUsers.get().clear();
   }
 }
