@@ -32,10 +32,6 @@ public class SecurePage extends BasePage {
     return this;
   }
 
-  public Locator greeting(String username) {
-    return page.locator(String.format(GREETING_MESSAGE, username.toLowerCase()));
-  }
-
   public FlashAlert flashAlert() {
     return flashAlert;
   }

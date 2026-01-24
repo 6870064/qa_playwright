@@ -65,19 +65,6 @@ public class WebInputsPage extends BasePage {
     return this;
   }
 
-  public WebInputsPage goToWebInputs() {
-    Locator webInputsLink = page.getByRole(AriaRole.LINK,
-        new Page.GetByRoleOptions().setName("Web inputs"));
-
-    // Ждём, пока ссылка реально появится и станет видимой
-    webInputsLink.waitFor(new Locator.WaitForOptions()
-        .setState(WaitForSelectorState.VISIBLE)
-        .setTimeout(5000));
-
-    webInputsLink.click();
-    return new WebInputsPage(page);
-  }
-
   public String getOutputNumber() {
     return outputNumber.textContent().trim();
   }

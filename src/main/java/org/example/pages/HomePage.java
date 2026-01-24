@@ -23,6 +23,10 @@ public class HomePage extends BasePage {
       AriaRole.LINK,
       new Page.GetByRoleOptions().setName("Dynamic Table")
   );
+  private final Locator forgotPasswordFormLink = page.getByRole(
+      AriaRole.LINK,
+      new Page.GetByRoleOptions().setName("Forgot Password Form")
+  );
 
   public HomePage(Page page) {
     super(page);
@@ -70,6 +74,11 @@ public class HomePage extends BasePage {
   public DynamicTablePage goToDynamicTable() {
     safeClickAndWait(dynamicTablePageLink, "**/dynamic-table", "Dynamic Table page");
     return new DynamicTablePage(page);
+  }
+
+  public ForgotPasswordPage goToForgotPassword() {
+    safeClickAndWait(forgotPasswordFormLink, "**/forgot-password", "Dummy Forgot Password form page");
+    return new ForgotPasswordPage(page);
   }
 
   private void waitInterstitialAdToDisappear() {

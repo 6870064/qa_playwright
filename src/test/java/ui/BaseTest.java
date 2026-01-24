@@ -6,9 +6,8 @@ import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
-import com.microsoft.playwright.Video;
 import org.example.helpers.AdBlocker;
-import org.junit.jupiter.api.AfterAll;
+import org.example.helpers.DataGenerator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -19,22 +18,23 @@ import static org.example.constants.Constants.AUTOMATION_PRACTICE_TEXT;
 import static org.example.constants.Constants.BASE_URL;
 
 public abstract class BaseTest {
-  private final ThreadLocal<Playwright> playwright = new ThreadLocal<>();
   private static final ThreadLocal<Browser> browser = new ThreadLocal<>();
   private static final ThreadLocal<BrowserContext> context = new ThreadLocal<>();
   private static final ThreadLocal<Page> page = new ThreadLocal<>();
+  private final ThreadLocal<Playwright> playwright = new ThreadLocal<>();
+  DataGenerator dataGenerator = new DataGenerator();
 
   @BeforeEach
   public void beforeEach() {
     Boolean isHeadless = Boolean.parseBoolean(
-        System.getenv().getOrDefault("HEADLESS", "true")
+        System.getenv().getOrDefault("HEADLESS", "false")
     );
 
     Playwright pw = Playwright.create();
     Browser br = pw
         .chromium()
         .launch(new BrowserType.LaunchOptions()
-        .setHeadless(isHeadless));
+            .setHeadless(isHeadless));
     System.out.println(br.version());
     BrowserContext ctx = br.newContext(new Browser.NewContextOptions()
         .setViewportSize(1920, 1080)

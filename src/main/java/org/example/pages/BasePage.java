@@ -24,7 +24,6 @@ public abstract class BasePage {
   }
 
   /* ====== БАЗОВЫЕ UI-ДЕЙСТВИЯ ====== */
-
   public void click(String locator) {
     page.locator(locator).click();
   }
