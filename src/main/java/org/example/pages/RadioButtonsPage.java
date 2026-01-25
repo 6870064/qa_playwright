@@ -2,6 +2,7 @@ package org.example.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import org.example.enums.RadioButtonColor;
 
 public class RadioButtonsPage extends BasePage {
   private final String COLOR_RADIO_BUTTON = "input[name='color'][value='%s']";
@@ -16,12 +17,14 @@ public class RadioButtonsPage extends BasePage {
     return "/radio-buttons";
   }
 
-  public void selectColor(String color) {
+  public void selectColor(RadioButtonColor color) {
     page.locator(String.format(COLOR_RADIO_BUTTON, color)).check();
   }
 
-  public String getSelectedColor() {
-    return page.locator("input[name='color']:checked").getAttribute("value");
+  public RadioButtonColor getSelectedColor() {
+    String value = page.locator("input[name='color']:checked").getAttribute("value");
+
+    return RadioButtonColor.valueOf(value);
   }
 
   public void selectSport(String sport) {
@@ -32,7 +35,7 @@ public class RadioButtonsPage extends BasePage {
     return page.locator("input[name='sport']:checked").getAttribute("value");
   }
 
-  public boolean isColorDisabled(String color) {
+  public boolean isColorDisabled(RadioButtonColor color) {
     return page.locator(String.format(COLOR_RADIO_BUTTON, color)).isDisabled();
   }
 }

@@ -1,6 +1,7 @@
 package ui;
 
 import io.qameta.allure.Description;
+import org.example.enums.RadioButtonColor;
 import org.example.pages.HomePage;
 import org.example.pages.RadioButtonsPage;
 import org.junit.jupiter.api.DisplayName;
@@ -30,21 +31,21 @@ public class RadioButtonsTests extends BaseTest {
     HomePage homePage = new HomePage(page()).open();
     RadioButtonsPage radioButtonsPage = homePage.goToRadioButtons();
 
-    assertEquals("blue", radioButtonsPage.getSelectedColor());
+    assertEquals(RadioButtonColor.blue, radioButtonsPage.getSelectedColor());
 
-    radioButtonsPage.selectColor("red");
-    assertEquals("red", radioButtonsPage.getSelectedColor());
+    radioButtonsPage.selectColor(RadioButtonColor.red);
+    assertEquals(RadioButtonColor.red, radioButtonsPage.getSelectedColor());
 
-    radioButtonsPage.selectColor("yellow");
-    assertEquals("yellow", radioButtonsPage.getSelectedColor());
+    radioButtonsPage.selectColor(RadioButtonColor.yellow);
+    assertEquals(RadioButtonColor.yellow, radioButtonsPage.getSelectedColor());
 
-    radioButtonsPage.selectColor("black");
-    assertEquals("black", radioButtonsPage.getSelectedColor());
+    radioButtonsPage.selectColor(RadioButtonColor.black);
+    assertEquals(RadioButtonColor.black, radioButtonsPage.getSelectedColor());
 
-    radioButtonsPage.selectColor("blue");
-    assertEquals("blue", radioButtonsPage.getSelectedColor());
+    radioButtonsPage.selectColor(RadioButtonColor.blue);
+    assertEquals(RadioButtonColor.blue, radioButtonsPage.getSelectedColor());
 
-    assertTrue(radioButtonsPage.isColorDisabled("green"));
+    assertTrue(radioButtonsPage.isColorDisabled(RadioButtonColor.green));
   }
 
   @DisplayName("[UI]. Radio Buttons page. Validate possibility to check different sport radio buttons")
