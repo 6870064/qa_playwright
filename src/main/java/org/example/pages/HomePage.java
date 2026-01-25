@@ -28,13 +28,16 @@ public class HomePage extends BasePage {
       new Page.GetByRoleOptions().setName("Forgot Password Form")
   );
 
+  private final Locator myBrowserInformationLink = page.getByRole(
+      AriaRole.LINK,
+      new Page.GetByRoleOptions().setName("My Browser Information")
+  );
+
   public HomePage(Page page) {
     super(page);
   }
 
-  // -------------------------------
   // 🔥 ЕДИНЫЙ метод переходов
-  // ---
   private void safeClickAndWait(Locator link, String urlPattern, String headerText) {
     waitInterstitialAdToDisappear();
 
@@ -79,6 +82,11 @@ public class HomePage extends BasePage {
   public ForgotPasswordPage goToForgotPassword() {
     safeClickAndWait(forgotPasswordFormLink, "**/forgot-password", "Dummy Forgot Password form page");
     return new ForgotPasswordPage(page);
+  }
+
+  public MyBrowserInformationPage goMyBrowserInformation() {
+    safeClickAndWait(myBrowserInformationLink, "**/my-browser", "My Browser Information page");
+    return new MyBrowserInformationPage(page);
   }
 
   private void waitInterstitialAdToDisappear() {
