@@ -14,15 +14,16 @@ public class RadioButtonsTests extends BaseTest {
   @Description("""
       1. Open https://practice.expandtesting.com/.
       2. Open 'Radio Buttons' page.
-      3. Select 'Red' radio button.
-      4. Assert chosen radio button.
-      5. Select 'Yellow' radio button.
-      6. Assert chosen radio button.
-      7. Select 'Black' radio button.
-      8. Assert chosen radio button.
-      9. Select 'Blue' radio button.
-      10. Assert chosen radio button.
-      11. Assert impossibility to chose 'Green' radio button.
+      3. Assert that 'blue' color radio button is chosen
+      4. Select 'Red' radio button.
+      5. Assert chosen radio button.
+      6. Select 'Yellow' radio button.
+      7. Assert chosen radio button.
+      8. Select 'Black' radio button.
+      9. Assert chosen radio button.
+      10. Select 'Blue' radio button.
+      11. Assert chosen radio button.
+      12. Assert impossibility to chose 'Green' radio button.
       """)
   @Test
   public void checkColorRadioButtonsTest() {
@@ -46,19 +47,17 @@ public class RadioButtonsTests extends BaseTest {
     assertTrue(radioButtonsPage.isColorDisabled("green"));
   }
 
-  @DisplayName("[UI]. Radio Buttons page. Validate possibility to check different color radio buttons")
+  @DisplayName("[UI]. Radio Buttons page. Validate possibility to check different sport radio buttons")
   @Description("""
       1. Open https://practice.expandtesting.com/.
       2. Open 'Radio Buttons' page.
-      3. Select 'Red' radio button.
-      4. Assert chosen radio button.
-      5. Select 'Yellow' radio button.
-      6. Assert chosen radio button.
-      7. Select 'Black' radio button.
-      8. Assert chosen radio button.
-      9. Select 'Blue' radio button.
-      10. Assert chosen radio button.
-      11. Assert impossibility to chose 'Green' radio button.
+      3. Assert that 'Tennis' sport radio button is chosen
+      4. Select 'Basketball' radio button.
+      5. Assert chosen radio button.
+      6. Select 'Football' radio button.
+      7. Assert chosen radio button.
+      8. Select 'Tennis' radio button.
+      9. Assert chosen radio button.
       """)
   @Test
   public void checkSportRadioButtonsTest() {
