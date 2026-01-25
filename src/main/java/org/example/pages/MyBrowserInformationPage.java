@@ -4,14 +4,16 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 
-
 public class MyBrowserInformationPage extends BasePage {
+
+  private final Locator toggleButton;
+  private final Locator infoTable;
 
   public MyBrowserInformationPage(Page page) {
     super(page);
+    this.toggleButton = page.locator("#browser-toggle");
+    this.infoTable = page.locator("table");
   }
-
-  private final Locator showInfoButton = page.locator("//button[@id='browser-toggle']");
 
   @Override
   protected String path() {
@@ -19,8 +21,8 @@ public class MyBrowserInformationPage extends BasePage {
   }
 
   @Step("Click 'Show Browser Information' button")
-  public void showBrowserInfoButtonClick() {
-    showInfoButton.click();
+  public void toggleButtonClick() {
+    toggleButton.click();
   }
 
   public Locator valueByLabel(String label) {
@@ -30,5 +32,9 @@ public class MyBrowserInformationPage extends BasePage {
 
   public String getValue(String label) {
     return valueByLabel(label).textContent().trim();
+  }
+
+  public boolean isInfoVisible() {
+    return infoTable.isVisible();
   }
 }
