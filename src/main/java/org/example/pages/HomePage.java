@@ -33,6 +33,11 @@ public class HomePage extends BasePage {
       new Page.GetByRoleOptions().setName("My Browser Information")
   );
 
+  private final Locator radioButtonsPageLink = page.getByRole(
+      AriaRole.LINK,
+      new Page.GetByRoleOptions().setName("Radio Buttons")
+  );
+
   public HomePage(Page page) {
     super(page);
   }
@@ -82,6 +87,11 @@ public class HomePage extends BasePage {
   public ForgotPasswordPage goToForgotPassword() {
     safeClickAndWait(forgotPasswordFormLink, "**/forgot-password", "Dummy Forgot Password form page");
     return new ForgotPasswordPage(page);
+  }
+
+  public RadioButtonsPage goToRadioButtons() {
+    safeClickAndWait(radioButtonsPageLink, "**/radio-buttons", "Radio Buttons page");
+    return new RadioButtonsPage(page);
   }
 
   public MyBrowserInformationPage goMyBrowserInformation() {
