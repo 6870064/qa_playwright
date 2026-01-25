@@ -1,6 +1,6 @@
 package org.example.enums;
 
-public enum RadioButtonColor {
+public enum ColorRadioButton {
   blue,
   red,
   yellow,

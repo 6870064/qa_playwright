@@ -1,7 +1,8 @@
 package ui;
 
 import io.qameta.allure.Description;
-import org.example.enums.RadioButtonColor;
+import org.example.enums.ColorRadioButton;
+import org.example.enums.SportRadioButton;
 import org.example.pages.HomePage;
 import org.example.pages.RadioButtonsPage;
 import org.junit.jupiter.api.DisplayName;
@@ -31,21 +32,21 @@ public class RadioButtonsTests extends BaseTest {
     HomePage homePage = new HomePage(page()).open();
     RadioButtonsPage radioButtonsPage = homePage.goToRadioButtons();
 
-    assertEquals(RadioButtonColor.blue, radioButtonsPage.getSelectedColor());
+    assertEquals(ColorRadioButton.blue, radioButtonsPage.getSelectedColor());
 
-    radioButtonsPage.selectColor(RadioButtonColor.red);
-    assertEquals(RadioButtonColor.red, radioButtonsPage.getSelectedColor());
+    radioButtonsPage.selectColor(ColorRadioButton.red);
+    assertEquals(ColorRadioButton.red, radioButtonsPage.getSelectedColor());
 
-    radioButtonsPage.selectColor(RadioButtonColor.yellow);
-    assertEquals(RadioButtonColor.yellow, radioButtonsPage.getSelectedColor());
+    radioButtonsPage.selectColor(ColorRadioButton.yellow);
+    assertEquals(ColorRadioButton.yellow, radioButtonsPage.getSelectedColor());
 
-    radioButtonsPage.selectColor(RadioButtonColor.black);
-    assertEquals(RadioButtonColor.black, radioButtonsPage.getSelectedColor());
+    radioButtonsPage.selectColor(ColorRadioButton.black);
+    assertEquals(ColorRadioButton.black, radioButtonsPage.getSelectedColor());
 
-    radioButtonsPage.selectColor(RadioButtonColor.blue);
-    assertEquals(RadioButtonColor.blue, radioButtonsPage.getSelectedColor());
+    radioButtonsPage.selectColor(ColorRadioButton.blue);
+    assertEquals(ColorRadioButton.blue, radioButtonsPage.getSelectedColor());
 
-    assertTrue(radioButtonsPage.isColorDisabled(RadioButtonColor.green));
+    assertTrue(radioButtonsPage.isColorDisabled(ColorRadioButton.green));
   }
 
   @DisplayName("[UI]. Radio Buttons page. Validate possibility to check different sport radio buttons")
@@ -65,15 +66,15 @@ public class RadioButtonsTests extends BaseTest {
     HomePage homePage = new HomePage(page()).open();
     RadioButtonsPage radioButtonsPage = homePage.goToRadioButtons();
 
-    assertEquals("tennis", radioButtonsPage.getSelectedSport());
+    assertEquals(SportRadioButton.tennis, radioButtonsPage.getSelectedSport());
 
-    radioButtonsPage.selectSport("basketball");
-    assertEquals("basketball", radioButtonsPage.getSelectedSport());
+    radioButtonsPage.selectSport(SportRadioButton.basketball);
+    assertEquals(SportRadioButton.basketball, radioButtonsPage.getSelectedSport());
 
-    radioButtonsPage.selectSport("football");
-    assertEquals("football", radioButtonsPage.getSelectedSport());
+    radioButtonsPage.selectSport(SportRadioButton.football);
+    assertEquals(SportRadioButton.football, radioButtonsPage.getSelectedSport());
 
-    radioButtonsPage.selectSport("tennis");
-    assertEquals("tennis", radioButtonsPage.getSelectedSport());
+    radioButtonsPage.selectSport(SportRadioButton.tennis);
+    assertEquals(SportRadioButton.tennis, radioButtonsPage.getSelectedSport());
   }
 }

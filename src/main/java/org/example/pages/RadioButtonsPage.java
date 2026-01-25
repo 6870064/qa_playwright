@@ -1,8 +1,8 @@
 package org.example.pages;
 
-import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import org.example.enums.RadioButtonColor;
+import org.example.enums.ColorRadioButton;
+import org.example.enums.SportRadioButton;
 
 public class RadioButtonsPage extends BasePage {
   private final String COLOR_RADIO_BUTTON = "input[name='color'][value='%s']";
@@ -17,25 +17,27 @@ public class RadioButtonsPage extends BasePage {
     return "/radio-buttons";
   }
 
-  public void selectColor(RadioButtonColor color) {
+  public void selectColor(ColorRadioButton color) {
     page.locator(String.format(COLOR_RADIO_BUTTON, color)).check();
   }
 
-  public RadioButtonColor getSelectedColor() {
+  public ColorRadioButton getSelectedColor() {
     String value = page.locator("input[name='color']:checked").getAttribute("value");
 
-    return RadioButtonColor.valueOf(value);
+    return ColorRadioButton.valueOf(value);
   }
 
-  public void selectSport(String sport) {
+  public void selectSport(SportRadioButton sport) {
     page.locator(String.format(SPORT_RADIO_BUTTON, sport)).check();
   }
 
-  public String getSelectedSport() {
-    return page.locator("input[name='sport']:checked").getAttribute("value");
+  public SportRadioButton getSelectedSport() {
+    String value = page.locator("input[name='sport']:checked").getAttribute("value");
+
+    return SportRadioButton.valueOf(value);
   }
 
-  public boolean isColorDisabled(RadioButtonColor color) {
+  public boolean isColorDisabled(ColorRadioButton color) {
     return page.locator(String.format(COLOR_RADIO_BUTTON, color)).isDisabled();
   }
 }
