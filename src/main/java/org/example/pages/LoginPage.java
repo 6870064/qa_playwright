@@ -4,6 +4,7 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import io.qameta.allure.Step;
 import org.example.components.FlashAlert;
 
 public class LoginPage extends BasePage {
@@ -40,6 +41,7 @@ public class LoginPage extends BasePage {
     return flashAlert;
   }
 
+  @Step("Login as {u} user")
   public SecurePage loginAs(String u, String p) {
     fillUserName(u);
     fillUserPassword(p);
@@ -47,6 +49,7 @@ public class LoginPage extends BasePage {
     return new SecurePage(page);
   }
 
+  @Step("Check that Login page should be opened")
   public LoginPage loginPageShouldBeOpened() {
     page.waitForURL("**/login",
         new Page.WaitForURLOptions().setTimeout(7000)

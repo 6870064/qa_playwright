@@ -4,6 +4,7 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import io.qameta.allure.Step;
 import org.example.components.FlashAlert;
 
 public class HomePage extends BasePage {
@@ -64,41 +65,49 @@ public class HomePage extends BasePage {
   }
 
   // ---------- ПЕРЕХОДЫ ----------
+  @Step("Opening Login page")
   public LoginPage goToLogin() {
     safeClickAndWait(loginPageLink, "**/login", "Test Login page");
     return new LoginPage(page, new FlashAlert(page));
   }
 
+  @Step("Opening Register page")
   public RegisterPage goToRegister() {
     safeClickAndWait(registrationLink, "**/register", "Test Register page");
     return new RegisterPage(page);
   }
 
+  @Step("Opening Web Inputs page")
   public WebInputsPage goToWebInputs() {
     safeClickAndWait(webInputsLink, "**/inputs", "Web inputs page");
     return new WebInputsPage(page);
   }
 
+  @Step("Opening Dynamic Table page")
   public DynamicTablePage goToDynamicTable() {
     safeClickAndWait(dynamicTablePageLink, "**/dynamic-table", "Dynamic Table page");
     return new DynamicTablePage(page);
   }
 
+  @Step("Opening Forgot Password page")
   public ForgotPasswordPage goToForgotPassword() {
     safeClickAndWait(forgotPasswordFormLink, "**/forgot-password", "Dummy Forgot Password form page");
     return new ForgotPasswordPage(page);
   }
 
+  @Step("Opening Radio Buttons page")
   public RadioButtonsPage goToRadioButtons() {
     safeClickAndWait(radioButtonsPageLink, "**/radio-buttons", "Radio Buttons page");
     return new RadioButtonsPage(page);
   }
 
+  @Step("Opening Browser Information page")
   public MyBrowserInformationPage goMyBrowserInformation() {
     safeClickAndWait(myBrowserInformationLink, "**/my-browser", "My Browser Information page");
     return new MyBrowserInformationPage(page);
   }
 
+  @Step("Waiting for Add Disappear")
   private void waitInterstitialAdToDisappear() {
     // ждём, пока НЕТ оверлея с рекламой google_vignette/adtech_redirect
     page.waitForSelector(

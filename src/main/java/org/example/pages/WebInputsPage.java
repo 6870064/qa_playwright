@@ -4,6 +4,7 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import io.qameta.allure.Step;
 
 public class WebInputsPage extends BasePage {
   private final Locator inputTextField = page.locator("//input[@id='input-text']");
@@ -27,11 +28,13 @@ public class WebInputsPage extends BasePage {
     return "/inputs";
   }
 
+  @Step("Fill input with {value}")
   public WebInputsPage fillInput(Locator locator, String value) {
     locator.fill(value);
     return this;
   }
 
+  @Step("Fill input with with number {value}")
   public WebInputsPage inputNumber(String value) {
     inputNumberField.waitFor(new Locator.WaitForOptions()
         .setState(WaitForSelectorState.VISIBLE)
@@ -40,43 +43,52 @@ public class WebInputsPage extends BasePage {
     return this;
   }
 
+  @Step("Fill input with {value}")
   public WebInputsPage inputText(String value) {
     inputTextField.fill(value);
     return this;
   }
 
+  @Step("Fill input with password")
   public WebInputsPage inputPassword(String value) {
     inputPasswordField.fill(value);
     return this;
   }
 
+  @Step("Fill input with {value}")
   public WebInputsPage inputDate(String value) {
     inputDateField.fill(value);
     return this;
   }
 
+  @Step("Click 'Display input' button")
   public WebInputsPage displayInputsClick() {
     displayInputsButton.click();
     return this;
   }
 
+  @Step("Click 'Clear input' button")
   public WebInputsPage clearInputsClick() {
     clearInputsButton.click();
     return this;
   }
 
+  @Step("Get 'Output number'")
   public String getOutputNumber() {
     return outputNumber.textContent().trim();
   }
 
+  @Step("Get 'Output text'")
   public String getOutputText() {
     return outputText.textContent().trim();
   }
 
+  @Step("Get 'Output password'")
   public String getOutputPassword() {
     return outputPassword.textContent().trim();
   }
 
+  @Step("Get 'Output date'")
   public String getOutputDate() {
     return outputDate.textContent().trim();
   }

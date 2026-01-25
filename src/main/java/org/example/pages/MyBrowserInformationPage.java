@@ -25,15 +25,18 @@ public class MyBrowserInformationPage extends BasePage {
     toggleButton.click();
   }
 
+  @Step("Get a value by {label}")
   public Locator valueByLabel(String label) {
     return page.locator("tr", new Page.LocatorOptions().setHasText(label))
         .locator("td").nth(1);
   }
 
+  @Step("Get a value by {label}")
   public String getValue(String label) {
     return valueByLabel(label).textContent().trim();
   }
 
+  @Step("Check that info table is visible")
   public boolean isInfoVisible() {
     return infoTable.isVisible();
   }
