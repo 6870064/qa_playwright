@@ -32,20 +32,5 @@ public class WebInputsTests extends BaseTest {
         () -> assertEquals(inputText, webInputsPage.getOutputText()),
         () -> assertEquals(password, webInputsPage.getOutputPassword()),
         () -> assertEquals(inputDate, webInputsPage.getOutputDate()));
-
-    //HomePage homePage = new HomePage(page).open();
-    //    RegisterPage registerPage = homePage.goToRegister();
-    //    LoginPage loginPage = registerPage
-    //        .fill(u.getUsername(), u.getPassword(), u.getConfirmPassword())
-    //        .submitSuccess();
-    //
-    //    //login
-    //    SecurePage securePage = loginPage
-    //        .fill(u.getUsername(), u.getPassword())
-    //        .login();
-    //
-    //    //подождать появления приветствия
-    //    securePage.waitUntilLoaded(u.getUsername());
-
   }
 }
