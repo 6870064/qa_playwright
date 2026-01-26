@@ -39,6 +39,11 @@ public class HomePage extends BasePage {
       new Page.GetByRoleOptions().setName("Radio Buttons")
   );
 
+  private final Locator dragAndDropPageLink = page.getByRole(
+      AriaRole.LINK,
+      new Page.GetByRoleOptions().setName("Drag and Drop").setExact(true)
+  );
+
   public HomePage(Page page) {
     super(page);
   }
@@ -102,9 +107,15 @@ public class HomePage extends BasePage {
   }
 
   @Step("Opening Browser Information page")
-  public MyBrowserInformationPage goMyBrowserInformation() {
+  public MyBrowserInformationPage goToMyBrowserInformation() {
     safeClickAndWait(myBrowserInformationLink, "**/my-browser", "My Browser Information page");
     return new MyBrowserInformationPage(page);
+  }
+
+  @Step("Opening Drag and Drop")
+  public DragAndDropPage goToDragAndDrop() {
+    safeClickAndWait(dragAndDropPageLink, "**/drag-and-drop", "Drag and Drop page");
+    return new DragAndDropPage(page);
   }
 
   @Step("Waiting for Add Disappear")

@@ -20,7 +20,7 @@ public class MyBrowserInformationTests extends BaseTest {
   @Test
   public void showMyBrowserInformationTest() {
     HomePage homePage = new HomePage(page()).open();
-    MyBrowserInformationPage myBrowserInformationPage = homePage.goMyBrowserInformation();
+    MyBrowserInformationPage myBrowserInformationPage = homePage.goToMyBrowserInformation();
     myBrowserInformationPage.toggleButtonClick();
 
     assertTrue(myBrowserInformationPage.isInfoVisible());
@@ -47,7 +47,7 @@ public class MyBrowserInformationTests extends BaseTest {
   @Test
   public void showAndHideMyBrowserInformationTest() {
     HomePage homePage = new HomePage(page()).open();
-    MyBrowserInformationPage myBrowserInformationPage = homePage.goMyBrowserInformation();
+    MyBrowserInformationPage myBrowserInformationPage = homePage.goToMyBrowserInformation();
 
     myBrowserInformationPage.toggleButtonClick();
     assertTrue(myBrowserInformationPage.isInfoVisible());
