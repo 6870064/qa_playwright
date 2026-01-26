@@ -44,6 +44,14 @@ public class HomePage extends BasePage {
       new Page.GetByRoleOptions().setName("Drag and Drop").setExact(true)
   );
 
+  private final Locator dragAndDropCirclesPageLink = page.getByRole(
+      AriaRole.LINK,
+      new Page
+          .GetByRoleOptions()
+          .setName("Drag and Drop Circles")
+          .setExact(true)
+  );
+
   public HomePage(Page page) {
     super(page);
   }
@@ -112,10 +120,16 @@ public class HomePage extends BasePage {
     return new MyBrowserInformationPage(page);
   }
 
-  @Step("Opening Drag and Drop")
+  @Step("Opening Drag and Drop page")
   public DragAndDropPage goToDragAndDrop() {
     safeClickAndWait(dragAndDropPageLink, "**/drag-and-drop", "Drag and Drop page");
     return new DragAndDropPage(page);
+  }
+
+  @Step("Opening Drag and Drop Circles page")
+  public DragAndDropCirclesPage goToDragAndDropCircles() {
+    safeClickAndWait(dragAndDropCirclesPageLink, "**/drag-and-drop-circles", "Drag and Drop Circles");
+    return new DragAndDropCirclesPage(page);
   }
 
   @Step("Waiting for Add Disappear")
