@@ -4,10 +4,10 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 import org.example.constants.routes.UIRotes;
+import org.example.objects.User;
 import org.example.pages.BasePage;
 
 public class MyNotesRegisterPage extends BasePage {
-  private final String INPUT = "//input[@id='%s']";
   private final Locator register = page.locator("//button[@data-testid='register-submit']");
   private final Locator successMessage = page
       .locator("//div[@class= 'alert alert-success']//b['User account created successfully']");
@@ -33,7 +33,7 @@ public class MyNotesRegisterPage extends BasePage {
   }
 
   @Step("Enter a password")
-  public void enterPassword(String fieldId, String password) {
+  public void enterPassword(String password) {
     page.locator(String.format(INPUT, "password")).fill(password);
   }
 
@@ -43,9 +43,17 @@ public class MyNotesRegisterPage extends BasePage {
   }
 
   @Step("Click a register button")
-  public MyNotesRegisterPage submit() {
+  public MyNotesRegisterPage clickRegister() {
     register.click();
     return this;
+  }
+
+  public void registerNewUser(User user) {
+    enterEmail(user.getEmail());
+    enterName(user.getName());
+    enterPassword(user.getPassword());
+    enterConfirmPassword(user.getConfirmPassword());
+    clickRegister();
   }
 
   @Step("Wait for success alert")
@@ -54,9 +62,15 @@ public class MyNotesRegisterPage extends BasePage {
     return this;
   }
 
+  @Step("Assert that 'Click here to log in' is visible")
+  public boolean isLoginLinkIsVisible() {
+    return loginLink.isVisible();
+  }
+
   @Step("Click login link")
   public MyNotesLoginPage loginLinkClick() {
     loginLink.click();
+    page.waitForURL("**" + UIRotes.LOGIN);
     return new MyNotesLoginPage(page);
   }
 

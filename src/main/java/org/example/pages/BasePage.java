@@ -8,6 +8,7 @@ import static com.microsoft.playwright.options.WaitForSelectorState.VISIBLE;
 
 public abstract class BasePage {
   protected final Page page;
+  protected final String INPUT = "//input[@id='%s']";
 
   public BasePage(Page page) {
     this.page = page;
@@ -17,6 +18,10 @@ public abstract class BasePage {
    * Каждая страница указывает свой относительный путь
    */
   protected abstract String path();
+
+  protected void waitForOpen(){
+    //nothing by default
+  }
 
   public <T extends BasePage> T open() {
     page.navigate(AppConfig.baseUrl() + path());
