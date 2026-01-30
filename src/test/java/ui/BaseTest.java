@@ -22,7 +22,7 @@ public abstract class BaseTest {
   private static final ThreadLocal<BrowserContext> context = new ThreadLocal<>();
   private static final ThreadLocal<Page> page = new ThreadLocal<>();
   private final ThreadLocal<Playwright> playwright = new ThreadLocal<>();
-  DataGenerator dataGenerator = new DataGenerator();
+  protected DataGenerator dataGenerator = new DataGenerator();
 
   @BeforeEach
   public void beforeEach() {

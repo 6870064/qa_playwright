@@ -1,4 +1,4 @@
-package ui;
+package ui.practise;
 
 import io.qameta.allure.Description;
 import org.example.pages.practice.ForgotPasswordPage;
@@ -6,6 +6,7 @@ import org.example.pages.practice.HomePage;
 import org.example.pages.practice.PasswordResetPage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ui.BaseTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

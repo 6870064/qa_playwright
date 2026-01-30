@@ -1,9 +1,10 @@
-package ui;
+package ui.practise;
 
 import org.example.helpers.DataGenerator;
 import org.example.pages.practice.HomePage;
 import org.example.pages.practice.WebInputsPage;
 import org.junit.jupiter.api.Test;
+import ui.BaseTest;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;

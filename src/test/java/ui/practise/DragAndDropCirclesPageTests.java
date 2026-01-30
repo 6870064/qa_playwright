@@ -1,4 +1,4 @@
-package ui;
+package ui.practise;
 
 import io.qameta.allure.Description;
 import org.example.enums.CircleColor;
@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import ui.BaseTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

@@ -1,4 +1,4 @@
-package ui;
+package ui.my_notes;
 
 import io.qameta.allure.Description;
 import org.example.objects.User;
@@ -9,16 +9,17 @@ import org.example.pages.my_notes.MyNotesWelcomePage;
 import org.example.pages.practice.HomePage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ui.BaseTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MyNotesRegistrationTests extends BaseTest {
 
-  @DisplayName("[UI]. Drag and drop circles page. Drop a circle with a color ")
+  @DisplayName("[UI]. Notes App. Register a new user")
   @Description("""
       1. Open https://practice.expandtesting.com/.
-      2. Open 'Drag and Drop Circles' page.
-      3. Drag a 'red' circle to the drop zone.
+      2. Open 'Notes App | React' page.
+      3. Click a 'Create an account' button.
       4. Assert amount of circles dropped to a drop zone.
       5. Drag a 'green' circle to the drop zone.
       6. Assert amount of circles dropped to a drop zone.
