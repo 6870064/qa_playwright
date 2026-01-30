@@ -3,8 +3,8 @@ package ui;
 import io.qameta.allure.Description;
 import org.example.enums.ColorRadioButton;
 import org.example.enums.SportRadioButton;
-import org.example.pages.HomePage;
-import org.example.pages.RadioButtonsPage;
+import org.example.pages.practice.HomePage;
+import org.example.pages.practice.RadioButtonsPage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

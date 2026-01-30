@@ -1,15 +1,16 @@
-package org.example.pages;
+package org.example.pages.practice;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
+import org.example.pages.BasePage;
 
-public class MyBrowserInformationPage extends BasePage {
+public class MyBrowserInfoPage extends BasePage {
 
   private final Locator toggleButton;
   private final Locator infoTable;
 
-  public MyBrowserInformationPage(Page page) {
+  public MyBrowserInfoPage(Page page) {
     super(page);
     this.toggleButton = page.locator("#browser-toggle");
     this.infoTable = page.locator("table");

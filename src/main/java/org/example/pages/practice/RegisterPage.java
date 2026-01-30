@@ -1,10 +1,11 @@
-package org.example.pages;
+package org.example.pages.practice;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import io.qameta.allure.Step;
 import org.example.components.FlashAlert;
+import org.example.pages.BasePage;
 import org.example.requests.user.UiUser;
 
 public class RegisterPage extends BasePage {

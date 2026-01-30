@@ -1,7 +1,7 @@
 package ui;
 
-import org.example.pages.DynamicTablePage;
-import org.example.pages.HomePage;
+import org.example.pages.practice.DynamicTablePage;
+import org.example.pages.practice.HomePage;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,4 +1,4 @@
-package org.example.pages;
+package org.example.pages.practice;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
@@ -6,6 +6,7 @@ import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import io.qameta.allure.Step;
 import org.example.components.FlashAlert;
+import org.example.pages.BasePage;
 
 public class LoginPage extends BasePage {
   private final Locator username = page.locator("//input[@name='username']");

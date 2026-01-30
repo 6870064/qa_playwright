@@ -1,8 +1,8 @@
 package ui;
 
 import org.example.helpers.DataGenerator;
-import org.example.pages.HomePage;
-import org.example.pages.WebInputsPage;
+import org.example.pages.practice.HomePage;
+import org.example.pages.practice.WebInputsPage;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertAll;

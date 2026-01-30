@@ -3,7 +3,7 @@ package ui;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.AriaRole;
 import org.example.helpers.DataGenerator;
-import org.example.pages.HomePage;
+import org.example.pages.practice.HomePage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -39,6 +39,11 @@ public class Constants {
   public static final String PATCH_NOTE = "/notes/api/notes/%s";
   public static final String PUT_NOTE = "/notes/api/notes/%s";
   public static final String HEALTH_CHECK_URL = "/notes/api/health-check";
+  public static final String WELCOME_MY_NOTES_APP = "/notes/app";
+  public static final String MY_NOTES_APP_LOGIN = "/notes/app/login";
+  public static final String MY_NOTES_APP_REGISTER = "/notes/app/register";
+  public static final String MY_NOTES_APP_FORGOT_PASSWORD = "/notes/app/forgot-password";
+
 
   //JSON SCHEMA'S
   public static final String USER_RESPONSE_SCHEMA = "json_schemas/user_response.json";

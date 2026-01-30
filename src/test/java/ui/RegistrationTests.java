@@ -1,10 +1,10 @@
 package ui;
 
 import org.example.helpers.DataGenerator;
-import org.example.pages.HomePage;
-import org.example.pages.LoginPage;
-import org.example.pages.RegisterPage;
-import org.example.pages.SecurePage;
+import org.example.pages.practice.HomePage;
+import org.example.pages.practice.LoginPage;
+import org.example.pages.practice.RegisterPage;
+import org.example.pages.practice.SecurePage;
 import org.example.requests.user.UiUser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

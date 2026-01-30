@@ -1,9 +1,10 @@
-package org.example.pages;
+package org.example.pages.practice;
 
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 import org.example.enums.ColorRadioButton;
 import org.example.enums.SportRadioButton;
+import org.example.pages.BasePage;
 
 public class RadioButtonsPage extends BasePage {
   private final String COLOR_RADIO_BUTTON = "input[name='color'][value='%s']";

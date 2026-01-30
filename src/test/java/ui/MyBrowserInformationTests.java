@@ -1,8 +1,8 @@
 package ui;
 
 import io.qameta.allure.Description;
-import org.example.pages.HomePage;
-import org.example.pages.MyBrowserInformationPage;
+import org.example.pages.practice.HomePage;
+import org.example.pages.practice.MyBrowserInfoPage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +20,7 @@ public class MyBrowserInformationTests extends BaseTest {
   @Test
   public void showMyBrowserInformationTest() {
     HomePage homePage = new HomePage(page()).open();
-    MyBrowserInformationPage myBrowserInformationPage = homePage.goToMyBrowserInformation();
+    MyBrowserInfoPage myBrowserInformationPage = homePage.goToMyBrowserInformation();
     myBrowserInformationPage.toggleButtonClick();
 
     assertTrue(myBrowserInformationPage.isInfoVisible());
@@ -47,7 +47,7 @@ public class MyBrowserInformationTests extends BaseTest {
   @Test
   public void showAndHideMyBrowserInformationTest() {
     HomePage homePage = new HomePage(page()).open();
-    MyBrowserInformationPage myBrowserInformationPage = homePage.goToMyBrowserInformation();
+    MyBrowserInfoPage myBrowserInformationPage = homePage.goToMyBrowserInformation();
 
     myBrowserInformationPage.toggleButtonClick();
     assertTrue(myBrowserInformationPage.isInfoVisible());

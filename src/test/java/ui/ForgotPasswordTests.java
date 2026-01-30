@@ -1,9 +1,9 @@
 package ui;
 
 import io.qameta.allure.Description;
-import org.example.pages.ForgotPasswordPage;
-import org.example.pages.HomePage;
-import org.example.pages.PasswordResetPage;
+import org.example.pages.practice.ForgotPasswordPage;
+import org.example.pages.practice.HomePage;
+import org.example.pages.practice.PasswordResetPage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -2,8 +2,8 @@ package ui;
 
 import io.qameta.allure.Description;
 import org.example.enums.CircleColor;
-import org.example.pages.DragAndDropCirclesPage;
-import org.example.pages.HomePage;
+import org.example.pages.practice.DragAndDropCirclesPage;
+import org.example.pages.practice.HomePage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

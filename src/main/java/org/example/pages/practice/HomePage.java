@@ -1,4 +1,4 @@
-package org.example.pages;
+package org.example.pages.practice;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
@@ -6,42 +6,61 @@ import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import io.qameta.allure.Step;
 import org.example.components.FlashAlert;
+import org.example.pages.BasePage;
+import org.example.pages.my_notes.MyNotesWelcomePage;
 
 public class HomePage extends BasePage {
   private final Locator webInputsLink = page.getByRole(
       AriaRole.LINK,
-      new Page.GetByRoleOptions().setName("Web inputs")
+      new Page
+          .GetByRoleOptions()
+          .setName("Web inputs")
   );
   private final Locator registrationLink = page.getByRole(
       AriaRole.LINK,
-      new Page.GetByRoleOptions().setName("Test Register Page")
+      new Page
+          .GetByRoleOptions()
+          .setName("Test Register Page")
   );
   private final Locator loginPageLink = page.getByRole(
       AriaRole.LINK,
-      new Page.GetByRoleOptions().setName("Test Login Page")
+      new Page
+          .GetByRoleOptions()
+          .setName("Test Login Page")
   );
   private final Locator dynamicTablePageLink = page.getByRole(
       AriaRole.LINK,
-      new Page.GetByRoleOptions().setName("Dynamic Table")
+      new Page
+          .GetByRoleOptions()
+          .setName("Dynamic Table")
   );
   private final Locator forgotPasswordFormLink = page.getByRole(
       AriaRole.LINK,
-      new Page.GetByRoleOptions().setName("Forgot Password Form")
+      new Page
+          .GetByRoleOptions()
+          .setName("Forgot Password Form")
   );
 
   private final Locator myBrowserInformationLink = page.getByRole(
       AriaRole.LINK,
-      new Page.GetByRoleOptions().setName("My Browser Information")
+      new Page
+          .GetByRoleOptions()
+          .setName("My Browser Information")
   );
 
   private final Locator radioButtonsPageLink = page.getByRole(
       AriaRole.LINK,
-      new Page.GetByRoleOptions().setName("Radio Buttons")
+      new Page
+          .GetByRoleOptions()
+          .setName("Radio Buttons")
   );
 
   private final Locator dragAndDropPageLink = page.getByRole(
       AriaRole.LINK,
-      new Page.GetByRoleOptions().setName("Drag and Drop").setExact(true)
+      new Page
+          .GetByRoleOptions()
+          .setName("Drag and Drop")
+          .setExact(true)
   );
 
   private final Locator dragAndDropCirclesPageLink = page.getByRole(
@@ -49,6 +68,14 @@ public class HomePage extends BasePage {
       new Page
           .GetByRoleOptions()
           .setName("Drag and Drop Circles")
+          .setExact(true)
+  );
+
+  private final Locator notesAppLink = page.getByRole(
+      AriaRole.LINK,
+      new Page
+          .GetByRoleOptions()
+          .setName("Notes App | React")
           .setExact(true)
   );
 
@@ -115,9 +142,9 @@ public class HomePage extends BasePage {
   }
 
   @Step("Opening Browser Information page")
-  public MyBrowserInformationPage goToMyBrowserInformation() {
+  public MyBrowserInfoPage goToMyBrowserInformation() {
     safeClickAndWait(myBrowserInformationLink, "**/my-browser", "My Browser Information page");
-    return new MyBrowserInformationPage(page);
+    return new MyBrowserInfoPage(page);
   }
 
   @Step("Opening Drag and Drop page")
@@ -130,6 +157,12 @@ public class HomePage extends BasePage {
   public DragAndDropCirclesPage goToDragAndDropCircles() {
     safeClickAndWait(dragAndDropCirclesPageLink, "**/drag-and-drop-circles", "Drag and Drop Circles");
     return new DragAndDropCirclesPage(page);
+  }
+
+  @Step("Opening Notes App | React page")
+  public MyNotesWelcomePage goToNotesApp() {
+    safeClickAndWait(notesAppLink, "**/notes/app", "Welcome to Notes App");
+    return new MyNotesWelcomePage(page);
   }
 
   @Step("Waiting for Add Disappear")
