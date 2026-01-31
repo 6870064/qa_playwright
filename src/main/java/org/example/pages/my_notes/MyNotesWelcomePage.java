@@ -50,15 +50,15 @@ public class MyNotesWelcomePage extends BasePage {
     return new MyNotesRegisterPage(page);
   }
 
-  public boolean isWelcomeTitleIsVisible() {
+  public boolean isWelcomeTitleVisible() {
     return welcomeTitle.isVisible();
   }
 
-  public boolean isLoginButtonIsVisible() {
+  public boolean isLoginButtonVisible() {
     return login.isVisible();
   }
 
-  public boolean isCreateAnAccountIsVisible() {
+  public boolean isCreateAnAccountVisible() {
     return createAnAccount.isVisible();
   }
 

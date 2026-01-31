@@ -20,11 +20,16 @@ public class MyNotesRegistrationTests extends BaseTest {
       1. Open https://practice.expandtesting.com/.
       2. Open 'Notes App | React' page.
       3. Click a 'Create an account' button.
-      4. Assert amount of circles dropped to a drop zone.
-      5. Drag a 'green' circle to the drop zone.
-      6. Assert amount of circles dropped to a drop zone.
-      7. Drag a 'blue' circle to the drop zone.
-      8. Assert amount of circles dropped to a drop zone.
+      4. Click 'Click here to Log in' link.
+      5. Enter user's email.
+      6. Enter user's password.
+      7. Click 'Login' button.
+      8. Assert visibility of Brand header.
+      9. Assert visibility of 'Logout' button.
+      10. Click 'Logout' button.
+      11. Assert visibility of Welcome title button.
+      12. Assert visibility of 'Login' button.
+      13. Assert visibility of 'Create account' button.
       """)
   @Test
   public void registerNewUserTest() {
@@ -35,18 +40,21 @@ public class MyNotesRegistrationTests extends BaseTest {
         password,
         password);
     HomePage homePage = new HomePage(page()).open();
+
     MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
     MyNotesRegisterPage myNotesRegisterPage = myNotesWelcomePage.createNewAccount();
     myNotesRegisterPage.registerNewUser(user);
     myNotesRegisterPage.waitForSuccess();
     assertTrue(myNotesRegisterPage.isLoginLinkIsVisible());
+
     MyNotesLoginPage myNotesLoginPage = myNotesRegisterPage.loginLinkClick();
     MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
     assertTrue(myNotesHomePage.isHeaderBrandIsVisible());
     assertTrue(myNotesHomePage.isLogoutButtonIsVisible());
+
     MyNotesWelcomePage secondMyNotesWelcomePage = myNotesHomePage.logoutClick();
-    assertTrue(secondMyNotesWelcomePage.isWelcomeTitleIsVisible(), "");
-    assertTrue(secondMyNotesWelcomePage.isLoginButtonIsVisible(), "");
-    assertTrue(secondMyNotesWelcomePage.isCreateAnAccountIsVisible(), "");
+    assertTrue(secondMyNotesWelcomePage.isWelcomeTitleVisible(), "Welcome title is not visible");
+    assertTrue(secondMyNotesWelcomePage.isLoginButtonVisible(), "'Login' button is not visible");
+    assertTrue(secondMyNotesWelcomePage.isCreateAnAccountVisible(), "'Create account' button is not visible");
   }
 }
