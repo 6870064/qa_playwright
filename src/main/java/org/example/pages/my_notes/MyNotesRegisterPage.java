@@ -2,16 +2,20 @@ package org.example.pages.my_notes;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.AriaRole;
 import io.qameta.allure.Step;
 import org.example.constants.routes.UIRotes;
 import org.example.objects.User;
 import org.example.pages.BasePage;
 
 public class MyNotesRegisterPage extends BasePage {
-  private final Locator register = page.locator("//button[@data-testid='register-submit']");
-  private final Locator successMessage = page
-      .locator("//div[@class= 'alert alert-success']//b['User account created successfully']");
-  private final Locator loginLink = page.locator("//a[@data-testid='login-view']");
+  private final Locator register = page.getByRole(AriaRole.BUTTON,
+      new Page.GetByRoleOptions().setName("Register"));
+
+  private final Locator successMessage = page.getByText("User account created successfully");
+
+  private final Locator loginLink = page.getByRole(AriaRole.LINK,
+      new Page.GetByRoleOptions().setName("Click here to Log In"));
 
   public MyNotesRegisterPage(Page page) {
     super(page);

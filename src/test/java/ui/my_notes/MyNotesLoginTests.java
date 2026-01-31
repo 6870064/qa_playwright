@@ -4,7 +4,6 @@ import io.qameta.allure.Description;
 import org.example.objects.User;
 import org.example.pages.my_notes.MyNotesHomePage;
 import org.example.pages.my_notes.MyNotesLoginPage;
-import org.example.pages.my_notes.MyNotesRegisterPage;
 import org.example.pages.my_notes.MyNotesWelcomePage;
 import org.example.pages.practice.HomePage;
 import org.junit.jupiter.api.DisplayName;
@@ -13,9 +12,9 @@ import ui.BaseTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MyNotesRegistrationTests extends BaseTest {
+public class MyNotesLoginTests extends BaseTest {
 
-  @DisplayName("[UI]. Notes App. Register a new user")
+  @DisplayName("[UI]. Notes App. Login by existing user")
   @Description("""
       1. Open https://practice.expandtesting.com/.
       2. Open 'Notes App | React' page.
@@ -27,20 +26,14 @@ public class MyNotesRegistrationTests extends BaseTest {
       8. Assert amount of circles dropped to a drop zone.
       """)
   @Test
-  public void registerNewUserTest() {
-    String password = dataGenerator.generateRandomPassword(8,10);
-    User user = new User(
-        dataGenerator.generateRandomEmail(true),
-        dataGenerator.generateRandomName(5, 10),
-        password,
-        password);
+  public void loginUserTest() {
+    User user = new User("testUser24@mail.com",
+        "testUser24",
+        "qwerty_98",
+        "qwerty_98");
     HomePage homePage = new HomePage(page()).open();
     MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
-    MyNotesRegisterPage myNotesRegisterPage = myNotesWelcomePage.createNewAccount();
-    myNotesRegisterPage.registerNewUser(user);
-    myNotesRegisterPage.waitForSuccess();
-    assertTrue(myNotesRegisterPage.isLoginLinkIsVisible());
-    MyNotesLoginPage myNotesLoginPage = myNotesRegisterPage.loginLinkClick();
+    MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
     MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
     assertTrue(myNotesHomePage.isHeaderBrandIsVisible());
     assertTrue(myNotesHomePage.isLogoutButtonIsVisible());

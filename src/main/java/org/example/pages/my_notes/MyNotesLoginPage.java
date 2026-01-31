@@ -2,15 +2,22 @@ package org.example.pages.my_notes;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.AriaRole;
 import io.qameta.allure.Step;
 import org.example.constants.routes.UIRotes;
 import org.example.objects.User;
 import org.example.pages.BasePage;
 
 public class MyNotesLoginPage extends BasePage {
-  public final Locator login = page.locator("//button[@data-testid='login-submit']");
-  public final Locator forgotPassword = page.locator("//a[@id='forgotPasswordLink']");
-  public final Locator createAccount = page.locator("//a[@data-testid='register-view']");
+  public final Locator login = page.getByRole(AriaRole.BUTTON,
+      new Page.GetByRoleOptions().setName("Login"));
+
+  public final Locator forgotPassword = page.getByRole(AriaRole.LINK,
+      new Page.GetByRoleOptions().setName("Forgot password"));
+
+  public final Locator createAccount = page.getByRole(AriaRole.LINK,
+      new Page.GetByRoleOptions().setName("Create a free account!"));
+
 
   public MyNotesLoginPage(Page page) {
     super(page);

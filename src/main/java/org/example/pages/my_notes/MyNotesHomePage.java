@@ -2,14 +2,19 @@ package org.example.pages.my_notes;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.AriaRole;
 import org.example.constants.routes.UIRotes;
 import org.example.pages.BasePage;
 
 public class MyNotesHomePage extends BasePage {
 
-  private final Locator brandHeader = page.locator("//a[@data-testid='home']");
-  private final Locator profileButton = page.locator("//a[@data-testid='profile']");
-  private final Locator logoutButton = page.locator("//button[@data-testid='logout']");
+  private final Locator brandHeader = page.getByText("MyNotes");
+
+  private final Locator profileButton = page.getByRole(AriaRole.BUTTON,
+      new Page.GetByRoleOptions().setName("Profile"));
+
+  private final Locator logoutButton = page.getByRole(AriaRole.BUTTON,
+      new Page.GetByRoleOptions().setName("Logout"));
 
   public MyNotesHomePage(Page page) {
     super(page);

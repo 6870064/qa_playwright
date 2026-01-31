@@ -10,10 +10,13 @@ import org.example.pages.BasePage;
 public class MyNotesWelcomePage extends BasePage {
   private final Locator welcomeTitle = page.getByRole(AriaRole.HEADING,
       new Page.GetByRoleOptions().setName("Welcome to Notes App"));
+
   private final Locator login = page.getByRole(AriaRole.LINK,
       new Page.GetByRoleOptions().setName("Login"));
+
   private final Locator createAnAccount = page.getByRole(AriaRole.LINK,
       new Page.GetByRoleOptions().setName("Create an account"));
+
   private final Locator forgotPassword = page.getByRole(AriaRole.LINK,
       new Page.GetByRoleOptions().setName("Forgot your password?"));
 
