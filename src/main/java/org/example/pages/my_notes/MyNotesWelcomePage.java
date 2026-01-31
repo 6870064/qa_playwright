@@ -4,6 +4,7 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import io.qameta.allure.Step;
 import org.example.constants.routes.UIRotes;
 import org.example.pages.BasePage;
 
@@ -38,30 +39,32 @@ public class MyNotesWelcomePage extends BasePage {
     );
   }
 
+  @Step("Click 'Login' button")
   public MyNotesLoginPage clickLogin(){
     login.click();
     page.waitForURL("**" + UIRotes.LOGIN);
     return new MyNotesLoginPage(page);
   }
 
+  @Step("Click 'Create an account' button")
   public MyNotesRegisterPage createNewAccount() {
     createAnAccount.click();
     page.waitForURL("**" + UIRotes.REGISTER);
     return new MyNotesRegisterPage(page);
   }
 
+  @Step("Validate that Welcome title is visible")
   public boolean isWelcomeTitleVisible() {
     return welcomeTitle.isVisible();
   }
 
+  @Step("Validate that 'Login' button is visible")
   public boolean isLoginButtonVisible() {
     return login.isVisible();
   }
 
+  @Step("Validate that 'Create an account' link is visible")
   public boolean isCreateAnAccountVisible() {
     return createAnAccount.isVisible();
   }
-
-
-
 }

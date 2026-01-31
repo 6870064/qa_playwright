@@ -3,6 +3,7 @@ package org.example.pages.my_notes;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+import io.qameta.allure.Step;
 import org.example.constants.routes.UIRotes;
 import org.example.pages.BasePage;
 
@@ -25,14 +26,17 @@ public class MyNotesHomePage extends BasePage {
     return UIRotes.HOME;
   }
 
+  @Step("Validate that Brand title is visible")
   public boolean isHeaderBrandIsVisible() {
     return brandHeader.isVisible();
   }
 
+  @Step("Validate that 'Logout' button is visible")
   public boolean isLogoutButtonIsVisible() {
     return logoutButton.isVisible();
   }
 
+  @Step("Click 'Logout' button")
   public MyNotesWelcomePage logoutClick() {
     logoutButton.click();
     page.waitForURL("**" + UIRotes.HOME);
