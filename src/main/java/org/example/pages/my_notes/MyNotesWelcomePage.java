@@ -53,6 +53,13 @@ public class MyNotesWelcomePage extends BasePage {
     return new MyNotesRegisterPage(page);
   }
 
+  @Step("Click 'Forgot your password' link")
+  public MyNotesForgotPasswordPage clickForgotPassword() {
+    forgotPassword.click();
+    page.waitForURL("**" + UIRotes.FORGOT_PASSWORD);
+    return new MyNotesForgotPasswordPage(page);
+  }
+
   @Step("Validate that Welcome title is visible")
   public boolean isWelcomeTitleVisible() {
     return welcomeTitle.isVisible();
