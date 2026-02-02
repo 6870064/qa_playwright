@@ -7,6 +7,7 @@ public class UIRotes {
   public static final String LOGIN = BASE + "/login";
   public static final String REGISTER = BASE + "/register";
   public static final String FORGOT_PASSWORD = BASE + "/forgot-password";
+  public static final String PROFILE = BASE + "/profile";
 
   private UIRotes() {};
 }
