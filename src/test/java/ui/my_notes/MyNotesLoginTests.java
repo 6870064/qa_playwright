@@ -44,10 +44,9 @@ public class MyNotesLoginTests extends BaseTest {
     MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
     MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
 
-    assertTrue(myNotesHomePage.isHeaderBrandIsVisible());
-    assertTrue(myNotesHomePage.isLogoutButtonIsVisible());
+    assertTrue(myNotesHomePage.header.isHeaderVisibleForAuthenticatedUser());
 
-    MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.logoutClick();
+    MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
     assertTrue(mySecondNotesWelcomePage.isWelcomeTitleVisible(), "Welcome title is not visible");
     assertTrue(mySecondNotesWelcomePage.isLoginButtonVisible(), "'Login' button is not visible");
     assertTrue(mySecondNotesWelcomePage.isCreateAnAccountVisible(), "'Create account' button is not visible");

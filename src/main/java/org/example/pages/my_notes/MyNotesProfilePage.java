@@ -28,7 +28,7 @@ public class MyNotesProfilePage extends BasePage {
   private final Locator cancelDelete = page.getByRole(AriaRole.BUTTON,
       new Page.GetByRoleOptions().setName("Cancel"));
 
-  public MyNotesProfilePage(Page page, HeaderComponent header) {
+  public MyNotesProfilePage(Page page) {
     super(page);
     this.header = new HeaderComponent(page);
   }

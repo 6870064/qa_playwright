@@ -39,18 +39,10 @@ public class HeaderComponent {
     return new MyNotesWelcomePage(page);
   }
 
-  @Step("Validate that Brand title is visible")
-  public boolean isHeaderBrandIsVisible() {
-    return brandHeader.isVisible();
-  }
-
-  @Step("Validate that 'Profile' button is visible")
-  public boolean isProfileButtonIsVisible() {
-    return profileButton.isVisible();
-  }
-
-  @Step("Validate that 'Logout' button is visible")
-  public boolean isLogoutButtonIsVisible() {
-    return logoutButton.isVisible();
+  @Step("Assert that header is visible for authenticated user")
+  public boolean isHeaderVisibleForAuthenticatedUser() {
+    return brandHeader.isVisible()
+        && profileButton.isVisible()
+        && logoutButton.isVisible();
   }
 }

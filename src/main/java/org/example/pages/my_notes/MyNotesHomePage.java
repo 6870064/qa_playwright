@@ -8,7 +8,7 @@ import org.example.pages.BasePage;
 public class MyNotesHomePage extends BasePage {
   public final HeaderComponent header;
 
-  public MyNotesHomePage(Page page, HeaderComponent headerComponent) {
+  public MyNotesHomePage(Page page) {
     super(page);
     this.header = new HeaderComponent(page);
   }
