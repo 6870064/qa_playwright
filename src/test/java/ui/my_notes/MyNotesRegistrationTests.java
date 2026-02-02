@@ -24,12 +24,11 @@ public class MyNotesRegistrationTests extends BaseTest {
       5. Enter user's email.
       6. Enter user's password.
       7. Click 'Login' button.
-      8. Assert visibility of Brand header.
-      9. Assert visibility of 'Logout' button.
-      10. Click 'Logout' button.
-      11. Assert visibility of Welcome title button.
-      12. Assert visibility of 'Login' button.
-      13. Assert visibility of 'Create account' button.
+      8. Assert visibility header component.
+      9. Click 'Logout' button.
+      10. Assert visibility of Welcome title button.
+      11. Assert visibility of 'Login' button.
+      12. Assert visibility of 'Create account' button.
       """)
   @Test
   public void registerNewUserTest() {

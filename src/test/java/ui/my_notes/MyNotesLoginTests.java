@@ -26,15 +26,14 @@ public class MyNotesLoginTests extends BaseTest {
       4. Enter a valid user's Email.
       5. Enter a valid user's password.
       6. Click 'Login' button.
-      7. Assert visibility of 'MyNotes' charter.
-      8. Assert visibility of 'Logout' button.
-      9. Click 'Logout' button.
-      10. Assert visibility of Brand header.
-      11. Assert visibility of 'Logout' button.
-      12. Click 'Logout' button.
-      13. Assert visibility of Welcome title button.
-      14. Assert visibility of 'Login' button.
-      15. Assert visibility of 'Create account' button.
+      7. Assert visibility header component.
+      8. Click 'Logout' button.
+      9. Assert visibility of Brand header.
+      10. Assert visibility of 'Logout' button.
+      11. Click 'Logout' button.
+      12. Assert visibility of Welcome title button.
+      13. Assert visibility of 'Login' button.
+      14. Assert visibility of 'Create account' button.
       """)
   @Test
   public void loginUserTest() {
@@ -60,15 +59,14 @@ public class MyNotesLoginTests extends BaseTest {
       4. Enter a valid user's Email.
       5. Enter a valid user's password.
       6. Click 'Login' button.
-      7. Assert visibility of 'MyNotes' charter.
-      8. Assert visibility of 'Logout' button.
-      9. Click 'Logout' button.
-      10. Assert visibility of Brand header.
-      11. Assert visibility of 'Logout' button.
-      12. Click 'Logout' button.
-      13. Assert visibility of Welcome title button.
-      14. Assert visibility of 'Login' button.
-      15. Assert visibility of 'Create account' button.
+      7. Assert visibility header component.
+      8. Click 'Logout' button.
+      9. Assert visibility of Brand header.
+      10. Assert visibility of 'Logout' button.
+      11. Click 'Logout' button.
+      12. Assert visibility of Welcome title button.
+      13. Assert visibility of 'Login' button.
+      14. Assert visibility of 'Create account' button.
       """)
   @Test
   public void forgotPasswordTest() {
