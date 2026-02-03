@@ -3,6 +3,7 @@ package org.example.components;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+import com.microsoft.playwright.options.WaitForSelectorState;
 import io.qameta.allure.Step;
 import org.example.constants.routes.UIRotes;
 import org.example.pages.my_notes.MyNotesProfilePage;
@@ -18,11 +19,9 @@ public class HeaderComponent {
     this.page = page;
     this.brandHeader = page.getByText("MyNotes");
 
-    this.profileButton = page.getByRole(AriaRole.BUTTON,
-        new Page.GetByRoleOptions().setName("Profile"));
+    this.profileButton = page.getByTestId("profile");
 
-    this.logoutButton = page.getByRole(AriaRole.BUTTON,
-        new Page.GetByRoleOptions().setName("Logout"));
+    this.logoutButton = page.getByTestId("logout");
   }
 
   @Step("Click 'Profile' button")
@@ -41,6 +40,18 @@ public class HeaderComponent {
 
   @Step("Assert that header is visible for authenticated user")
   public boolean isHeaderVisibleForAuthenticatedUser() {
+    brandHeader.waitFor(
+        new Locator.WaitForOptions()
+            .setState(WaitForSelectorState.VISIBLE));
+
+    profileButton.waitFor(
+        new Locator.WaitForOptions()
+        .setState(WaitForSelectorState.VISIBLE));
+
+    logoutButton.waitFor(
+        new Locator.WaitForOptions()
+        .setState(WaitForSelectorState.VISIBLE));
+
     return brandHeader.isVisible()
         && profileButton.isVisible()
         && logoutButton.isVisible();

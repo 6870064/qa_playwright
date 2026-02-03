@@ -31,6 +31,7 @@ public abstract class BaseApiTest implements SimpleAction {
       ThreadLocal.withInitial(HashSet::new);
 
   private static final Logger log = LoggerFactory.getLogger(BaseApiTest.class);
+  DataGenerator dataGenerator = new DataGenerator();
   private static String authToken;
 
   @BeforeAll
@@ -101,7 +102,7 @@ public abstract class BaseApiTest implements SimpleAction {
     createdNotes.get().add(noteId);
   }
 
-  protected void registeredUserForCleanUp(String userToken) {
+  public void registeredUserForCleanUp(String userToken) {
     createdUsers.get().add(userToken);
   }
 

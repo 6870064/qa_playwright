@@ -3,6 +3,7 @@ package org.example.pages.my_notes;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+import com.microsoft.playwright.options.WaitForSelectorState;
 import io.qameta.allure.Step;
 import org.example.constants.routes.UIRotes;
 import org.example.objects.User;
@@ -17,6 +18,8 @@ public class MyNotesLoginPage extends BasePage {
 
   public final Locator createAccount = page.getByRole(AriaRole.LINK,
       new Page.GetByRoleOptions().setName("Create a free account!"));
+
+  public final Locator profileDeleteAlert = page.getByTestId("alert-message");
 
 
   public MyNotesLoginPage(Page page) {
@@ -62,6 +65,13 @@ public class MyNotesLoginPage extends BasePage {
     createAccount.click();
     page.waitForURL("**" + UIRotes.REGISTER);
     return new MyNotesRegisterPage(page);
+  }
+
+  public boolean isDeleteAlertVisible() {
+    profileDeleteAlert.waitFor(
+        new Locator.WaitForOptions()
+            .setState(WaitForSelectorState.VISIBLE));
+    return profileDeleteAlert.isVisible();
   }
 
 

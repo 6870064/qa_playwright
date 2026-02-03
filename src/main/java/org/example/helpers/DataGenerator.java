@@ -47,7 +47,10 @@ public class DataGenerator {
     if(!isValid) {
       return "invalidEmail";
     }
-    return new Faker().artist().name().replaceAll("\\s+", "_") + System.currentTimeMillis() + "@gmail.com";
+    return new Faker()
+        .artist()
+        .name()
+        .replaceAll("\\s+", "_") + System.currentTimeMillis() + "@gmail.com";
   }
 
   public String generateRandomPassword(int minLength, int maxLength) {
@@ -91,7 +94,7 @@ public class DataGenerator {
    * @param countryCode country calling code without '+', e.g. "48", "44", "45"
    * @return phone number in E.164-like format
    */
-  public static String generateRandomPhoneNumber(String countryCode) {
+  public String generateRandomPhoneNumber(String countryCode) {
     if (countryCode == null || !countryCode.matches("\\d+")) {
       throw new IllegalArgumentException("Country code must contain digits only");
     }
@@ -119,7 +122,7 @@ public class DataGenerator {
    * @param length desired string length
    * @return random alphanumeric string of given length
    */
-  public static String randomAlphaNumeric(int length) {
+  public String randomAlphaNumeric(int length) {
     StringBuilder sb = new StringBuilder(length);
     for (int i = 0; i < length; i++) {
       sb.append(ALPHANUMERIC.charAt(random.nextInt(ALPHANUMERIC.length())));
@@ -178,7 +181,7 @@ public class DataGenerator {
     return new ApiNote(title.trim(), description, category);
   }
 
-  public static String generateRandomCompanyName() {
+  public String generateRandomCompanyName() {
     return faker.company().name();
   }
 
