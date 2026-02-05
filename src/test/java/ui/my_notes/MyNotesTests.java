@@ -1,6 +1,7 @@
 package ui.my_notes;
 
 import io.qameta.allure.Description;
+import org.example.components.modals.AddNoteModal;
 import org.example.enums.NoteCategory;
 import org.example.objects.Note;
 import org.example.objects.User;
@@ -47,8 +48,8 @@ public class MyNotesTests extends BaseTest {
     MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
 
     myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
-    myNotesHomePage.clickAddNote();
-    myNotesHomePage.createNewNote(note);
+    AddNoteModal addNoteModal = myNotesHomePage.openAddNoteModal();
+    addNoteModal.createNewNote(note);
 
 
 
