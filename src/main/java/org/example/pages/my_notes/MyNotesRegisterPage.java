@@ -67,8 +67,8 @@ public class MyNotesRegisterPage extends BasePage {
   }
 
   @Step("Assert that 'Click here to log in' is visible")
-  public boolean isLoginLinkIsVisible() {
-    return loginLink.isVisible();
+  public void assertLoginLinkIsVisible() {
+    loginLink.waitFor();
   }
 
   @Step("Click login link")

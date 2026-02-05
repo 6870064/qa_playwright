@@ -44,15 +44,15 @@ public class MyNotesRegistrationTests extends BaseTest {
     MyNotesRegisterPage myNotesRegisterPage = myNotesWelcomePage.createNewAccount();
     myNotesRegisterPage.registerNewUser(user);
     myNotesRegisterPage.waitForSuccess();
-    assertTrue(myNotesRegisterPage.isLoginLinkIsVisible());
+    myNotesRegisterPage.assertLoginLinkIsVisible();
 
     MyNotesLoginPage myNotesLoginPage = myNotesRegisterPage.loginLinkClick();
     MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
-    assertTrue(myNotesHomePage.header.isHeaderVisibleForAuthenticatedUser());
+    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
 
     MyNotesWelcomePage secondMyNotesWelcomePage = myNotesHomePage.header.clickLogout();
-    assertTrue(secondMyNotesWelcomePage.isWelcomeTitleVisible(), "Welcome title is not visible");
-    assertTrue(secondMyNotesWelcomePage.isLoginButtonVisible(), "'Login' button is not visible");
-    assertTrue(secondMyNotesWelcomePage.isCreateAnAccountVisible(), "'Create account' button is not visible");
+    secondMyNotesWelcomePage.assertWelcomeTitleIsVisible();
+    secondMyNotesWelcomePage.assertLoginButtonIsVisible();
+    secondMyNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
 }

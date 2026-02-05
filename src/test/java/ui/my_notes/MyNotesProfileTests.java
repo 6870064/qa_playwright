@@ -8,7 +8,6 @@ import org.example.pages.my_notes.MyNotesProfilePage;
 import org.example.pages.my_notes.MyNotesRegisterPage;
 import org.example.pages.my_notes.MyNotesWelcomePage;
 import org.example.pages.practice.HomePage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testdata.TestUsers;
@@ -51,11 +50,11 @@ public class MyNotesProfileTests extends BaseTest {
     MyNotesRegisterPage myNotesRegisterPage = myNotesWelcomePage.createNewAccount();
     myNotesRegisterPage.registerNewUser(user);
     myNotesRegisterPage.waitForSuccess();
-    assertTrue(myNotesRegisterPage.isLoginLinkIsVisible());
+    myNotesRegisterPage.assertLoginLinkIsVisible();
 
     MyNotesLoginPage myNotesLoginPage = myNotesRegisterPage.loginLinkClick();
     MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
-    assertTrue(myNotesHomePage.header.isHeaderVisibleForAuthenticatedUser());
+    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
 
     MyNotesProfilePage myNotesProfilePage = myNotesHomePage.header.goToProfile();
     assertAll("",
@@ -84,8 +83,8 @@ public class MyNotesProfileTests extends BaseTest {
     );
 
     myNotesProfilePage.clickDeleteAccount();
-    assertTrue(myNotesProfilePage.isDeleteAlertVisible(),"");
+    myNotesProfilePage.assertDeleteAlertIsVisible();
     MyNotesLoginPage mySecondNotesLoginPage = myNotesProfilePage.ClickConfirmDelete();
-    assertTrue(mySecondNotesLoginPage.isDeleteAlertVisible(), "");
+    mySecondNotesLoginPage.assertDeleteAlertIsVisible();
   }
 }

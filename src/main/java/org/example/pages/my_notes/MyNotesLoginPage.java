@@ -67,11 +67,10 @@ public class MyNotesLoginPage extends BasePage {
     return new MyNotesRegisterPage(page);
   }
 
-  public boolean isDeleteAlertVisible() {
+  public void assertDeleteAlertIsVisible() {
     profileDeleteAlert.waitFor(
         new Locator.WaitForOptions()
             .setState(WaitForSelectorState.VISIBLE));
-    return profileDeleteAlert.isVisible();
   }
 
 

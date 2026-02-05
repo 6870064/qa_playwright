@@ -2,7 +2,6 @@ package org.example.components;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import io.qameta.allure.Step;
 import org.example.constants.routes.UIRotes;
@@ -39,7 +38,7 @@ public class HeaderComponent {
   }
 
   @Step("Assert that header is visible for authenticated user")
-  public boolean isHeaderVisibleForAuthenticatedUser() {
+  public void assertHeaderForAuthenticatedUserIsVisible() {
     brandHeader.waitFor(
         new Locator.WaitForOptions()
             .setState(WaitForSelectorState.VISIBLE));
@@ -51,9 +50,5 @@ public class HeaderComponent {
     logoutButton.waitFor(
         new Locator.WaitForOptions()
         .setState(WaitForSelectorState.VISIBLE));
-
-    return brandHeader.isVisible()
-        && profileButton.isVisible()
-        && logoutButton.isVisible();
   }
 }

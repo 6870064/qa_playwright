@@ -33,7 +33,7 @@ public class NotesTests extends BaseApiTest {
       """)
   @Test
   public void createNewNoteTest() {
-    ApiNote note = generateNewRandomApiNote(20, 20);
+    ApiNote note = generateNewApiNote(20, 20);
 
     Response createApiNote = createNote(note, token());
     assertResponseCode(HttpStatus.OK.code(), createApiNote);
@@ -66,7 +66,7 @@ public class NotesTests extends BaseApiTest {
       """)
   @Test
   public void getNoteByIdTest() {
-    ApiNote note = generateNewRandomApiNote(20, 20);
+    ApiNote note = generateNewApiNote(20, 20);
 
     Response createApiNote = createNote(note, token());
     assertResponseCode(HttpStatus.OK.code(), createApiNote);
@@ -130,7 +130,7 @@ public class NotesTests extends BaseApiTest {
       """)
   @Test
   public void getNotesTest() {
-    ApiNote note = generateNewRandomApiNote(20, 20);
+    ApiNote note = generateNewApiNote(20, 20);
 
     Response createApiNote = createNote(note, token());
     assertResponseCode(HttpStatus.OK.code(), createApiNote);
@@ -164,7 +164,7 @@ public class NotesTests extends BaseApiTest {
       """)
   @Test
   public void deleteNoteTest() {
-    ApiNote note = generateNewRandomApiNote(20, 20);
+    ApiNote note = generateNewApiNote(20, 20);
 
     Response createApiNote = createNote(note, token());
     assertResponseCode(HttpStatus.OK.code(), createApiNote);
@@ -204,7 +204,7 @@ public class NotesTests extends BaseApiTest {
       """)
   @Test
   public void putNoteTest() {
-    ApiNote note = generateNewRandomApiNote(20, 20);
+    ApiNote note = generateNewApiNote(20, 20);
 
     Response createApiNote = createNote(note, token());
     assertResponseCode(HttpStatus.OK.code(), createApiNote);
@@ -250,7 +250,7 @@ public class NotesTests extends BaseApiTest {
   @Test
   public void patchNoteTest() {
     boolean completed = true;
-    ApiNote note = generateNewRandomApiNote(20, 20);
+    ApiNote note = generateNewApiNote(20, 20);
 
     Response createApiNote = createNote(note, token());
     assertResponseCode(HttpStatus.OK.code(), createApiNote);

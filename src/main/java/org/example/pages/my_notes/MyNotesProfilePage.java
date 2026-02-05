@@ -66,11 +66,10 @@ public class MyNotesProfilePage extends BasePage {
     deleteAccount.click();
   }
 
-  public boolean isDeleteAlertVisible() {
+  public void assertDeleteAlertIsVisible() {
     deleteAlert.waitFor(
         new Locator.WaitForOptions()
             .setState(WaitForSelectorState.VISIBLE));
-    return deleteAlert.isVisible();
   }
 
   public MyNotesLoginPage ClickConfirmDelete() {

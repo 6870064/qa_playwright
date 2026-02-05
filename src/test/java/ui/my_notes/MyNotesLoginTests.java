@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import testdata.TestUsers;
 import ui.BaseTest;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 public class MyNotesLoginTests extends BaseTest {
 
   User user = TestUsers.validUser();
@@ -43,12 +41,12 @@ public class MyNotesLoginTests extends BaseTest {
     MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
     MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
 
-    assertTrue(myNotesHomePage.header.isHeaderVisibleForAuthenticatedUser());
+    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
 
     MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
-    assertTrue(mySecondNotesWelcomePage.isWelcomeTitleVisible(), "Welcome title is not visible");
-    assertTrue(mySecondNotesWelcomePage.isLoginButtonVisible(), "'Login' button is not visible");
-    assertTrue(mySecondNotesWelcomePage.isCreateAnAccountVisible(), "'Create account' button is not visible");
+    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
+    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
+    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
 
   @DisplayName("[UI]. Notes App. Login by existing user")
@@ -77,12 +75,12 @@ public class MyNotesLoginTests extends BaseTest {
     myNotesForgotPasswordPage.enterEmail(user.getEmail());
     myNotesForgotPasswordPage.clickSendResetLink();
     myNotesForgotPasswordPage.waitForAlert(user.getEmail());
-    assertTrue(myNotesForgotPasswordPage.isAlertVisible(user.getEmail()));
+    myNotesForgotPasswordPage.assertThatAlertIsVisible(user.getEmail());
 
     MyNotesWelcomePage mySecondNotesWelcomePage = myNotesForgotPasswordPage.goToWelcomePageLinkClick();
 
-    assertTrue(mySecondNotesWelcomePage.isWelcomeTitleVisible(), "Welcome title is not visible");
-    assertTrue(mySecondNotesWelcomePage.isLoginButtonVisible(), "'Login' button is not visible");
-    assertTrue(mySecondNotesWelcomePage.isCreateAnAccountVisible(), "'Create account' button is not visible");
+    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
+    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
+    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
 }

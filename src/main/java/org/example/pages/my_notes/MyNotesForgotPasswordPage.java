@@ -60,9 +60,9 @@ public class MyNotesForgotPasswordPage extends BasePage {
             .setState(WaitForSelectorState.VISIBLE));
   }
 
-  @Step("Check reset password success alert is visible")
-  public boolean isAlertVisible(String email) {
-    return page.getByText(String.format(MESSAGE_TEXT, email)).isVisible();
+  @Step("Assert that reset password success alert is visible")
+  public void assertThatAlertIsVisible(String email) {
+    page.getByText(String.format(MESSAGE_TEXT, email)).waitFor();
   }
 
   @Step("Click 'Click here to back to home page' link")

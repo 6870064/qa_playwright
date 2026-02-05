@@ -1,10 +1,10 @@
 package org.example.requests;
 
-import org.example.enums.Category;
+import org.example.enums.NoteCategory;
 
 public record ApiNote(
     String title,
     String description,
-    Category category
+    NoteCategory category
 ) {
 }

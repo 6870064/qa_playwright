@@ -60,18 +60,18 @@ public class MyNotesWelcomePage extends BasePage {
     return new MyNotesForgotPasswordPage(page);
   }
 
-  @Step("Validate that Welcome title is visible")
-  public boolean isWelcomeTitleVisible() {
-    return welcomeTitle.isVisible();
+  @Step("Assert that Welcome title is visible")
+  public void assertWelcomeTitleIsVisible() {
+    welcomeTitle.waitFor();
   }
 
-  @Step("Validate that 'Login' button is visible")
-  public boolean isLoginButtonVisible() {
-    return login.isVisible();
+  @Step("Assert that 'Login' button is visible")
+  public void assertLoginButtonIsVisible() {
+    login.waitFor();
   }
 
-  @Step("Validate that 'Create an account' link is visible")
-  public boolean isCreateAnAccountVisible() {
-    return createAnAccount.isVisible();
+  @Step("Assert that 'Create an account' link is visible")
+  public void assertCreateAnAccountIsVisible() {
+    createAnAccount.waitFor();
   }
 }

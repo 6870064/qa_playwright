@@ -1,7 +1,8 @@
 package org.example.helpers;
 
 import com.github.javafaker.Faker;
-import org.example.enums.Category;
+import org.example.enums.NoteCategory;
+import org.example.objects.Note;
 import org.example.requests.ApiNote;
 import org.example.requests.UpdateApiNote;
 
@@ -159,13 +160,13 @@ public class DataGenerator {
 
 
   /**
-   * Generates a random Note with configurable title length and description word count.
+   * Generates a new Note with configurable title length and description word count.
    *
    * @param titleLength           desired length of the title in characters
    * @param descriptionWordsCount number of words in the description
-   * @return randomly generated Note
+   * @return new generated Note
    */
-  public static ApiNote generateNewRandomApiNote(int titleLength, int descriptionWordsCount) {
+  public static ApiNote generateNewApiNote(int titleLength, int descriptionWordsCount) {
     ThreadLocalRandom random = ThreadLocalRandom.current();
 
     // Генерация длинного заголовка, а затем его обрезка до нужной длины
@@ -176,9 +177,58 @@ public class DataGenerator {
 
     String description = faker.lorem().sentence(descriptionWordsCount);
 
-    Category category = Category.values()[random.nextInt(Category.values().length)];
+    NoteCategory category = NoteCategory.values()[random.nextInt(NoteCategory.values().length)];
 
     return new ApiNote(title.trim(), description, category);
+  }
+
+  /**
+   * Generates a new Note with configurable title length and description word count.
+   *
+   * @param titleLength           desired length of the title in characters
+   * @param descriptionWordsCount number of words in the description
+   * @return new generated Note
+   */
+  public static Note generateNewNote(boolean isCompleted,
+                                     int titleLength,
+                                     int descriptionWordsCount) {
+    ThreadLocalRandom random = ThreadLocalRandom.current();
+
+    // Генерация длинного заголовка, а затем его обрезка до нужной длины
+    String rawTitle = faker.book().title();
+    String title = rawTitle.length() > titleLength
+        ? rawTitle.substring(0, titleLength)
+        : rawTitle + " " + faker.lorem().word(); // если короткий — добавим слово
+
+    String description = faker.lorem().sentence(descriptionWordsCount);
+
+    NoteCategory category = NoteCategory.values()[random.nextInt(NoteCategory.values().length)];
+
+    return new Note(category, isCompleted, title, description);
+  }
+
+  /**
+   * Generates a new Note with configurable title length and description word count.
+   *
+   * @param titleLength           desired length of the title in characters
+   * @param descriptionWordsCount number of words in the description
+   * @return new generated Note
+   */
+  public static Note generateNewNote(NoteCategory category,
+                                     boolean isCompleted,
+                                     int titleLength,
+                                     int descriptionWordsCount) {
+    ThreadLocalRandom random = ThreadLocalRandom.current();
+
+    // Генерация длинного заголовка, а затем его обрезка до нужной длины
+    String rawTitle = faker.book().title();
+    String title = rawTitle.length() > titleLength
+        ? rawTitle.substring(0, titleLength)
+        : rawTitle + " " + faker.lorem().word(); // если короткий — добавим слово
+
+    String description = faker.lorem().sentence(descriptionWordsCount);
+
+    return new Note(category, isCompleted, title, description);
   }
 
   public String generateRandomCompanyName() {
@@ -199,7 +249,7 @@ public class DataGenerator {
 
     String description = faker.lorem().sentence(descriptionWordsCount);
 
-    Category category = Category.values()[random.nextInt(Category.values().length)];
+    NoteCategory category = NoteCategory.values()[random.nextInt(NoteCategory.values().length)];
 
     return new UpdateApiNote(title.trim(), description, completed, category);
   }
