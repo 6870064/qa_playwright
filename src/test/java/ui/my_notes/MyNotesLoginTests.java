@@ -34,7 +34,7 @@ public class MyNotesLoginTests extends BaseTest {
       14. Assert visibility of 'Create account' button.
       """)
   @Test
-  public void loginUserTest() {
+  public void loginAndLogoutUserTest() {
     HomePage homePage = new HomePage(page()).open();
 
     MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
