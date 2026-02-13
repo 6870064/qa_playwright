@@ -48,10 +48,7 @@ public class DataGenerator {
     if(!isValid) {
       return "invalidEmail";
     }
-    return new Faker()
-        .artist()
-        .name()
-        .replaceAll("\\s+", "_") + System.currentTimeMillis() + "@gmail.com";
+    return new Faker().internet().safeEmailAddress();
   }
 
   public String generateRandomPassword(int minLength, int maxLength) {

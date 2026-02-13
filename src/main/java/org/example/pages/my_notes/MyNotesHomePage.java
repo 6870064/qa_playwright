@@ -4,7 +4,7 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 import org.example.components.HeaderComponent;
-import org.example.components.modals.AddNoteModal;
+import org.example.components.modals.NoteModal;
 import org.example.constants.routes.UIRotes;
 import org.example.pages.BasePage;
 
@@ -34,8 +34,8 @@ public class MyNotesHomePage extends BasePage {
   }
 
   @Step("Click '+Add Note' button")
-  public AddNoteModal openAddNoteModal() {
+  public NoteModal openAddNoteModal() {
     addNoteButton.click();
-    return new AddNoteModal(page);
+    return new NoteModal(page);
   }
 }

@@ -6,7 +6,7 @@ import io.qameta.allure.Step;
 import org.example.enums.NoteCategory;
 import org.example.objects.Note;
 
-public class AddNoteModal {
+public class NoteModal {
   private final Locator createNoteCategory;
   private final Locator createNoteCompleted;
   private final Locator createNoteTitle;
@@ -14,8 +14,7 @@ public class AddNoteModal {
   private final Locator createNoteSubmit;
   private final Locator cancelCreateNote;
 
-  public AddNoteModal(Page page) {
-
+  public NoteModal(Page page) {
     this.createNoteCategory = page.getByTestId("note-category");
     this.createNoteCompleted = page.getByTestId("note-completed");
     this.createNoteTitle = page.getByTestId("note-title");

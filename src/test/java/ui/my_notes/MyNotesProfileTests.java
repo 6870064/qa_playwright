@@ -17,8 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MyNotesProfileTests extends BaseTest {
 
-  User user = TestUsers.validUser();
-
   @DisplayName("[UI]. Notes App. Login by existing user")
   @Description("""
       1. Open https://practice.expandtesting.com/.

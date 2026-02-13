@@ -63,6 +63,7 @@ public class MyNotesWelcomePage extends BasePage {
   @Step("Assert that Welcome title is visible")
   public void assertWelcomeTitleIsVisible() {
     welcomeTitle.waitFor();
+    welcomeTitle.isVisible();
   }
 
   @Step("Assert that 'Login' button is visible")
