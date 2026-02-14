@@ -52,6 +52,4 @@ public class NoteComponent {
   public boolean isNoteCompleted() {
     return isCompletedToggle.isChecked();
   }
-
-
 }

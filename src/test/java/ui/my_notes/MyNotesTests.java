@@ -1,8 +1,10 @@
 package ui.my_notes;
 
 import io.qameta.allure.Description;
+import org.example.components.NoteComponent;
 import org.example.components.modals.NoteModal;
 import org.example.enums.NoteCategory;
+import org.example.helpers.DataGenerator;
 import org.example.objects.Note;
 import org.example.objects.User;
 import org.example.pages.my_notes.MyNotesHomePage;
@@ -37,11 +39,17 @@ public class MyNotesTests extends BaseTest {
       """)
   @Test
   public void createNoteTest() {
-    Note note = dataGenerator.generateNewNote(
+    Note initialNote = dataGenerator.generateNewNote(
         NoteCategory.Home,
         false,
         25,
         100);
+
+    Note updatedNote = dataGenerator.generateNewNote(
+        NoteCategory.Home,
+        true,
+        30,
+        120);
     HomePage homePage = new HomePage(page()).open();
     MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
     MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
@@ -49,9 +57,21 @@ public class MyNotesTests extends BaseTest {
 
     myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
     NoteModal addNoteModal = myNotesHomePage.openAddNoteModal();
-    addNoteModal.createNewNote(note);
+    addNoteModal.createNewNote(initialNote);
+    NoteComponent noteCard = myNotesHomePage.getNoteComponent(initialNote);
+    NoteModal noteModal = noteCard.editNote();
+    noteModal.compareNote(initialNote);
 
 
+
+    //создал заметку -
+    // открыл,
+    // нажал редактировать,
+    // провалидировал контент,
+    // обновил,
+    // провалидировал контент -
+    // удалил,
+    // проверил, что удалено
 
   }
 }
