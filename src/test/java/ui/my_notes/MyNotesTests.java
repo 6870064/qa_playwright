@@ -38,7 +38,7 @@ public class MyNotesTests extends BaseTest {
       14. Assert visibility of 'Create account' button.
       """)
   @Test
-  public void createNoteTest() {
+  public void createUpdateDeleteNoteTest() {
     Note initialNote = dataGenerator.generateNewNote(
         NoteCategory.Home,
         false,
