@@ -10,7 +10,6 @@ import org.example.pages.my_notes.MyNotesWelcomePage;
 import org.example.pages.practice.HomePage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import testdata.TestUsers;
 import ui.BaseTest;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -72,7 +72,4 @@ public class MyNotesLoginPage extends BasePage {
         new Locator.WaitForOptions()
             .setState(WaitForSelectorState.VISIBLE));
   }
-
-
-
 }

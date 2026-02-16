@@ -84,6 +84,11 @@ public class NoteComponent {
     isCompletedToggle.check();
   }
 
+  /**
+   * Checks if the note completion switch is currently checked.
+   *
+   * @return true if checked, false otherwise
+   */
   public boolean isNoteCompleted() {
     return isCompletedToggle.isChecked();
   }

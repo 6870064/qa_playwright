@@ -117,7 +117,7 @@ public class NoteModal {
   }
 
   /**
-   * Performs a full note creation or update flow using a Note object.
+   * Performs a full note creation flow using a Note object.
    *
    * @param note the note data object containing all fields
    */
@@ -129,7 +129,11 @@ public class NoteModal {
     clickSubmitNote();
   }
 
-
+  /**
+   * Performs a note update flow using a Note object.
+   *
+   * @param note the note data object containing all fields
+   */
   public void updateNote(Note note) {
     selectCategory(note.getCategory());
     completeNote(note.isCompleted());

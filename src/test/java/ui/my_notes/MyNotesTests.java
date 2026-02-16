@@ -5,6 +5,7 @@ import org.example.components.NoteComponent;
 import org.example.components.modals.DeleteNoteModal;
 import org.example.components.modals.NoteModal;
 import org.example.enums.NoteCategory;
+import org.example.helpers.DataGenerator;
 import org.example.objects.Note;
 import org.example.objects.User;
 import org.example.pages.my_notes.MyNotesHomePage;
@@ -16,36 +17,55 @@ import org.junit.jupiter.api.Test;
 import testdata.TestUsers;
 import ui.BaseTest;
 
+/**
+ * Test suite for the My Notes application.
+ * Contains end-to-end scenarios covering the full lifecycle of a note:
+ * creation, verification, updates, and deletion.
+ */
 public class MyNotesTests extends BaseTest {
 
   User user = TestUsers.validUser();
 
+  /**
+   * End-to-end test case for creating, updating, and deleting a note.
+   * Validates UI transitions, modal interactions, and data consistency across updates.
+   */
   @DisplayName("[UI]. Notes App. Login by existing user")
   @Description("""
-      1. Open https://practice.expandtesting.com/.
-      2. Open 'Notes App | React' page.
-      3. Click a 'Login' button.
-      4. Enter a valid user's Email.
-      5. Enter a valid user's password.
-      6. Click 'Login' button.
-      7. Assert visibility header component.
-      8. Click 'Logout' button.
-      9. Assert visibility of Brand header.
-      10. Assert visibility of 'Logout' button.
-      11. Click 'Logout' button.
-      12. Assert visibility of Welcome title button.
-      13. Assert visibility of 'Login' button.
-      14. Assert visibility of 'Create account' button.
+      1. Open the Home page.
+      2. Navigate to the 'Notes App'.
+      3. Click the 'Login' button.
+      4. Log in with valid user credentials.
+      5. Assert that the authenticated user header is visible.
+      6. Open the 'Add Note' modal.
+      7. Create a new note with initial data.
+      8. Locate the created note card.
+      9. Open the 'Edit Note' modal for the initial note.
+      10. Verify that the modal data matches the initial note.
+      11. Update the note with new data.
+      12. Wait for the loading spinner to disappear.
+      13. Locate the updated note card.
+      14. Open the 'Edit Note' modal for the updated note.
+      15. Verify that the modal data matches the updated note.
+      16. Cancel the edit action.
+      17. Wait for the loading spinner to disappear.
+      18. Open the 'Delete Note' modal for the updated note.
+      19. Confirm the note deletion.
+      20. Wait for the loading spinner to disappear.
+      21. Verify that the note is no longer present in the list.
+      22. Click the 'Logout' button.
+      23. Assert that the Welcome page title is visible.
+      24. Assert that the 'Login' and 'Create account' buttons are visible.
       """)
   @Test
   public void createUpdateDeleteNoteTest() {
-    Note initialNote = dataGenerator.generateNewNote(
+    Note initialNote = DataGenerator.generateNewNote(
         NoteCategory.Home,
         false,
         25,
         100);
 
-    Note updatedNote = dataGenerator.generateNewNote(
+    Note updatedNote = DataGenerator.generateNewNote(
         NoteCategory.Home,
         true,
         30,

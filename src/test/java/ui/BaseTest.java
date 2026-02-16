@@ -7,6 +7,7 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
 import org.example.helpers.AdBlocker;
 import org.example.helpers.DataGenerator;
 import org.junit.jupiter.api.AfterEach;
@@ -22,6 +23,11 @@ import static com.microsoft.playwright.options.WaitForSelectorState.VISIBLE;
 import static org.example.constants.Constants.AUTOMATION_PRACTICE_TEXT;
 import static org.example.constants.Constants.BASE_URL;
 
+/**
+ * Base test class for UI automation using Playwright.
+ * Manages the lifecycle of the browser, context, and page instances using ThreadLocal
+ * to ensure thread safety during parallel execution.
+ */
 public abstract class BaseTest {
   private static final ThreadLocal<Browser> browser = new ThreadLocal<>();
   private static final ThreadLocal<BrowserContext> context = new ThreadLocal<>();
@@ -29,7 +35,12 @@ public abstract class BaseTest {
   private final ThreadLocal<Playwright> playwright = new ThreadLocal<>();
   protected DataGenerator dataGenerator = new DataGenerator();
 
+  /**
+   * Sets up the browser environment before each test.
+   * Configures headless mode, viewport size, video recording, and network routing to block ads.
+   */
   @BeforeEach
+  @Step("Set up browser environment and navigate to base URL")
   public void beforeEach() {
     Boolean isHeadless = Boolean.parseBoolean(
         System.getenv().getOrDefault("HEADLESS", "false")
@@ -74,7 +85,12 @@ public abstract class BaseTest {
         .waitFor(new Locator.WaitForOptions().setState(VISIBLE));
   }
 
+  /**
+   * Cleans up browser resources after each test.
+   * Captures the execution video, attaches it to the Allure report, and closes the browser context.
+   */
   @AfterEach
+  @Step("Tear down browser environment and attach video")
   public void afterEach() {
     // 1. Capture the path before closing the context
     Path videoPath = null;
@@ -118,6 +134,11 @@ public abstract class BaseTest {
     playwright.remove();
   }
 
+  /**
+   * Provides access to the current thread's Page instance.
+   *
+   * @return the Playwright Page instance
+   */
   protected Page page() {
     return page.get();
   }

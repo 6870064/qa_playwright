@@ -8,8 +8,6 @@ public class Constants {
   protected static PropertyReader propertyReader = new PropertyReader("src/main/resources/configuration.properties");
   public static final String BASE_URL = System.getProperty("baseUrl", propertyReader.getPropertyValueByKey("baseUrl"));
   public static final String USERNAME = System.getProperty("username", propertyReader.getPropertyValueByKey("username"));
-  public static final String API_USER = System.getProperty("api_user", propertyReader.getPropertyValueByKey("api_user"));
-  public static final String API_USER_PW = System.getProperty("api_user_pw", propertyReader.getPropertyValueByKey("api_user_pw"));
   public static final String PASSWORD = System.getProperty("password", propertyReader.getPropertyValueByKey("password"));
   public static final String USER_EMAIL = System.getProperty("email", propertyReader.getPropertyValueByKey("email"));
   public static final String OTP_CODE = System.getProperty("otp_code", propertyReader.getPropertyValueByKey("otp_code"));
@@ -39,11 +37,6 @@ public class Constants {
   public static final String PATCH_NOTE = "/notes/api/notes/%s";
   public static final String PUT_NOTE = "/notes/api/notes/%s";
   public static final String HEALTH_CHECK_URL = "/notes/api/health-check";
-  public static final String WELCOME_MY_NOTES_APP = "/notes/app";
-  public static final String MY_NOTES_APP_LOGIN = "/notes/app/login";
-  public static final String MY_NOTES_APP_REGISTER = "/notes/app/register";
-  public static final String MY_NOTES_APP_FORGOT_PASSWORD = "/notes/app/forgot-password";
-
 
   //JSON SCHEMA'S
   public static final String USER_RESPONSE_SCHEMA = "json_schemas/user_response.json";

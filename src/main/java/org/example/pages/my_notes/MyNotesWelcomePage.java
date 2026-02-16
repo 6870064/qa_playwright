@@ -8,6 +8,11 @@ import io.qameta.allure.Step;
 import org.example.constants.routes.UIRotes;
 import org.example.pages.BasePage;
 
+/**
+ * Page object representing the initial Welcome screen of the My Notes application.
+ * This page serves as the entry point for unauthenticated users, providing navigation
+ * to Login, Registration, and Password Recovery.
+ */
 public class MyNotesWelcomePage extends BasePage {
   private final Locator welcomeTitle = page.getByRole(AriaRole.HEADING,
       new Page.GetByRoleOptions().setName("Welcome to Notes App"));
@@ -21,16 +26,29 @@ public class MyNotesWelcomePage extends BasePage {
   private final Locator forgotPassword = page.getByRole(AriaRole.LINK,
       new Page.GetByRoleOptions().setName("Forgot your password?"));
 
+  /**
+   * Initializes the Welcome page and waits for it to be fully loaded.
+   *
+   * @param page the Playwright Page instance
+   */
   public MyNotesWelcomePage(Page page) {
     super(page);
     waitForOpen();
   }
 
+  /**
+   * Returns the relative URL path for the Welcome page.
+   *
+   * @return the home route string
+   */
   @Override
   protected String path() {
     return UIRotes.HOME;
   }
 
+  /**
+   * Defensive wait to ensure the Welcome title is visible before interacting with the page.
+   */
   @Override
   protected void waitForOpen() {
     welcomeTitle.waitFor(
@@ -39,6 +57,11 @@ public class MyNotesWelcomePage extends BasePage {
     );
   }
 
+  /**
+   * Navigates to the Login page.
+   *
+   * @return a new instance of MyNotesLoginPage
+   */
   @Step("Click 'Login' button")
   public MyNotesLoginPage clickLogin(){
     login.click();
@@ -46,6 +69,11 @@ public class MyNotesWelcomePage extends BasePage {
     return new MyNotesLoginPage(page);
   }
 
+  /**
+   * Navigates to the Registration page.
+   *
+   * @return a new instance of MyNotesRegisterPage
+   */
   @Step("Click 'Create an account' button")
   public MyNotesRegisterPage createNewAccount() {
     createAnAccount.click();
@@ -53,6 +81,11 @@ public class MyNotesWelcomePage extends BasePage {
     return new MyNotesRegisterPage(page);
   }
 
+  /**
+   * Navigates to the Forgot Password page.
+   *
+   * @return a new instance of MyNotesForgotPasswordPage
+   */
   @Step("Click 'Forgot your password' link")
   public MyNotesForgotPasswordPage clickForgotPassword() {
     forgotPassword.click();
@@ -60,17 +93,26 @@ public class MyNotesWelcomePage extends BasePage {
     return new MyNotesForgotPasswordPage(page);
   }
 
+  /**
+   * Asserts that the Welcome heading is displayed.
+   */
   @Step("Assert that Welcome title is visible")
   public void assertWelcomeTitleIsVisible() {
     welcomeTitle.waitFor();
     welcomeTitle.isVisible();
   }
 
+  /**
+   * Asserts that the Login navigation link is available.
+   */
   @Step("Assert that 'Login' button is visible")
   public void assertLoginButtonIsVisible() {
     login.waitFor();
   }
 
+  /**
+   * Asserts that the Account Creation link is available.
+   */
   @Step("Assert that 'Create an account' link is visible")
   public void assertCreateAnAccountIsVisible() {
     createAnAccount.waitFor();
