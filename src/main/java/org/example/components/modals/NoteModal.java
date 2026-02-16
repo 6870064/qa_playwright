@@ -2,6 +2,7 @@ package org.example.components.modals;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.WaitForSelectorState;
 import io.qameta.allure.Step;
 import org.example.enums.NoteCategory;
 import org.example.objects.Note;
@@ -59,6 +60,17 @@ public class NoteModal {
   }
 
   /**
+   * Update the title input field with the provided text.
+   *
+   * @param title the title of the note
+   */
+  @Step("Update title of the note")
+  public void updateTitle(String title) {
+    noteTitle.clear();
+    noteTitle.fill(title);
+  }
+
+  /**
    * Fills the description textarea with the provided text.
    *
    * @param description the description of the note
@@ -69,10 +81,22 @@ public class NoteModal {
   }
 
   /**
+   * Updated the description textarea with the provided text.
+   *
+   * @param description the description of the note
+   */
+  @Step("Updated description of the note")
+  public void updateDescription(String description) {
+    noteDescription.clear();
+    noteDescription.fill(description);
+  }
+
+  /**
    * Submits the note form by clicking the create/submit button.
    */
   @Step("Click 'Create/Save' button")
-  public void clickCreateNote() {
+  public void clickSubmitNote() {
+    noteSubmit.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
     noteSubmit.click();
   }
 
@@ -81,6 +105,14 @@ public class NoteModal {
    */
   @Step("Click 'Cancel' button")
   public void cancelCreateNote() {
+    cancelCreateNote.click();
+  }
+
+  /**
+   * Closes the modal without saving changes.
+   */
+  @Step("Click 'Cancel' button without editing the note")
+  public void cancelEditNote() {
     cancelCreateNote.click();
   }
 
@@ -94,7 +126,16 @@ public class NoteModal {
     completeNote(note.isCompleted());
     fillTitle(note.getTitle());
     fillDescription(note.getDescription());
-    clickCreateNote();
+    clickSubmitNote();
+  }
+
+
+  public void updateNote(Note note) {
+    selectCategory(note.getCategory());
+    completeNote(note.isCompleted());
+    updateTitle(note.getTitle());
+    updateDescription(note.getDescription());
+    clickSubmitNote();
   }
 
   /**

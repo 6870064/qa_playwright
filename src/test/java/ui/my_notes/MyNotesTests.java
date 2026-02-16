@@ -2,9 +2,9 @@ package ui.my_notes;
 
 import io.qameta.allure.Description;
 import org.example.components.NoteComponent;
+import org.example.components.modals.DeleteNoteModal;
 import org.example.components.modals.NoteModal;
 import org.example.enums.NoteCategory;
-import org.example.helpers.DataGenerator;
 import org.example.objects.Note;
 import org.example.objects.User;
 import org.example.pages.my_notes.MyNotesHomePage;
@@ -54,24 +54,31 @@ public class MyNotesTests extends BaseTest {
     MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
     MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
     MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
-
     myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
+
     NoteModal addNoteModal = myNotesHomePage.openAddNoteModal();
     addNoteModal.createNewNote(initialNote);
     NoteComponent noteCard = myNotesHomePage.getNoteComponent(initialNote);
     NoteModal noteModal = noteCard.editNote();
     noteModal.compareNote(initialNote);
+    noteModal.updateNote(updatedNote);
+    myNotesHomePage.waitForLoaderToDisappear();
 
+    NoteComponent secondNoteCard = myNotesHomePage.getNoteComponent(updatedNote);
+    NoteModal secondNoteModal = secondNoteCard.editNote();
+    secondNoteModal.compareNote(updatedNote);
+    secondNoteModal.cancelEditNote();
+    myNotesHomePage.waitForLoaderToDisappear();
 
+    DeleteNoteModal deleteNoteModal = secondNoteCard.deleteNote();
+    deleteNoteModal.deleteNote();
+    myNotesHomePage.waitForLoaderToDisappear();
+    myNotesHomePage.verifyNoteIsDeleted(updatedNote);
+    myNotesHomePage.waitForLoaderToDisappear();
 
-    //создал заметку -
-    // открыл,
-    // нажал редактировать,
-    // провалидировал контент,
-    // обновил,
-    // провалидировал контент -
-    // удалил,
-    // проверил, что удалено
-
+    MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
+    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
+    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
+    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
 }

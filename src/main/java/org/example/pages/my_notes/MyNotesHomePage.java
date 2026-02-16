@@ -2,17 +2,14 @@ package org.example.pages.my_notes;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.WaitForSelectorState;
 import io.qameta.allure.Step;
-import org.checkerframework.checker.units.qual.N;
 import org.example.components.HeaderComponent;
 import org.example.components.NoteComponent;
 import org.example.components.modals.NoteModal;
 import org.example.constants.routes.UIRotes;
 import org.example.objects.Note;
 import org.example.pages.BasePage;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MyNotesHomePage extends BasePage {
   public final HeaderComponent header;
@@ -29,6 +26,7 @@ public class MyNotesHomePage extends BasePage {
   private final Locator viewNote = page.getByTestId("note-view");
   private final Locator editNote = page.getByTestId("note-edit");
   private final Locator deleteNote = page.getByTestId("note-delete");
+  private final Locator loader = page.locator(".spinner-border");
 
   public MyNotesHomePage(Page page) {
     super(page);
@@ -56,4 +54,28 @@ public class MyNotesHomePage extends BasePage {
     return new NoteComponent(noteRoot.first());
   }
 
+  /**
+   * Waits for the loading spinner to disappear from the page.
+   * This ensures the UI has finished updating after an action.
+   */
+  @Step("Wait for loading spinner to disappear")
+  public void waitForLoaderToDisappear() {
+    loader.waitFor(
+        new Locator.WaitForOptions().setState(WaitForSelectorState.HIDDEN));
+  }
+
+  /**
+   * Checks that the note card with the specified title is not present on the page.
+   * * @param title the title of the note to check
+   */
+  @Step("Verify that note with title '{title}' is deleted")
+  public void verifyNoteIsDeleted(Note note) {
+    Locator deletedNote = noteRoot.filter(new Locator.FilterOptions().setHasText(note.getTitle()));
+
+    if (deletedNote.count() != 0) {
+      throw new IllegalArgumentException(String.format(
+          "Note with title '%s' was expected to be deleted, but it is still present!",
+          note.getTitle()));
+    }
+  }
 }
