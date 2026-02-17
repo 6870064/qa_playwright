@@ -16,22 +16,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MyNotesProfileTests extends BaseTest {
 
-  @DisplayName("[UI]. Notes App. Login by existing user")
+  @DisplayName("[UI]. Notes App. Update user profile and delete account")
   @Description("""
-      1. Open https://practice.expandtesting.com/.
-      2. Open 'Notes App | React' page.
-      3. Click a 'Login' button.
-      4. Enter a valid user's Email.
-      5. Enter a valid user's password.
-      6. Click 'Login' button.
-      7. Assert visibility header component.
-      8. Click 'Logout' button.
-      9. Assert visibility of Brand header.
-      10. Assert visibility of 'Logout' button.
-      11. Click 'Logout' button.
-      12. Assert visibility of Welcome title button.
-      13. Assert visibility of 'Login' button.
-      14. Assert visibility of 'Create account' button.
+      1. Open the Home page.
+      2. Navigate to the 'Notes App'.
+      3. Click the 'Create an account' button.
+      4. Register a new user with random data.
+      5. Click the 'Click here to Log In' link.
+      6. Log in with the newly created user.
+      7. Navigate to the 'Profile' page via the header.
+      8. Verify initial profile data (User ID, Email, Name) matches registration data.
+      9. Generate new profile data (Name, Phone, Company).
+      10. Clear the full name field and fill in new profile information.
+      11. Click the 'Update Profile' button and close the success alert.
+      12. Verify that all profile fields are correctly updated in the UI.
+      13. Click the 'Delete Account' button.
+      14. Assert that the delete confirmation alert is visible.
+      15. Confirm account deletion.
+      16. Verify redirection to the Login page and visibility of the success alert.
       """)
   @Test
   public void UpdateUserProfileAndDeleteTest() {
@@ -54,10 +56,16 @@ public class MyNotesProfileTests extends BaseTest {
     myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
 
     MyNotesProfilePage myNotesProfilePage = myNotesHomePage.header.goToProfile();
-    assertAll("",
-        ()-> assertNotNull(myNotesProfilePage.getUserId()),
-        ()-> assertEquals(user.getEmail().toLowerCase(), myNotesProfilePage.getEmailAddress(), ""),
-        ()-> assertEquals(user.getName(), myNotesProfilePage.getFullName(), ""));
+    assertAll("Initial profile data verification",
+        () -> assertNotNull(myNotesProfilePage.getUserId(), "User ID should not be null"),
+
+        () -> assertEquals(user.getEmail().toLowerCase(),
+            myNotesProfilePage.getEmailAddress(),
+            "Email should match registration email"),
+
+        () -> assertEquals(user.getName(),
+            myNotesProfilePage.getFullName(),
+            "Full name should match registration name"));
 
     user.setName(dataGenerator.generateRandomName(8,10));
     user.setPhoneNumber(dataGenerator.generateRandomPhoneNumber("48"));
@@ -71,12 +79,26 @@ public class MyNotesProfileTests extends BaseTest {
     myNotesProfilePage.clickUpdatePrile();
     myNotesProfilePage.closeUpdateProfileAlert();
 
-    assertAll("",
-        ()-> assertEquals(user.getUserId(), myNotesProfilePage.getUserId(),""),
-        ()-> assertEquals(user.getEmail().toLowerCase(), myNotesProfilePage.getEmailAddress(), ""),
-        ()-> assertEquals(user.getName(), myNotesProfilePage.getFullName(), ""),
-        ()-> assertEquals(user.getPhoneNumber(), myNotesProfilePage.getPhoneNumber(), ""),
-        ()-> assertEquals(user.getCompanyName(), myNotesProfilePage.getCompanyName(), "")
+    assertAll("Updated profile data verification",
+        () -> assertEquals(user.getUserId(),
+            myNotesProfilePage.getUserId(),
+            "User ID should remain unchanged"),
+
+        () -> assertEquals(user.getEmail().toLowerCase(),
+            myNotesProfilePage.getEmailAddress(),
+            "Email should remain unchanged"),
+
+        () -> assertEquals(user.getName(),
+            myNotesProfilePage.getFullName(),
+            "Full name should be updated correctly"),
+
+        () -> assertEquals(user.getPhoneNumber(),
+            myNotesProfilePage.getPhoneNumber(),
+            "Phone number should be updated correctly"),
+
+        () -> assertEquals(user.getCompanyName(),
+            myNotesProfilePage.getCompanyName(),
+            "Company name should be updated correctly")
     );
 
     myNotesProfilePage.clickDeleteAccount();
