@@ -4,6 +4,9 @@ import com.microsoft.playwright.Locator;
 import io.qameta.allure.Step;
 import org.example.components.modals.DeleteNoteModal;
 import org.example.components.modals.NoteModal;
+import org.example.objects.Note;
+import org.example.pages.my_notes.MyNoteSinglePage;
+import org.joda.time.IllegalInstantException;
 
 /**
  * Component representing a single note card on the home page.
@@ -32,8 +35,9 @@ public class NoteComponent {
    * Opens the detailed view of the note by clicking the view button.
    */
   @Step("Click 'View' button on the note card")
-  public void viewNote() {
+  public MyNoteSinglePage viewNote() {
     viewButton.click();
+    return new MyNoteSinglePage(root.page());
   }
 
   /**
@@ -91,5 +95,24 @@ public class NoteComponent {
    */
   public boolean isNoteCompleted() {
     return isCompletedToggle.isChecked();
+  }
+
+  public void compareNote(Note note) {
+    if (!this.getTitle().equals(note.getTitle())) {
+      throw new IllegalInstantException(String.format("Content of the title is not equal:" +
+          "expected: %s;" +
+          "actual: %s", note.getTitle(), this.getTitle()));
+    }
+    if (!this.getDescription().equals(note.getDescription())) {
+      throw new IllegalInstantException(String.format("Content of the description is not equal:" +
+          "expected: %s;" +
+          "actual: %s", note.getDescription(), this.getDescription()));
+    }
+
+    if (this.isNoteCompleted() != note.isCompleted()) {
+      throw new IllegalInstantException(String.format("Status of the description is not equal:" +
+          "expected: %s;" +
+          "actual: %s", note.isCompleted(), this.isNoteCompleted()));
+    }
   }
 }
