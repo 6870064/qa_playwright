@@ -85,6 +85,27 @@ public class MyNotesTests extends BaseTest {
     mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
 
+  @DisplayName("[UI]. Notes App. Create a new note and delete from Note Single Page")
+  @Description("""
+1. Open the Home page.
+2. Navigate to the 'Notes App'.
+3. Click the 'Login' button.
+4. Log in with valid user credentials.
+5. Assert that the authenticated user header is visible.
+6. Open the 'Add Note' modal.
+7. Create a new note with generated data.
+8. Locate the created note card on the Home Page.
+9. Compare the note card content with the initial data.
+10. Click the 'View' button to navigate to the 'MyNoteSinglePage'.
+11. Verify the note title and description on the standalone page.
+12. Open the 'Delete Note' modal from the Single Note Page.
+13. Confirm the note deletion.
+14. Wait for the loading spinner to disappear.
+15. Verify that the user is redirected to the Home Page and the note is no longer present.
+16. Click the 'Logout' button.
+17. Assert that the Welcome page title is visible.
+18. Assert that the 'Login' and 'Create account' buttons are visible.
+""")
   @Test
   public void createAndDeleteNoteFromNoteSinglePageTest() {
     Note newNote = DataGenerator.generateNewNote(
@@ -105,6 +126,7 @@ public class MyNotesTests extends BaseTest {
 
     noteCard.compareNote(newNote);
     MyNoteSinglePage myNote = noteCard.viewNote();
+    //TODO Добавить проверку контента заметки на отдельноой странице
     DeleteNoteModal deleteNoteModal = myNote.deleteNote();
 
     deleteNoteModal.deleteNote();
