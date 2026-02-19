@@ -81,11 +81,16 @@ public class NoteComponent {
   }
 
   /**
-   * Toggles the note's completion switch to the checked state.
+   * Toggles the completion status of the note.
+   * If the note is completed, it will be unchecked, and vice versa.
    */
-  @Step("Toggle note completion switch")
-  public void completeNote() {
-    isCompletedToggle.check();
+  @Step("Toggle note completion status")
+  public void setStatus() {
+    if (!this.isCompleted()) {
+      isCompletedToggle.check();
+    } else {
+      isCompletedToggle.uncheck();
+    }
   }
 
   /**
@@ -93,7 +98,7 @@ public class NoteComponent {
    *
    * @return true if checked, false otherwise
    */
-  public boolean isNoteCompleted() {
+  public boolean isCompleted() {
     return isCompletedToggle.isChecked();
   }
 
@@ -109,10 +114,10 @@ public class NoteComponent {
           "actual: %s", note.getDescription(), this.getDescription()));
     }
 
-    if (this.isNoteCompleted() != note.isCompleted()) {
+    if (this.isCompleted() != note.isCompleted()) {
       throw new IllegalInstantException(String.format("Status of the description is not equal:" +
           "expected: %s;" +
-          "actual: %s", note.isCompleted(), this.isNoteCompleted()));
+          "actual: %s", note.isCompleted(), this.isCompleted()));
     }
   }
 }

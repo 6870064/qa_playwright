@@ -7,7 +7,9 @@ import io.qameta.allure.Step;
 import org.example.components.HeaderComponent;
 import org.example.components.modals.DeleteNoteModal;
 import org.example.components.modals.NoteModal;
+import org.example.objects.Note;
 import org.example.pages.BasePage;
+import org.joda.time.IllegalInstantException;
 
 /**
  * Page Object representing the standalone view of a single note.
@@ -58,11 +60,16 @@ public class MyNoteSinglePage extends BasePage {
   }
 
   /**
-   * Checks the completion toggle/checkbox for the note.
+   * Toggles the completion status of the note.
+   * If the note is completed, it will be unchecked, and vice versa.
    */
-  @Step("Mark note as completed")
-  public void completeNote() {
-    completedCheckbox.check();
+  @Step("Toggle note completion status")
+  public void setStatus() {
+    if (!this.isCompleted()) {
+      completedCheckbox.check();
+    } else {
+      completedCheckbox.uncheck();
+    }
   }
 
   /**
@@ -70,7 +77,7 @@ public class MyNoteSinglePage extends BasePage {
    * * @return true if checked, false otherwise
    */
   @Step("Check if the completion toggle is selected")
-  public boolean isCompleteNoteChecked() {
+  public boolean isCompleted() {
     return completedCheckbox.isChecked();
   }
 
@@ -79,7 +86,7 @@ public class MyNoteSinglePage extends BasePage {
    * * @return the trimmed title string
    */
   @Step("Get note title from the single page")
-  public String getNoteTitle() {
+  public String getTitle() {
     return noteTitle.innerText().trim();
   }
 
@@ -88,7 +95,7 @@ public class MyNoteSinglePage extends BasePage {
    * * @return the trimmed description string
    */
   @Step("Get note description from the single page")
-  public String getNoteDescription() {
+  public String getDescription() {
     return noteDescription.innerText().trim();
   }
 
@@ -99,5 +106,24 @@ public class MyNoteSinglePage extends BasePage {
   @Override
   protected String path() {
     return "";
+  }
+
+  public void compareNote(Note note) {
+    if (!this.getTitle().equals(note.getTitle())) {
+      throw new IllegalInstantException(String.format("Content of the title is not equal:" +
+          "expected: %s;" +
+          "actual: %s", note.getTitle(), this.getTitle()));
+    }
+    if (!this.getDescription().equals(note.getDescription())) {
+      throw new IllegalInstantException(String.format("Content of the description is not equal:" +
+          "expected: %s;" +
+          "actual: %s", note.getDescription(), this.getDescription()));
+    }
+
+    if (this.isCompleted() != note.isCompleted()) {
+      throw new IllegalInstantException(String.format("Status of the description is not equal:" +
+          "expected: %s;" +
+          "actual: %s", note.isCompleted(), this.isCompleted()));
+    }
   }
 }

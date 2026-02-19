@@ -18,6 +18,8 @@ import org.junit.jupiter.api.Test;
 import testdata.TestUsers;
 import ui.BaseTest;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * Test suite for the My Notes application.
  * Contains end-to-end scenarios covering the full lifecycle of a note:
@@ -35,24 +37,28 @@ public class MyNotesTests extends BaseTest {
       4. Log in with valid user credentials.
       5. Assert that the authenticated user header is visible.
       6. Open the 'Add Note' modal.
-      7. Create a new note with initial data.
-      8. Locate the created note card.
-      9. Open the 'Edit Note' modal for the initial note.
-      10. Verify that the modal data matches the initial note.
-      11. Update the note with new data.
-      12. Wait for the loading spinner to disappear.
-      13. Locate the updated note card.
-      14. Open the 'Edit Note' modal for the updated note.
-      15. Verify that the modal data matches the updated note.
-      16. Cancel the edit action.
-      17. Wait for the loading spinner to disappear.
-      18. Open the 'Delete Note' modal for the updated note.
-      19. Confirm the note deletion.
-      20. Wait for the loading spinner to disappear.
-      21. Verify that the note is no longer present in the list.
+      7. Create a new note with generated data (isCompleted: false).
+      8. Locate the created note card using the root locator.
+      9. Verify that the note card content matches the initial data.
+      10. Verify that the 'Completed' checkbox is initially unchecked.
+      11. Click on the 'Completed' toggle/checkbox on the note card.
+      12. Assert that the note status has changed to 'Completed'.
+      13. Verify that the UI state is now inverted relative to the initial Note object.
+      14. Wait for the loading spinner to disappear after the status update.
+      15. Locate the 'Delete' button on the note card.
+      16. Open the 'Delete Note' modal.
+      17. Confirm the note deletion in the modal.
+      18. Wait for the loading spinner to disappear.
+      19. Verify that the note is no longer present in the list (Verify deleted).
+      20. Wait for the loading spinner to disappear again to ensure stability.
+      21. Locate the logout button in the header component.
       22. Click the 'Logout' button.
       23. Assert that the Welcome page title is visible.
-      24. Assert that the 'Login' and 'Create account' buttons are visible.
+      24. Assert that the 'Login' button is visible on the Welcome page.
+      25. Assert that the 'Create an account' button is visible.
+      26. Verify successful redirection to the landing state.
+      27. Check that the user session is terminated.
+      28. Ensure the page is ready for the next test execution.
       """)
   @Test
   public void createAndDeleteNoteFromHomePageTest() {
@@ -73,6 +79,10 @@ public class MyNotesTests extends BaseTest {
     NoteComponent noteCard = myNotesHomePage.getNoteComponent(newNote);
 
     noteCard.compareNote(newNote);
+    noteCard.setStatus();
+    assertTrue(noteCard.isCompleted() != newNote.isCompleted(),
+        "The note completion status should have changed after toggle");
+
     DeleteNoteModal deleteNoteModal = noteCard.deleteNote();
     deleteNoteModal.deleteNote();
     myNotesHomePage.waitForLoaderToDisappear();
@@ -87,25 +97,35 @@ public class MyNotesTests extends BaseTest {
 
   @DisplayName("[UI]. Notes App. Create a new note and delete from Note Single Page")
   @Description("""
-1. Open the Home page.
-2. Navigate to the 'Notes App'.
-3. Click the 'Login' button.
-4. Log in with valid user credentials.
-5. Assert that the authenticated user header is visible.
-6. Open the 'Add Note' modal.
-7. Create a new note with generated data.
-8. Locate the created note card on the Home Page.
-9. Compare the note card content with the initial data.
-10. Click the 'View' button to navigate to the 'MyNoteSinglePage'.
-11. Verify the note title and description on the standalone page.
-12. Open the 'Delete Note' modal from the Single Note Page.
-13. Confirm the note deletion.
-14. Wait for the loading spinner to disappear.
-15. Verify that the user is redirected to the Home Page and the note is no longer present.
-16. Click the 'Logout' button.
-17. Assert that the Welcome page title is visible.
-18. Assert that the 'Login' and 'Create account' buttons are visible.
-""")
+      1. Open the Home page.
+      2. Navigate to the 'Notes App'.
+      3. Click the 'Login' button.
+      4. Log in with valid user credentials.
+      5. Assert that the authenticated user header is visible.
+      6. Open the 'Add Note' modal.
+      7. Create a new note with generated data (isCompleted: false).
+      8. Locate the created note card on the Home Page.
+      9. Compare the note card content (title, description, category) with the initial data.
+      10. Click the 'View' button on the note card to navigate to the standalone page.
+      11. Initialize 'MyNoteSinglePage' and wait for it to load.
+      12. Verify the note title on the standalone page matches the generated data.
+      13. Verify the note description on the standalone page matches the generated data.
+      14. Check the initial completion status on the single note page.
+      15. Call 'setStatus()' to toggle the note completion checkbox.
+      16. Assert that the completion status is now inverted compared to the initial note state.
+      17. Verify that the UI reflects the change in the completion toggle.
+      18. Click the 'Delete' button located on the Single Note Page.
+      19. Confirm the note deletion in the confirmation modal.
+      20. Wait for the loading spinner to disappear after deletion.
+      21. Verify that the user is redirected back to the My Notes Home Page.
+      22. Assert that the deleted note is no longer present in the main notes list.
+      23. Wait for the loading spinner to disappear to ensure the UI is stable.
+      24. Click the 'Logout' button in the header component.
+      25. Assert that the Welcome page title is visible.
+      26. Assert that the 'Login' button is visible.
+      27. Assert that the 'Create an account' button is visible.
+      28. Verify that the session is terminated and the page is ready for the next run.
+      """)
   @Test
   public void createAndDeleteNoteFromNoteSinglePageTest() {
     Note newNote = DataGenerator.generateNewNote(
@@ -126,9 +146,12 @@ public class MyNotesTests extends BaseTest {
 
     noteCard.compareNote(newNote);
     MyNoteSinglePage myNote = noteCard.viewNote();
-    //TODO Добавить проверку контента заметки на отдельноой странице
-    DeleteNoteModal deleteNoteModal = myNote.deleteNote();
+    myNote.compareNote(newNote);
+    myNote.setStatus();
+    assertTrue(newNote.isCompleted() !=myNote.isCompleted(),
+        "The note completion status should have changed after toggle");
 
+    DeleteNoteModal deleteNoteModal = myNote.deleteNote();
     deleteNoteModal.deleteNote();
     myNotesHomePage.waitForLoaderToDisappear();
     myNotesHomePage.verifyNoteIsDeleted(newNote);
@@ -215,6 +238,4 @@ public class MyNotesTests extends BaseTest {
     mySecondNotesWelcomePage.assertLoginButtonIsVisible();
     mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
-
-
 }
