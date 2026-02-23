@@ -8,6 +8,7 @@ import org.example.enums.NoteCategory;
 import org.example.objects.Note;
 
 public class NoteModal {
+  private final Locator loader;
   private final Locator noteCategory;
   private final Locator isNoteCompleted;
   private final Locator noteTitle;
@@ -19,6 +20,7 @@ public class NoteModal {
    * Page object representing the modal for creating and editing notes.
    */
   public NoteModal(Page page) {
+    this.loader = page.locator(".spinner-border");
     this.noteCategory = page.getByTestId("note-category");
     this.isNoteCompleted = page.getByTestId("note-completed");
     this.noteTitle = page.getByTestId("note-title");
@@ -198,5 +200,15 @@ public class NoteModal {
               "Expect: %s." +
               "Received: %s", expectedNote, actualNote));
     }
+  }
+
+  /**
+   * Waits for the loading spinner to disappear from the page.
+   * This ensures the UI has finished updating after an action.
+   */
+  @Step("Wait for loading spinner to disappear")
+  public void waitForLoaderToDisappear() {
+    loader.waitFor(
+        new Locator.WaitForOptions().setState(WaitForSelectorState.HIDDEN));
   }
 }

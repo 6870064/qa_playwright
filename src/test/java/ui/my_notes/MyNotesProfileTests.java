@@ -78,6 +78,7 @@ public class MyNotesProfileTests extends BaseTest {
     myNotesProfilePage.fillCompanyName(user.getCompanyName());
     myNotesProfilePage.clickUpdatePrile();
     myNotesProfilePage.closeUpdateProfileAlert();
+    myNotesProfilePage.verifyUserIdIsStatic();
 
     assertAll("Updated profile data verification",
         () -> assertEquals(user.getUserId(),

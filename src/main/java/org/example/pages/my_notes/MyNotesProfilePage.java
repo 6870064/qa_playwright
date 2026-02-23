@@ -9,6 +9,10 @@ import org.example.components.HeaderComponent;
 import org.example.constants.routes.UIRotes;
 import org.example.pages.BasePage;
 
+import java.util.regex.Pattern;
+
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+
 /**
  * Page object representing the User Profile page in the My Notes application.
  * Provides methods for managing profile information and account deletion.
@@ -72,7 +76,7 @@ public class MyNotesProfilePage extends BasePage {
    * Waits for the update success alert and closes it.
    */
   @Step("Close update profile alert message")
-  public void closeUpdateProfileAlert(){
+  public void closeUpdateProfileAlert() {
     updateProfileAlert.waitFor(
         new Locator.WaitForOptions()
             .setState(WaitForSelectorState.VISIBLE)
@@ -196,5 +200,14 @@ public class MyNotesProfilePage extends BasePage {
   @Step("Get Company Name from profile")
   public String getCompanyName() {
     return companyNameInput.inputValue();
+  }
+
+/**
+ * Validates that the User ID field is populated and cannot be edited by the user.
+ */
+  @Step("Verify that User ID is not empty and is read-only")
+  public void verifyUserIdIsStatic() {
+    assertThat(userIdInput).hasValue(Pattern.compile(".+"));
+    assertThat(userIdInput).not().isEditable();
   }
 }

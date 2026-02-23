@@ -3,6 +3,7 @@ package org.example.pages.my_notes;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+import com.microsoft.playwright.options.WaitForSelectorState;
 import io.qameta.allure.Step;
 import org.example.components.HeaderComponent;
 import org.example.components.modals.DeleteNoteModal;
@@ -10,6 +11,8 @@ import org.example.components.modals.NoteModal;
 import org.example.objects.Note;
 import org.example.pages.BasePage;
 import org.joda.time.IllegalInstantException;
+
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 /**
  * Page Object representing the standalone view of a single note.
@@ -27,6 +30,7 @@ public class MyNoteSinglePage extends BasePage {
       new Page.GetByRoleOptions().setName("Delete"));
 
   private final Locator completedCheckbox = page.getByTestId("toggle-note-switch");
+  private final Locator loader = page.locator(".spinner-border");
 
   /**
    * Initializes the MyNoteSinglePage with the Playwright Page instance and waits for the page to load.
@@ -108,22 +112,36 @@ public class MyNoteSinglePage extends BasePage {
     return "";
   }
 
+  /**
+   * Compares the data of the currently displayed note on the page with the expected Note object.
+   * This method utilizes Web-First assertions, automatically waiting for the UI to update
+   * before performing the validation.
+   *
+   * @param note the expected Note object containing the title, description, and completion status.
+   */
+  @Step("Verify that the displayed note matches the expected data: {note.title}")
   public void compareNote(Note note) {
-    if (!this.getTitle().equals(note.getTitle())) {
-      throw new IllegalInstantException(String.format("Content of the title is not equal:" +
-          "expected: %s;" +
-          "actual: %s", note.getTitle(), this.getTitle()));
-    }
-    if (!this.getDescription().equals(note.getDescription())) {
-      throw new IllegalInstantException(String.format("Content of the description is not equal:" +
-          "expected: %s;" +
-          "actual: %s", note.getDescription(), this.getDescription()));
-    }
+    assertThat(noteTitle).hasText(note.getTitle());
+    assertThat(noteDescription).hasText(note.getDescription());
 
-    if (this.isCompleted() != note.isCompleted()) {
-      throw new IllegalInstantException(String.format("Status of the description is not equal:" +
-          "expected: %s;" +
-          "actual: %s", note.isCompleted(), this.isCompleted()));
+    if (note.isCompleted()) {
+      assertThat(completedCheckbox).isChecked();
+    } else {
+      assertThat(completedCheckbox).not().isChecked();
     }
+  }
+
+  /**
+   * Waits for the loading spinner to disappear from the page.
+   * This ensures the UI has finished updating after an action.
+   */
+  @Step("Wait for loading spinner to disappear")
+  public void waitForLoaderToDisappear() {
+    loader.waitFor(
+        new Locator.WaitForOptions().setState(WaitForSelectorState.HIDDEN));
+  }
+
+  public void waitForNoteTitle(Note note) {
+    assertThat(noteTitle).hasText(note.getTitle());
   }
 }
