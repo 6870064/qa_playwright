@@ -10,7 +10,6 @@ import org.example.components.modals.DeleteNoteModal;
 import org.example.components.modals.NoteModal;
 import org.example.objects.Note;
 import org.example.pages.BasePage;
-import org.joda.time.IllegalInstantException;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 

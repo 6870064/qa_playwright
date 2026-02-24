@@ -4,9 +4,14 @@ import com.microsoft.playwright.Locator;
 import io.qameta.allure.Step;
 import org.example.components.modals.DeleteNoteModal;
 import org.example.components.modals.NoteModal;
+import org.example.enums.NoteCategory;
 import org.example.objects.Note;
 import org.example.pages.my_notes.MyNoteSinglePage;
 import org.joda.time.IllegalInstantException;
+
+import java.util.Map;
+
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 /**
  * Component representing a single note card on the home page.
@@ -20,6 +25,13 @@ public class NoteComponent {
   private final Locator editButton;
   private final Locator deleteButton;
   private final Locator isCompletedToggle;
+
+  private static final String COMPLETED_COLOR = "rgb(173, 181, 189)";
+  private static final Map<NoteCategory, String> CATEGORY_COLORS = Map.of(
+      NoteCategory.Home, "rgb(102, 107, 188)",
+      NoteCategory.Work, "rgb(255, 145, 0)",
+      NoteCategory.Personal, "rgb(88, 81, 183)"
+  );
 
   public NoteComponent(Locator root) {
     this.root = root;
@@ -102,22 +114,35 @@ public class NoteComponent {
     return isCompletedToggle.isChecked();
   }
 
+  /**
+   * Performs a comprehensive validation of the note component's state on the UI.
+   * <p>
+   * This method uses Web-First assertions to verify:
+   * <ul>
+   * <li>The visibility and correctness of the note title and description.</li>
+   * <li>The background color of the title, which must match the {@link NoteCategory}
+   * if the note is active, or become grey if it is completed.</li>
+   * <li>The state of the completion checkbox.</li>
+   * </ul>
+   * * @param note the {@link Note} object containing the expected data to compare against the UI.
+   * @throws AssertionError if any of the UI elements do not match the expected state within the timeout.
+   */
+  @Step("Compare note UI state with expected data")
   public void compareNote(Note note) {
-    if (!this.getTitle().equals(note.getTitle())) {
-      throw new IllegalInstantException(String.format("Content of the title is not equal:" +
-          "expected: %s;" +
-          "actual: %s", note.getTitle(), this.getTitle()));
-    }
-    if (!this.getDescription().equals(note.getDescription())) {
-      throw new IllegalInstantException(String.format("Content of the description is not equal:" +
-          "expected: %s;" +
-          "actual: %s", note.getDescription(), this.getDescription()));
+    assertThat(title).hasText(note.getTitle());
+    assertThat(description).hasText(note.getDescription());
+
+    if (note.isCompleted()) {
+      assertThat(title).hasCSS("background-color", COMPLETED_COLOR);
+    } else {
+      String expectedRgb = CATEGORY_COLORS.get(note.getCategory());
+      assertThat(title).hasCSS("background-color", expectedRgb);
     }
 
-    if (this.isCompleted() != note.isCompleted()) {
-      throw new IllegalInstantException(String.format("Status of the description is not equal:" +
-          "expected: %s;" +
-          "actual: %s", note.isCompleted(), this.isCompleted()));
+    if(note.isCompleted()) {
+      assertThat(isCompletedToggle).isChecked();
+    } else {
+      assertThat(isCompletedToggle).not().isChecked();
     }
   }
 }
