@@ -6,5 +6,5 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public record Data(
     String id,
     String name,
-    String email)
- {}
+    String email) {
+}

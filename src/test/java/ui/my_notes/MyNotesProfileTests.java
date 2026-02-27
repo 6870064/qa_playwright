@@ -37,7 +37,7 @@ public class MyNotesProfileTests extends BaseTest {
       """)
   @Test
   public void UpdateUserProfileAndDeleteTest() {
-    String password = dataGenerator.generateRandomPassword(8,10);
+    String password = dataGenerator.generateRandomPassword(8, 10);
     User user = new User(
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomName(5, 10),
@@ -67,7 +67,7 @@ public class MyNotesProfileTests extends BaseTest {
             myNotesProfilePage.getFullName(),
             "Full name should match registration name"));
 
-    user.setName(dataGenerator.generateRandomName(8,10));
+    user.setName(dataGenerator.generateRandomName(8, 10));
     user.setPhoneNumber(dataGenerator.generateRandomPhoneNumber("48"));
     user.setCompanyName(dataGenerator.generateRandomCompanyName());
     user.setUserId(myNotesProfilePage.getUserId());

@@ -42,7 +42,7 @@ public class MyNotesLoginPage extends BasePage {
   }
 
   @Step("Click 'Login' button")
-  public MyNotesHomePage clickLogin(){
+  public MyNotesHomePage clickLogin() {
     login.click();
     page.waitForURL("**" + UIRotes.HOME);
     return new MyNotesHomePage(page);
@@ -51,7 +51,9 @@ public class MyNotesLoginPage extends BasePage {
   public MyNotesHomePage loginUser(User user) {
     enterEmail(user.getEmail());
     enterPassword(user.getPassword());
-    return clickLogin();
+    clickLogin();
+    MyNotesHomePage myNotesHomePage = new MyNotesHomePage(page);
+    return myNotesHomePage.waitForPageToLoad();
   }
 
   //TODO доделать восзрат новой страницы Forgot Password page

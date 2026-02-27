@@ -11,8 +11,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ui.BaseTest;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 public class MyNotesRegistrationTests extends BaseTest {
 
   @DisplayName("[UI]. Notes App. Register a new user")
@@ -32,7 +30,7 @@ public class MyNotesRegistrationTests extends BaseTest {
       """)
   @Test
   public void registerNewUserTest() {
-    String password = dataGenerator.generateRandomPassword(8,10);
+    String password = dataGenerator.generateRandomPassword(8, 10);
     User user = new User(
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomName(5, 10),

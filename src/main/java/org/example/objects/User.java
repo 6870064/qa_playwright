@@ -6,12 +6,12 @@ package org.example.objects;
  */
 public class User {
   private String userId;
-  private String email;
+  private final String email;
   private String name;
   private String phoneNumber;
   private String companyName;
-  private String password;
-  private String confirmPassword;
+  private final String password;
+  private final String confirmPassword;
 
   /**
    * Constructs a new User with mandatory registration fields.
@@ -65,6 +65,15 @@ public class User {
   }
 
   /**
+   * Sets or updates the user's full name.
+   *
+   * @param name the new name string
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  /**
    * Gets the user's account password.
    *
    * @return the password string
@@ -92,6 +101,15 @@ public class User {
   }
 
   /**
+   * Sets or updates the user's phone number.
+   *
+   * @param phoneNumber the new phone number string
+   */
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
+  /**
    * Gets the user's company name.
    *
    * @return the company name string
@@ -101,29 +119,11 @@ public class User {
   }
 
   /**
-   * Sets or updates the user's full name.
-   *
-   * @param name the new name string
-   */
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  /**
    * Sets or updates the user's company name.
    *
    * @param companyName the new company name string
    */
   public void setCompanyName(String companyName) {
     this.companyName = companyName;
-  }
-
-  /**
-   * Sets or updates the user's phone number.
-   *
-   * @param phoneNumber the new phone number string
-   */
-  public void setPhoneNumber(String phoneNumber) {
-    this.phoneNumber = phoneNumber;
   }
 }

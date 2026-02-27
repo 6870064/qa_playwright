@@ -400,7 +400,7 @@ public class UserTests extends BaseApiTest {
     String id = secondBody.data().id();
 
     UpdateUserProfileDto updateUserProfileDto = new UpdateUserProfileDto(
-        dataGenerator.generateRandomName(8,30),
+        dataGenerator.generateRandomName(8, 30),
         dataGenerator.generateRandomPhoneNumber("48"),
         dataGenerator.generateRandomCompanyName());
 
@@ -410,29 +410,29 @@ public class UserTests extends BaseApiTest {
 
     UpdateUserResponse thirdBody = updateUserProfile.as(UpdateUserResponse.class);
     assertAll(
-        ()-> assertTrue(thirdBody.success(),
+        () -> assertTrue(thirdBody.success(),
             "Expected success=true, but was false"),
 
-        ()-> assertEquals(HttpStatus.OK.code(), thirdBody.status(),
+        () -> assertEquals(HttpStatus.OK.code(), thirdBody.status(),
             "Incorrect status in response body"),
 
-        ()-> assertEquals(USER_PROFILE_UPDATED_MESSAGE, thirdBody.message(),
+        () -> assertEquals(USER_PROFILE_UPDATED_MESSAGE, thirdBody.message(),
             "Unexpected logout message"),
 
-        ()-> assertEquals(id, thirdBody.data().id(),
+        () -> assertEquals(id, thirdBody.data().id(),
             "Incorrect user Id in response body"),
 
-        ()-> assertEquals(updateUserProfileDto.name(), thirdBody.data().name(),
+        () -> assertEquals(updateUserProfileDto.name(), thirdBody.data().name(),
             "Incorrect user name in response body"),
 
 
-        ()-> assertEquals(apiUser.email().toLowerCase(),thirdBody.data().email(),
+        () -> assertEquals(apiUser.email().toLowerCase(), thirdBody.data().email(),
             "Incorrect user email in response body"),
 
-        ()->assertEquals(updateUserProfileDto.phone(), thirdBody.data().phone(),
+        () -> assertEquals(updateUserProfileDto.phone(), thirdBody.data().phone(),
             "Incorrect user phone in response body"),
 
-        ()->assertEquals(updateUserProfileDto.company(), thirdBody.data().company(),
+        () -> assertEquals(updateUserProfileDto.company(), thirdBody.data().company(),
             "Incorrect user company title in response body"));
 
     registeredUserForCleanUp(secondBody.data().token());
@@ -504,22 +504,22 @@ public class UserTests extends BaseApiTest {
 
     LoginUserResponse fourthBody = loginUser.as(LoginUserResponse.class);
     assertAll(
-        ()-> assertTrue(fourthBody.success(),
+        () -> assertTrue(fourthBody.success(),
             "Expected success=true, but was false"),
 
-        ()-> assertEquals(HttpStatus.OK.code(), fourthBody.status(),
+        () -> assertEquals(HttpStatus.OK.code(), fourthBody.status(),
             "Incorrect status in response body"),
 
-        ()-> assertEquals(OK_LOGIN_MESSAGE, fourthBody.message(),
+        () -> assertEquals(OK_LOGIN_MESSAGE, fourthBody.message(),
             "Incorrect message in response body"),
 
-        ()-> assertEquals(id, fourthBody.data().id(),
-        "Incorrect user Id in response body"),
+        () -> assertEquals(id, fourthBody.data().id(),
+            "Incorrect user Id in response body"),
 
-        ()-> assertEquals(apiUser.name(), fourthBody.data().name(),
+        () -> assertEquals(apiUser.name(), fourthBody.data().name(),
             "Incorrect name Id in response body"),
 
-        ()-> assertEquals(apiUser.email().toLowerCase(), fourthBody.data().email(),
+        () -> assertEquals(apiUser.email().toLowerCase(), fourthBody.data().email(),
             "Incorrect email Id in response body"));
 
     registeredUserForCleanUp(secondBody.data().token());

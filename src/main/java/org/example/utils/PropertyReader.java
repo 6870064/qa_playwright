@@ -1,6 +1,7 @@
 package org.example.utils;
 
 import io.qameta.allure.Step;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -39,7 +40,7 @@ public class PropertyReader {
    */
   @Step("Read property value for key: {key}")
   public String getPropertyValueByKey(String key) {
-    if(properties.getProperty(key) != null) {
+    if (properties.getProperty(key) != null) {
       return properties.getProperty(key);
     } else {
       String errorMessage = String.format(

@@ -6,10 +6,15 @@ import com.microsoft.playwright.options.WaitForSelectorState;
 import io.qameta.allure.Step;
 import org.example.components.HeaderComponent;
 import org.example.components.NoteComponent;
+import org.example.components.modals.DeleteNoteModal;
 import org.example.components.modals.NoteModal;
 import org.example.constants.routes.UIRotes;
+import org.example.enums.NoteCategory;
+import org.example.helpers.DataGenerator;
 import org.example.objects.Note;
 import org.example.pages.BasePage;
+
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class MyNotesHomePage extends BasePage {
   public final HeaderComponent header;
@@ -18,7 +23,6 @@ public class MyNotesHomePage extends BasePage {
   private final Locator searchButton = page.getByTestId("search-btn");
   private final Locator searchInput = page.getByTestId("search-btn");
   private final Locator addNoteButton = page.getByTestId("add-new-note");
-  private final Locator noNotes = page.getByTestId("no-notes-message");
   private final Locator categoryAll = page.getByTestId("category-all");
   private final Locator categoryHome = page.getByTestId("category-home");
   private final Locator categoryWork = page.getByTestId("category-work");
@@ -27,6 +31,7 @@ public class MyNotesHomePage extends BasePage {
   private final Locator editNote = page.getByTestId("note-edit");
   private final Locator deleteNote = page.getByTestId("note-delete");
   private final Locator loader = page.locator(".spinner-border");
+  private final Locator emptyStateMessage = page.getByTestId("no-notes-message");
 
   public MyNotesHomePage(Page page) {
     super(page);
@@ -77,5 +82,76 @@ public class MyNotesHomePage extends BasePage {
           "Note with title '%s' was expected to be deleted, but it is still present!",
           note.getTitle()));
     }
+  }
+
+  /**
+   * Creates a specified number of notes to test system limits or pagination.
+   * This method orchestrates NoteModal and NoteComponent internally.
+   *
+   * @param amount number of notes to create
+   */
+  @Step("Mass create {amount} notes and verify each")
+  public  void createMultipleNotes(int amount) {
+    for (int i = 1; i <= amount; i++) {
+      Note newNote = DataGenerator.generateNewNote(
+          false,
+          25,
+          100);
+
+      this.openAddNoteModal()
+          .createNewNote(newNote);
+
+      this.waitForLoaderToDisappear();
+
+      this.getNoteComponent(newNote)
+          .compareNote(newNote);
+    }
+  }
+
+  /**
+   * Returns the current number of note cards visible on the page.
+   * @return total count of notes.
+   */
+  @Step("Get total count of notes on the page")
+  public int getNotesCount() {
+    return noteRoot.count();
+  }
+
+  /**
+   * Removes all notes currently visible on the page one by one.
+   * <p>
+   * The process involves clicking the delete button for the first available note,
+   * confirming the action in the modal, and waiting for the UI loader to disappear.
+   * Once the list is empty, it verifies that the "no notes" placeholder message is displayed.
+   * </p>
+   */
+  @Step("Delete all notes and verify empty state message")
+  public void  deleteAllNotes() {
+
+    while (noteRoot.count() > 0) {
+      Locator firstNote = noteRoot.first();
+      NoteComponent NoteCard = new NoteComponent(firstNote);
+
+      DeleteNoteModal modal = NoteCard.deleteNote();
+      modal.deleteNote();
+
+      this.waitForLoaderToDisappear();
+    }
+    assertThat(noteRoot).hasCount(0);
+    assertThat(emptyStateMessage).isVisible();
+    assertThat(emptyStateMessage).hasText("You don't have any notes in all categories");
+  }
+
+  /**
+   * Waits for the page content to load by checking for either existing notes
+   * or the empty state message.
+   *
+   * @return the same instance for method chaining.
+   */
+  @Step("Wait for notes content to load")
+  public MyNotesHomePage waitForPageToLoad() {
+    this.waitForLoaderToDisappear();
+    noteRoot.or(emptyStateMessage).first().waitFor();
+    return this;
   }
 }

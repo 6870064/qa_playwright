@@ -45,10 +45,10 @@ public class HeaderComponent {
 
     profileButton.waitFor(
         new Locator.WaitForOptions()
-        .setState(WaitForSelectorState.VISIBLE));
+            .setState(WaitForSelectorState.VISIBLE));
 
     logoutButton.waitFor(
         new Locator.WaitForOptions()
-        .setState(WaitForSelectorState.VISIBLE));
+            .setState(WaitForSelectorState.VISIBLE));
   }
 }

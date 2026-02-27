@@ -7,7 +7,6 @@ import org.example.components.modals.NoteModal;
 import org.example.enums.NoteCategory;
 import org.example.objects.Note;
 import org.example.pages.my_notes.MyNoteSinglePage;
-import org.joda.time.IllegalInstantException;
 
 import java.util.Map;
 
@@ -18,6 +17,12 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
  * Provides methods to interact with and retrieve data from a specific note.
  */
 public class NoteComponent {
+  private static final String COMPLETED_COLOR = "rgb(173, 181, 189)";
+  private static final Map<NoteCategory, String> CATEGORY_COLORS = Map.of(
+      NoteCategory.Home, "rgb(255, 145, 0)",
+      NoteCategory.Work, "rgb(92, 107, 192)",
+      NoteCategory.Personal, "rgb(50, 140, 160)"
+  );
   private final Locator root;
   private final Locator title;
   private final Locator description;
@@ -25,13 +30,6 @@ public class NoteComponent {
   private final Locator editButton;
   private final Locator deleteButton;
   private final Locator isCompletedToggle;
-
-  private static final String COMPLETED_COLOR = "rgb(173, 181, 189)";
-  private static final Map<NoteCategory, String> CATEGORY_COLORS = Map.of(
-      NoteCategory.Home, "rgb(102, 107, 188)",
-      NoteCategory.Work, "rgb(255, 145, 0)",
-      NoteCategory.Personal, "rgb(88, 81, 183)"
-  );
 
   public NoteComponent(Locator root) {
     this.root = root;
@@ -70,7 +68,7 @@ public class NoteComponent {
    */
   @Step("Open delete note modal")
   public DeleteNoteModal deleteNote() {
-    deleteButton.click();
+    this.deleteButton.click();
     return new DeleteNoteModal(root.page());
   }
 
@@ -125,6 +123,7 @@ public class NoteComponent {
    * <li>The state of the completion checkbox.</li>
    * </ul>
    * * @param note the {@link Note} object containing the expected data to compare against the UI.
+   *
    * @throws AssertionError if any of the UI elements do not match the expected state within the timeout.
    */
   @Step("Compare note UI state with expected data")
@@ -139,7 +138,7 @@ public class NoteComponent {
       assertThat(title).hasCSS("background-color", expectedRgb);
     }
 
-    if(note.isCompleted()) {
+    if (note.isCompleted()) {
       assertThat(isCompletedToggle).isChecked();
     } else {
       assertThat(isCompletedToggle).not().isChecked();

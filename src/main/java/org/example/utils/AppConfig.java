@@ -15,17 +15,17 @@ public class AppConfig {
           propertyReader.getPropertyValueByKey("baseUrl"));
 
   /**
+   * Default constructor for AppConfig.
+   */
+  public AppConfig() {
+  }
+
+  /**
    * Retrieves the configured Base URL for the application.
    * * @return the base URL as a String
    */
   @Step("Get application base URL")
   public static String baseUrl() {
     return BASE_URL;
-  }
-
-  /**
-   * Default constructor for AppConfig.
-   */
-  public AppConfig() {
   }
 }

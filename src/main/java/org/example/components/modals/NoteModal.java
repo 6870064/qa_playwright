@@ -5,6 +5,7 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import io.qameta.allure.Step;
 import org.example.enums.NoteCategory;
+import org.example.helpers.DataGenerator;
 import org.example.objects.Note;
 
 public class NoteModal {

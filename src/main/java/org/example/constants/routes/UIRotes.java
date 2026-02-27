@@ -9,5 +9,7 @@ public class UIRotes {
   public static final String FORGOT_PASSWORD = BASE + "/forgot-password";
   public static final String PROFILE = BASE + "/profile";
 
-  private UIRotes() {};
+  private UIRotes() {
+  }
+
 }

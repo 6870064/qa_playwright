@@ -7,12 +7,13 @@ import org.example.pages.BasePage;
 
 public class DragAndDropCirclesPage extends BasePage {
   private final Locator dropZone = page.locator("#target");
-  private final Locator circleByColor(String color) {
-    return page.locator("source > div." + color + ", #target > div." + color);
-  }
 
   public DragAndDropCirclesPage(Page page) {
     super(page);
+  }
+
+  private final Locator circleByColor(String color) {
+    return page.locator("source > div." + color + ", #target > div." + color);
   }
 
   @Override

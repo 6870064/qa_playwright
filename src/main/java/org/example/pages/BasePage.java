@@ -35,7 +35,7 @@ public abstract class BasePage {
    * Optional hook to wait for specific page elements to be ready.
    * Can be overridden by child classes to implement page-load synchronization.
    */
-  protected void waitForOpen(){
+  protected void waitForOpen() {
     //nothing by default
   }
 

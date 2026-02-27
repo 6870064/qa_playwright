@@ -1,4 +1,5 @@
 package requests;
+
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.example.requests.user.LoginApiUser;
@@ -33,15 +34,19 @@ public interface SimpleAction {
     return sendPostRequest(record, REGISTER_URL);
   }
 
+  @Step("Update User profile")
+  static Response updateUserProfile(String authContent, Record record) {
+    return sendPatchRequest(authContent, record, PATCH_PROFILE_URL);
+  }
+
+  @Step("Delete a note with id: {id}")
+  static Response deleteNote(String id, String authContent) {
+    return sendDeleteRequest(authContent, String.format(DELETE_NOTE, id));
+  }
 
   @Step("Get a user profile")
   default Response getUserProfile(String authContent) {
     return sendGetRequest(authContent, GET_PROFILE_URL);
-  }
-
-  @Step("Update User profile")
-  static Response updateUserProfile(String authContent, Record record) {
-    return sendPatchRequest(authContent, record, PATCH_PROFILE_URL);
   }
 
   @Step("Change user's password")
@@ -62,11 +67,6 @@ public interface SimpleAction {
   @Step("Get all notes")
   default Response getNotes(String authContent) {
     return sendGetRequest(authContent, GET_NOTES);
-  }
-
-  @Step("Delete a note with id: {id}")
-  static Response deleteNote(String id, String authContent) {
-    return sendDeleteRequest(authContent, String.format(DELETE_NOTE, id));
   }
 
   @Step("Patch a note with id: {id} and {record}")

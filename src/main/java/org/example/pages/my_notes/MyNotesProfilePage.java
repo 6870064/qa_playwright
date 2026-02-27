@@ -202,9 +202,9 @@ public class MyNotesProfilePage extends BasePage {
     return companyNameInput.inputValue();
   }
 
-/**
- * Validates that the User ID field is populated and cannot be edited by the user.
- */
+  /**
+   * Validates that the User ID field is populated and cannot be edited by the user.
+   */
   @Step("Verify that User ID is not empty and is read-only")
   public void verifyUserIdIsStatic() {
     assertThat(userIdInput).hasValue(Pattern.compile(".+"));

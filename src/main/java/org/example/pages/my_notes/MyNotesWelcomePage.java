@@ -63,7 +63,7 @@ public class MyNotesWelcomePage extends BasePage {
    * @return a new instance of MyNotesLoginPage
    */
   @Step("Click 'Login' button")
-  public MyNotesLoginPage clickLogin(){
+  public MyNotesLoginPage clickLogin() {
     login.click();
     page.waitForURL("**" + UIRotes.LOGIN);
     return new MyNotesLoginPage(page);
