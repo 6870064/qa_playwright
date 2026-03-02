@@ -21,7 +21,7 @@ public class MyNotesHomePage extends BasePage {
 
   private final Locator noteRoot = page.getByTestId("note-card");
   private final Locator searchButton = page.getByTestId("search-btn");
-  private final Locator searchInput = page.getByTestId("search-btn");
+  private final Locator searchInput = page.getByTestId("search-input");
   private final Locator addNoteButton = page.getByTestId("add-new-note");
   private final Locator categoryAll = page.getByTestId("category-all");
   private final Locator categoryHome = page.getByTestId("category-home");
@@ -50,6 +50,19 @@ public class MyNotesHomePage extends BasePage {
   }
 
   public NoteComponent getNoteComponent(Note note) {
+    noteRoot
+        .filter(new Locator.FilterOptions().setHasText(note.getTitle()))
+        .filter(new Locator.FilterOptions().setHasText(note.getDescription()));
+
+    noteRoot.first().waitFor();
+
+    return new NoteComponent(noteRoot.first());
+  }
+
+  public NoteComponent searchNoteByTitle(Note note) {
+    searchInput.fill(note.getTitle());
+    searchButton.click();
+
     noteRoot
         .filter(new Locator.FilterOptions().setHasText(note.getTitle()))
         .filter(new Locator.FilterOptions().setHasText(note.getDescription()));
@@ -153,5 +166,12 @@ public class MyNotesHomePage extends BasePage {
     this.waitForLoaderToDisappear();
     noteRoot.or(emptyStateMessage).first().waitFor();
     return this;
+  }
+
+
+  public void clearSearchInput() {
+    searchInput.clear();
+    searchButton.click();
+    waitForLoaderToDisappear();
   }
 }

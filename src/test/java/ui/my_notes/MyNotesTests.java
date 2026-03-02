@@ -341,4 +341,49 @@ public class MyNotesTests extends BaseTest {
     mySecondNotesWelcomePage.assertLoginButtonIsVisible();
     mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
+
+
+  @DisplayName("[UI]. Notes App. Mass creation and mass deletion of notes")
+  @Description("""
+      1. Log in to 'Notes App'.
+      2. Create multiple notes (15) using mass creation helper.
+      3. Verify that the actual notes count on the Home page matches the expected amount.
+      4. Perform mass deletion of all notes.
+      5. Verify that the list is empty and the 'No notes' message is displayed (inside deleteAllNotes).
+      6. Log out and verify Welcome page redirection.
+      """)
+  @Test
+  public void searchNoteByTitleTest() {
+    Note newNote = DataGenerator.generateNewNote(
+        NoteCategory.Home,
+        false,
+        25,
+        100);
+    int notesAmount = 3;
+
+    HomePage homePage = new HomePage(page()).open();
+    MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
+    MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
+    MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
+    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
+
+    NoteModal addNoteModal = myNotesHomePage.openAddNoteModal();
+    addNoteModal.createNewNote(newNote);
+    NoteComponent noteCard = myNotesHomePage.getNoteComponent(newNote);
+    noteCard.compareNote(newNote);
+
+    myNotesHomePage.createMultipleNotes(notesAmount);
+    myNotesHomePage.waitForLoaderToDisappear();
+    NoteComponent noteFoundCard = myNotesHomePage.searchNoteByTitle(newNote);
+    noteFoundCard.compareNote(newNote);
+    assertEquals(1, myNotesHomePage.getNotesCount());
+    myNotesHomePage.clearSearchInput();
+
+    myNotesHomePage.deleteAllNotes();
+
+    MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
+    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
+    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
+    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
+  }
 }
