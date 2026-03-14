@@ -342,7 +342,6 @@ public class MyNotesTests extends BaseTest {
     mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
 
-
   @DisplayName("[UI]. Notes App. Search and deletion of notes")
   @Description("""
     1. Log in to the 'Notes App'.
@@ -381,6 +380,35 @@ public class MyNotesTests extends BaseTest {
     myNotesHomePage.clearSearchInput();
 
     myNotesHomePage.deleteAllNotes();
+
+    MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
+    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
+    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
+    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
+  }
+
+  @DisplayName("[UI]. Notes App. Attempt to create note without title and description")
+  @Description("""
+    1. Log in to the 'Notes App'.
+    2. Try to create a note without title and description.
+    3. Verify error messages.
+    4. Verify empty state and log out.
+    """)
+  @Test
+  public void AttemptToCreateEmptyNoteTest() {
+    Note newNote = new Note(NoteCategory.Home, false, "", "");
+
+    HomePage homePage = new HomePage(page()).open();
+    MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
+    MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
+    MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
+    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
+
+    NoteModal addNoteModal = myNotesHomePage.openAddNoteModal();
+    addNoteModal.createNewNote(newNote);
+    addNoteModal.emptyTitleErrorIsDisplayed();
+    addNoteModal.emptyDescriptionErrorIsDisplayed();
+    addNoteModal.cancelCreateNote();
 
     MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
     mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();

@@ -8,6 +8,8 @@ import org.example.enums.NoteCategory;
 import org.example.helpers.DataGenerator;
 import org.example.objects.Note;
 
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+
 public class NoteModal {
   private final Locator loader;
   private final Locator noteCategory;
@@ -16,6 +18,8 @@ public class NoteModal {
   private final Locator noteDescription;
   private final Locator noteSubmit;
   private final Locator cancelCreateNote;
+  private final Locator emptyTitleError;
+  private final Locator emptyDescriptionError;
 
   /**
    * Page object representing the modal for creating and editing notes.
@@ -28,6 +32,8 @@ public class NoteModal {
     this.noteDescription = page.getByTestId("note-description");
     this.noteSubmit = page.getByTestId("note-submit");
     this.cancelCreateNote = page.getByTestId("note-cancel");
+    this.emptyTitleError = page.getByText("Title is required");
+    this.emptyDescriptionError = page.getByText("Description is required");
   }
 
   /**
@@ -211,5 +217,21 @@ public class NoteModal {
   public void waitForLoaderToDisappear() {
     loader.waitFor(
         new Locator.WaitForOptions().setState(WaitForSelectorState.HIDDEN));
+  }
+
+  /**
+   * Verifies that the error message for an empty note title is visible.
+   */
+  @Step("Verify that the empty title error message is displayed")
+  public void emptyTitleErrorIsDisplayed() {
+    assertThat(emptyTitleError).isVisible();
+  }
+
+  /**
+   * Verifies that the error message for an empty note description is visible.
+   */
+  @Step("Verify that the empty description error message is displayed")
+  public void emptyDescriptionErrorIsDisplayed() {
+    assertThat(emptyDescriptionError).isVisible();
   }
 }
