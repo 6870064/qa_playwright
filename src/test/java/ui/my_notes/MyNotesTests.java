@@ -343,15 +343,16 @@ public class MyNotesTests extends BaseTest {
   }
 
 
-  @DisplayName("[UI]. Notes App. Mass creation and mass deletion of notes")
+  @DisplayName("[UI]. Notes App. Search and deletion of notes")
   @Description("""
-      1. Log in to 'Notes App'.
-      2. Create multiple notes (15) using mass creation helper.
-      3. Verify that the actual notes count on the Home page matches the expected amount.
-      4. Perform mass deletion of all notes.
-      5. Verify that the list is empty and the 'No notes' message is displayed (inside deleteAllNotes).
-      6. Log out and verify Welcome page redirection.
-      """)
+    1. Log in to the 'Notes App'.
+    2. Create a specific test note and verify its data.
+    3. Add 3 additional notes to the list.
+    4. Search for the specific note by its title.
+    5. Verify that only 1 note is found and matches the expected data.
+    6. Clear search input and delete all notes from the list.
+    7. Verify empty state and log out.
+    """)
   @Test
   public void searchNoteByTitleTest() {
     Note newNote = DataGenerator.generateNewNote(
