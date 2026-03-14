@@ -140,6 +140,7 @@ public class MyNotesHomePage extends BasePage {
    */
   @Step("Delete all notes and verify empty state message")
   public void  deleteAllNotes() {
+    noteRoot.first().waitFor();
 
     while (noteRoot.count() > 0) {
       Locator firstNote = noteRoot.first();
