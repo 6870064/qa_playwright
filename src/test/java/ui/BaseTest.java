@@ -43,7 +43,7 @@ public abstract class BaseTest {
   @Step("Set up browser environment and navigate to base URL")
   public void beforeEach() {
     Boolean isHeadless = Boolean.parseBoolean(
-        System.getenv().getOrDefault("HEADLESS", "false")
+        System.getenv().getOrDefault("HEADLESS", "true")
     );
 
     Playwright pw = Playwright.create();

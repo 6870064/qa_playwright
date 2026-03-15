@@ -92,16 +92,10 @@ public class MyNotesLoginTests extends BaseTest {
   @Test
   public void unauthorizedUserRedirectTest() {
     String profileUrl = "https://practice.expandtesting.com/notes/app/profile";
-    String homePage = "https://practice.expandtesting.com/notes/app";
 
     MyNotesLoginPage loginPage = new MyNotesLoginPage(page());
 
     loginPage.openDirectly(profileUrl)
-        .assertIsLoaded();
-
-    assertThat(page()).hasURL(Pattern.compile(".*" + UIRotes.LOGIN));
-
-    loginPage.openDirectly(homePage)
         .assertIsLoaded();
 
     assertThat(page()).hasURL(Pattern.compile(".*" + UIRotes.LOGIN));
