@@ -1,6 +1,7 @@
 package ui.my_notes;
 
 import io.qameta.allure.Description;
+import org.example.constants.routes.UIRotes;
 import org.example.objects.User;
 import org.example.pages.my_notes.MyNotesForgotPasswordPage;
 import org.example.pages.my_notes.MyNotesHomePage;
@@ -11,6 +12,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testdata.TestUsers;
 import ui.BaseTest;
+
+import java.util.regex.Pattern;
+
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class MyNotesLoginTests extends BaseTest {
 
@@ -74,5 +79,31 @@ public class MyNotesLoginTests extends BaseTest {
     mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
     mySecondNotesWelcomePage.assertLoginButtonIsVisible();
     mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
+  }
+
+  @DisplayName("[UI] Authentication: Unauthorized Access Redirect")
+  @Description("""
+      1. Attempt to navigate directly to the User Profile URL.
+      2. Verify the application redirects to the Login page.
+      3. Attempt to navigate directly to the Home Page (Dashboard) URL.
+      4. Verify the application redirects to the Login page again.
+      5. Confirm the Login page elements are visible after each redirect.
+      """)
+  @Test
+  public void unauthorizedUserRedirectTest() {
+    String profileUrl = "https://practice.expandtesting.com/notes/app/profile";
+    String homePage = "https://practice.expandtesting.com/notes/app";
+
+    MyNotesLoginPage loginPage = new MyNotesLoginPage(page());
+
+    loginPage.openDirectly(profileUrl)
+        .assertIsLoaded();
+
+    assertThat(page()).hasURL(Pattern.compile(".*" + UIRotes.LOGIN));
+
+    loginPage.openDirectly(homePage)
+        .assertIsLoaded();
+
+    assertThat(page()).hasURL(Pattern.compile(".*" + UIRotes.LOGIN));
   }
 }

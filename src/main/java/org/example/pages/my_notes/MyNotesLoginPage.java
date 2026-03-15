@@ -9,6 +9,8 @@ import org.example.constants.routes.UIRotes;
 import org.example.objects.User;
 import org.example.pages.BasePage;
 
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+
 public class MyNotesLoginPage extends BasePage {
   public final Locator login = page.getByRole(AriaRole.BUTTON,
       new Page.GetByRoleOptions().setName("Login"));
@@ -56,8 +58,7 @@ public class MyNotesLoginPage extends BasePage {
     return myNotesHomePage.waitForPageToLoad();
   }
 
-  //TODO доделать восзрат новой страницы Forgot Password page
-  @Step("Click 'Forgot Password' link")
+    @Step("Click 'Forgot Password' link")
   public void forgotPasswordLinkClick() {
     forgotPassword.click();
   }
@@ -73,5 +74,17 @@ public class MyNotesLoginPage extends BasePage {
     profileDeleteAlert.waitFor(
         new Locator.WaitForOptions()
             .setState(WaitForSelectorState.VISIBLE));
+  }
+
+  @Step("Open profile page directly (expecting redirect to Login)")
+  public MyNotesLoginPage openDirectly(String url) {
+   page.navigate(url);
+   page.waitForURL("**" + UIRotes.LOGIN);
+   return this;
+  }
+
+  @Step("Assert that Login page is displayed")
+  public void assertIsLoaded() {
+  assertThat(login).isVisible();
   }
 }

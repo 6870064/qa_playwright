@@ -344,14 +344,14 @@ public class MyNotesTests extends BaseTest {
 
   @DisplayName("[UI]. Notes App. Search and deletion of notes")
   @Description("""
-    1. Log in to the 'Notes App'.
-    2. Create a specific test note and verify its data.
-    3. Add 3 additional notes to the list.
-    4. Search for the specific note by its title.
-    5. Verify that only 1 note is found and matches the expected data.
-    6. Clear search input and delete all notes from the list.
-    7. Verify empty state and log out.
-    """)
+      1. Log in to the 'Notes App'.
+      2. Create a specific test note and verify its data.
+      3. Add 3 additional notes to the list.
+      4. Search for the specific note by its title.
+      5. Verify that only 1 note is found and matches the expected data.
+      6. Clear search input and delete all notes from the list.
+      7. Verify empty state and log out.
+      """)
   @Test
   public void searchNoteByTitleTest() {
     Note newNote = DataGenerator.generateNewNote(
@@ -389,11 +389,11 @@ public class MyNotesTests extends BaseTest {
 
   @DisplayName("[UI]. Notes App. Attempt to create note without title and description")
   @Description("""
-    1. Log in to the 'Notes App'.
-    2. Try to create a note without title and description.
-    3. Verify error messages.
-    4. Verify empty state and log out.
-    """)
+      1. Log in to the 'Notes App'.
+      2. Try to create a note without title and description.
+      3. Verify error messages.
+      4. Verify empty state and log out.
+      """)
   @Test
   public void AttemptToCreateEmptyNoteTest() {
     Note newNote = new Note(NoteCategory.Home, false, "", "");
@@ -418,14 +418,14 @@ public class MyNotesTests extends BaseTest {
 
   @DisplayName("[UI] Notes App: Verify note creation and filtering by category")
   @Description("""
-    1. Log in to the 'Notes App' as an authenticated user.
-    2. Create three separate notes in different categories: Home, Work, and Personal.
-    3. Filter by 'Home' category and verify the note content matches.
-    4. Filter by 'Work' category and verify the note content matches.
-    5. Filter by 'Personal' category and verify the note content matches.
-    6. Delete all created notes to clean up.
-    7. Log out and verify the user is redirected to the Welcome page.
-    """)
+      1. Log in to the 'Notes App' as an authenticated user.
+      2. Create three separate notes in different categories: Home, Work, and Personal.
+      3. Filter by 'Home' category and verify the note content matches.
+      4. Filter by 'Work' category and verify the note content matches.
+      5. Filter by 'Personal' category and verify the note content matches.
+      6. Delete all created notes to clean up.
+      7. Log out and verify the user is redirected to the Welcome page.
+      """)
   @Test
   public void filterNotesTest() {
     Note homeNote = DataGenerator.generateNewNote(NoteCategory.Home,
