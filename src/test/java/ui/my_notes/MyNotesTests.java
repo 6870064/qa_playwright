@@ -415,4 +415,61 @@ public class MyNotesTests extends BaseTest {
     mySecondNotesWelcomePage.assertLoginButtonIsVisible();
     mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
+
+  @DisplayName("[UI] Notes App: Verify note creation and filtering by category")
+  @Description("""
+    1. Log in to the 'Notes App' as an authenticated user.
+    2. Create three separate notes in different categories: Home, Work, and Personal.
+    3. Filter by 'Home' category and verify the note content matches.
+    4. Filter by 'Work' category and verify the note content matches.
+    5. Filter by 'Personal' category and verify the note content matches.
+    6. Delete all created notes to clean up.
+    7. Log out and verify the user is redirected to the Welcome page.
+    """)
+  @Test
+  public void filterNotesTest() {
+    Note homeNote = DataGenerator.generateNewNote(NoteCategory.Home,
+        false,
+        25,
+        100);
+
+    Note workNote = DataGenerator.generateNewNote(NoteCategory.Work,
+        false,
+        25,
+        100);
+
+    Note personalNote = DataGenerator.generateNewNote(NoteCategory.Personal,
+        false,
+        25,
+        100);
+
+    HomePage homePage = new HomePage(page()).open();
+    MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
+    MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
+    MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
+    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
+
+    myNotesHomePage.createNewNote(homeNote);
+    myNotesHomePage.createNewNote(workNote);
+    myNotesHomePage.createNewNote(personalNote);
+
+    myNotesHomePage.selectCategory("home");
+    NoteComponent homeNoteCard = myNotesHomePage.getNoteComponent(homeNote);
+    homeNoteCard.compareNote(homeNote);
+
+    myNotesHomePage.selectCategory("work");
+    NoteComponent workNoteCard = myNotesHomePage.getNoteComponent(workNote);
+    workNoteCard.compareNote(workNote);
+
+    myNotesHomePage.selectCategory("personal");
+    NoteComponent personalNoteCard = myNotesHomePage.getNoteComponent(personalNote);
+    personalNoteCard.compareNote(personalNote);
+
+    myNotesHomePage.deleteAllNotes();
+
+    MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
+    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
+    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
+    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
+  }
 }

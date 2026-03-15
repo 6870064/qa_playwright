@@ -9,7 +9,6 @@ import org.example.components.NoteComponent;
 import org.example.components.modals.DeleteNoteModal;
 import org.example.components.modals.NoteModal;
 import org.example.constants.routes.UIRotes;
-import org.example.enums.NoteCategory;
 import org.example.helpers.DataGenerator;
 import org.example.objects.Note;
 import org.example.pages.BasePage;
@@ -32,6 +31,7 @@ public class MyNotesHomePage extends BasePage {
   private final Locator deleteNote = page.getByTestId("note-delete");
   private final Locator loader = page.locator(".spinner-border");
   private final Locator emptyStateMessage = page.getByTestId("no-notes-message");
+  private final Locator infoMessage = page.getByTestId("progress-info");
 
   public MyNotesHomePage(Page page) {
     super(page);
@@ -104,7 +104,7 @@ public class MyNotesHomePage extends BasePage {
    * @param amount number of notes to create
    */
   @Step("Mass create {amount} notes and verify each")
-  public  void createMultipleNotes(int amount) {
+  public void createMultipleNotes(int amount) {
     for (int i = 1; i <= amount; i++) {
       Note newNote = DataGenerator.generateNewNote(
           false,
@@ -121,8 +121,21 @@ public class MyNotesHomePage extends BasePage {
     }
   }
 
+  @Step("Mass create {amount} notes and verify each")
+  public void createNewNote(Note note) {
+
+    this.openAddNoteModal()
+        .createNewNote(note);
+
+    this.waitForLoaderToDisappear();
+
+    this.getNoteComponent(note)
+        .compareNote(note);
+  }
+
   /**
    * Returns the current number of note cards visible on the page.
+   *
    * @return total count of notes.
    */
   @Step("Get total count of notes on the page")
@@ -139,7 +152,8 @@ public class MyNotesHomePage extends BasePage {
    * </p>
    */
   @Step("Delete all notes and verify empty state message")
-  public void  deleteAllNotes() {
+  public void deleteAllNotes() {
+    categoryAll.click();
     noteRoot.first().waitFor();
 
     while (noteRoot.count() > 0) {
@@ -170,9 +184,26 @@ public class MyNotesHomePage extends BasePage {
   }
 
 
+  /**
+   * Clears the search input field and refreshes the results.
+   * This method resets the search state by clearing the text and triggering a new search.
+   */
+  @Step("Clear search input and refresh results")
   public void clearSearchInput() {
     searchInput.clear();
     searchButton.click();
     waitForLoaderToDisappear();
+  }
+
+  /**
+   * Selects a specific category and verifies the progress message updates accordingly.
+   * * @param category The name of the category to select (e.g., "home", "work", "personal").
+   */
+  @Step("Select category: {category} and verify progress message")
+  public void selectCategory(String category) {
+    Locator categoryLocator = page.getByTestId(String.format("category-%s", category));
+    categoryLocator.click();
+
+   assertThat(infoMessage).containsText(String.format("completed in the %s category", category));
   }
 }
