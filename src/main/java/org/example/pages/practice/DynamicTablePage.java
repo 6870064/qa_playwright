@@ -1,7 +1,9 @@
-package org.example.pages;
+package org.example.pages.practice;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import io.qameta.allure.Step;
+import org.example.pages.BasePage;
 
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class DynamicTablePage extends BasePage {
     return "dynamic-table";
   }
 
+  @Step("Get a Google Chrome CPU value from the table")
   public String getChromeFromTable() {
     List<String> headers = page.locator(tableHeaders).allInnerTexts();
 
@@ -42,10 +45,12 @@ public class DynamicTablePage extends BasePage {
         .trim();
   }
 
+  @Step("Get a Google Chrome CPU label text")
   public String getChromeCpuLabelText() {
     return chromeLabel.innerText().trim();
   }
 
+  @Step("Get a Google Chrome CPU label value")
   public String getChromeCpuLabelValue() {
     return getChromeCpuLabelText()
         .replace("Chrome CPU", "")    // убираем без двоеточия

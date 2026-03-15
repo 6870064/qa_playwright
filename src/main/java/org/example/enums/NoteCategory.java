@@ -1,6 +1,6 @@
 package org.example.enums;
 
-public enum Category {
+public enum NoteCategory {
   Home,
   Work,
   Personal,

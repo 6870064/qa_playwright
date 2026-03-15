@@ -73,7 +73,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
     assertResponseSchema(USER_RESPONSE_SCHEMA, createUser);
 
@@ -97,6 +97,14 @@ public class UserTests extends BaseApiTest {
         () -> assertEquals(apiUser.email().toLowerCase(), body.data().email(),
             "Returned email does not match the created one")
     );
+
+    LoginApiUser loginApiUser = new LoginApiUser(apiUser.email(), apiUser.password());
+    Response loginUser = SimpleAction.userLogin(loginApiUser);
+    assertResponseCode(HttpStatus.OK.code(), loginUser);
+
+    LoginUserResponse secondBody = loginUser.as(LoginUserResponse.class);
+
+    registeredUserForCleanUp(secondBody.data().token());
   }
 
   @DisplayName("[API. User]. POST method. Login user")
@@ -113,7 +121,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -148,6 +156,8 @@ public class UserTests extends BaseApiTest {
             "Returned email does not match the created one"),
 
         () -> assertNotNull(secondBody.data().token()));
+
+    registeredUserForCleanUp(secondBody.data().token());
   }
 
   @DisplayName("[API. User]. POST method. Attempt to Login by user")
@@ -198,7 +208,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -244,6 +254,8 @@ public class UserTests extends BaseApiTest {
 
         () -> assertEquals(apiUser.email().toLowerCase(), thirdBody.data().email(),
             "Returned email does not match the created one"));
+
+    registeredUserForCleanUp(secondBody.data().token());
   }
 
   @DisplayName("[API. User]. DELETE method. Logout user")
@@ -261,7 +273,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -313,7 +325,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -365,7 +377,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -388,7 +400,7 @@ public class UserTests extends BaseApiTest {
     String id = secondBody.data().id();
 
     UpdateUserProfileDto updateUserProfileDto = new UpdateUserProfileDto(
-        dataGenerator.generateRandomName(8,30),
+        dataGenerator.generateRandomName(8, 30),
         dataGenerator.generateRandomPhoneNumber("48"),
         dataGenerator.generateRandomCompanyName());
 
@@ -398,30 +410,32 @@ public class UserTests extends BaseApiTest {
 
     UpdateUserResponse thirdBody = updateUserProfile.as(UpdateUserResponse.class);
     assertAll(
-        ()-> assertTrue(thirdBody.success(),
+        () -> assertTrue(thirdBody.success(),
             "Expected success=true, but was false"),
 
-        ()-> assertEquals(HttpStatus.OK.code(), thirdBody.status(),
+        () -> assertEquals(HttpStatus.OK.code(), thirdBody.status(),
             "Incorrect status in response body"),
 
-        ()-> assertEquals(USER_PROFILE_UPDATED_MESSAGE, thirdBody.message(),
+        () -> assertEquals(USER_PROFILE_UPDATED_MESSAGE, thirdBody.message(),
             "Unexpected logout message"),
 
-        ()-> assertEquals(id, thirdBody.data().id(),
+        () -> assertEquals(id, thirdBody.data().id(),
             "Incorrect user Id in response body"),
 
-        ()-> assertEquals(updateUserProfileDto.name(), thirdBody.data().name(),
+        () -> assertEquals(updateUserProfileDto.name(), thirdBody.data().name(),
             "Incorrect user name in response body"),
 
 
-        ()-> assertEquals(apiUser.email().toLowerCase(),thirdBody.data().email(),
+        () -> assertEquals(apiUser.email().toLowerCase(), thirdBody.data().email(),
             "Incorrect user email in response body"),
 
-        ()->assertEquals(updateUserProfileDto.phone(), thirdBody.data().phone(),
+        () -> assertEquals(updateUserProfileDto.phone(), thirdBody.data().phone(),
             "Incorrect user phone in response body"),
 
-        ()->assertEquals(updateUserProfileDto.company(), thirdBody.data().company(),
+        () -> assertEquals(updateUserProfileDto.company(), thirdBody.data().company(),
             "Incorrect user company title in response body"));
+
+    registeredUserForCleanUp(secondBody.data().token());
   }
 
   @DisplayName("[API. User]. POST method. Change user's password")
@@ -440,7 +454,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -490,23 +504,26 @@ public class UserTests extends BaseApiTest {
 
     LoginUserResponse fourthBody = loginUser.as(LoginUserResponse.class);
     assertAll(
-        ()-> assertTrue(fourthBody.success(),
+        () -> assertTrue(fourthBody.success(),
             "Expected success=true, but was false"),
 
-        ()-> assertEquals(HttpStatus.OK.code(), fourthBody.status(),
+        () -> assertEquals(HttpStatus.OK.code(), fourthBody.status(),
             "Incorrect status in response body"),
 
-        ()-> assertEquals(OK_LOGIN_MESSAGE, fourthBody.message(),
+        () -> assertEquals(OK_LOGIN_MESSAGE, fourthBody.message(),
             "Incorrect message in response body"),
 
-        ()-> assertEquals(id, fourthBody.data().id(),
-        "Incorrect user Id in response body"),
+        () -> assertEquals(id, fourthBody.data().id(),
+            "Incorrect user Id in response body"),
 
-        ()-> assertEquals(apiUser.name(), fourthBody.data().name(),
+        () -> assertEquals(apiUser.name(), fourthBody.data().name(),
             "Incorrect name Id in response body"),
 
-        ()-> assertEquals(apiUser.email().toLowerCase(), fourthBody.data().email(),
+        () -> assertEquals(apiUser.email().toLowerCase(), fourthBody.data().email(),
             "Incorrect email Id in response body"));
+
+    registeredUserForCleanUp(secondBody.data().token());
+    registeredUserForCleanUp(fourthBody.data().token());
   }
 
   @DisplayName("[API. User]. POST method. Change user's password by invalid data")
@@ -525,7 +542,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -565,6 +582,7 @@ public class UserTests extends BaseApiTest {
         () -> assertEquals(thirdBody.message(), PASSWORD_LENGTH_MESSAGE,
             "Incorrect message in response body")
     );
+    registeredUserForCleanUp(token);
   }
 
   @DisplayName("[API. User]. POST method. Change user's password by the same password")
@@ -582,7 +600,7 @@ public class UserTests extends BaseApiTest {
         dataGenerator.generateRandomEmail(true),
         dataGenerator.generateRandomPassword(8, 30));
 
-    Response createUser = createUser(token(), apiUser);
+    Response createUser = SimpleAction.createUser(token(), apiUser);
     assertResponseCode(HttpStatus.CREATED.code(), createUser);
 
     UserResponse body = createUser.as(UserResponse.class);
@@ -621,5 +639,7 @@ public class UserTests extends BaseApiTest {
 
         () -> assertEquals(thirdBody.message(), SAME_PASSWORD_MESSAGE,
             "Incorrect message in response body"));
+
+    registeredUserForCleanUp(token);
   }
 }

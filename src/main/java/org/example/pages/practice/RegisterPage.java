@@ -1,9 +1,11 @@
-package org.example.pages;
+package org.example.pages.practice;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+import io.qameta.allure.Step;
 import org.example.components.FlashAlert;
+import org.example.pages.BasePage;
 import org.example.requests.user.UiUser;
 
 public class RegisterPage extends BasePage {
@@ -24,18 +26,22 @@ public class RegisterPage extends BasePage {
     return "/register";
   }
 
+  @Step("Fill user name {u}")
   private void fillUserName(String u) {
     username.fill(u);
   }
 
+  @Step("Fill user password")
   private void fillUserPassword(String p) {
     password.fill(p);
   }
 
+  @Step("Fill user confirm password")
   private void fillUserConfirmPassword(String p) {
     confirmPassword.fill(p);
   }
 
+  @Step("Click Register button")
   private void registerClick() {
     submit.click();
   }

@@ -7,5 +7,5 @@ public record Data(
     String id,
     String name,
     String email,
-    String token)
- {}
+    String token) {
+}

@@ -1,9 +1,10 @@
-package ui;
+package ui.practise;
 
 import org.example.helpers.DataGenerator;
-import org.example.pages.HomePage;
-import org.example.pages.WebInputsPage;
+import org.example.pages.practice.HomePage;
+import org.example.pages.practice.WebInputsPage;
 import org.junit.jupiter.api.Test;
+import ui.BaseTest;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,20 +33,5 @@ public class WebInputsTests extends BaseTest {
         () -> assertEquals(inputText, webInputsPage.getOutputText()),
         () -> assertEquals(password, webInputsPage.getOutputPassword()),
         () -> assertEquals(inputDate, webInputsPage.getOutputDate()));
-
-    //HomePage homePage = new HomePage(page).open();
-    //    RegisterPage registerPage = homePage.goToRegister();
-    //    LoginPage loginPage = registerPage
-    //        .fill(u.getUsername(), u.getPassword(), u.getConfirmPassword())
-    //        .submitSuccess();
-    //
-    //    //login
-    //    SecurePage securePage = loginPage
-    //        .fill(u.getUsername(), u.getPassword())
-    //        .login();
-    //
-    //    //подождать появления приветствия
-    //    securePage.waitUntilLoaded(u.getUsername());
-
   }
 }

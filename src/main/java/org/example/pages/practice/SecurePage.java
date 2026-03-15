@@ -1,9 +1,11 @@
-package org.example.pages;
+package org.example.pages.practice;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+import io.qameta.allure.Step;
 import org.example.components.FlashAlert;
+import org.example.pages.BasePage;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static com.microsoft.playwright.options.WaitForSelectorState.VISIBLE;
@@ -32,28 +34,28 @@ public class SecurePage extends BasePage {
     return this;
   }
 
-  public Locator greeting(String username) {
-    return page.locator(String.format(GREETING_MESSAGE, username.toLowerCase()));
-  }
-
   public FlashAlert flashAlert() {
     return flashAlert;
   }
 
+  @Step("Check that Secure Page should be opened")
   public void securePageShouldBeOpened() {
     page.waitForURL(BASE_URL + SECURE_URL);
     assertThat(page).hasURL(BASE_URL + path());
   }
 
+  @Step("Check that Greeting message should be opened")
   public void greetingMessageShouldBeDisplayed(String userName) {
     Locator greeting = page.locator(String.format(GREETING_MESSAGE, userName.toLowerCase()));
     assertThat(greeting).isVisible();
   }
 
+  @Step("Check that Logout button is visible")
   public void isLogoutButtonVisible() {
     assertThat(logout).isVisible();
   }
 
+  @Step("Click Logout button")
   public LoginPage logout() {
     logout.click();
     return new LoginPage(page, new FlashAlert(page));

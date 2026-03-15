@@ -1,11 +1,11 @@
 package org.example.requests;
 
-import org.example.enums.Category;
+import org.example.enums.NoteCategory;
 
 public record UpdateApiNote(
     String title,
     String description,
     boolean completed,
-    Category category
+    NoteCategory category
 ) {
 }

@@ -1,11 +1,12 @@
-package ui;
+package ui.practise;
 
 import org.example.components.FlashAlert;
 import org.example.helpers.DataGenerator;
-import org.example.pages.HomePage;
-import org.example.pages.LoginPage;
-import org.example.pages.SecurePage;
+import org.example.pages.practice.HomePage;
+import org.example.pages.practice.LoginPage;
+import org.example.pages.practice.SecurePage;
 import org.junit.jupiter.api.Test;
+import ui.BaseTest;
 
 import static org.example.constants.Constants.*;
 import static org.junit.jupiter.api.Assertions.assertAll;

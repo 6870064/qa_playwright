@@ -1,15 +1,16 @@
-package ui;
+package ui.practise;
 
 import org.example.helpers.DataGenerator;
-import org.example.pages.HomePage;
-import org.example.pages.LoginPage;
-import org.example.pages.RegisterPage;
-import org.example.pages.SecurePage;
+import org.example.pages.practice.HomePage;
+import org.example.pages.practice.LoginPage;
+import org.example.pages.practice.RegisterPage;
+import org.example.pages.practice.SecurePage;
 import org.example.requests.user.UiUser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import ui.BaseTest;
 
 import java.util.stream.Stream;
 
