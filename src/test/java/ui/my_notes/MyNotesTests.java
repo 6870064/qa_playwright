@@ -13,7 +13,6 @@ import org.example.objects.User;
 import org.example.pages.my_notes.MyNoteSinglePage;
 import org.example.pages.my_notes.MyNotesHomePage;
 import org.example.pages.my_notes.MyNotesLoginPage;
-import org.example.pages.my_notes.MyNotesRegisterPage;
 import org.example.pages.my_notes.MyNotesWelcomePage;
 import org.example.pages.practice.HomePage;
 import org.example.requests.user.ApiUser;
@@ -22,7 +21,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import requests.SimpleAction;
-import testdata.TestUsers;
 import ui.BaseTest;
 
 import static api.BaseApiTest.token;
