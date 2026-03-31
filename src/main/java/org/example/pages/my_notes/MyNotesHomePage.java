@@ -43,33 +43,57 @@ public class MyNotesHomePage extends BasePage {
     return UIRotes.HOME;
   }
 
-  @Step("Click '+Add Note' button")
+  /**
+   * Opens the modal window to create a new note.
+   *
+   * @return a new instance of {@link NoteModal}
+   */
+  @Step("Open 'Add Note' modal")
   public NoteModal openAddNoteModal() {
+    // Click the button to open the note creation dialog
     addNoteButton.click();
     return new NoteModal(page);
   }
 
+  /**
+   * Finds and returns a note component from the list based on the provided note data.
+   *
+   * @param note the note object containing the title and description to match
+   * @return a {@link NoteComponent} representing the found note
+   */
+  @Step("Get note component for note: {note.title}")
   public NoteComponent getNoteComponent(Note note) {
-    noteRoot
+    // Filter the collection to find a specific note by title and description
+    Locator filteredNote = noteRoot
         .filter(new Locator.FilterOptions().setHasText(note.getTitle()))
         .filter(new Locator.FilterOptions().setHasText(note.getDescription()));
 
-    noteRoot.first().waitFor();
+    // Ensure the element is present before wrapping it in a component
+    filteredNote.first().waitFor();
 
-    return new NoteComponent(noteRoot.first());
+    return new NoteComponent(filteredNote.first());
   }
 
+  /**
+   * Performs a search by note title and verifies that exactly one matching note is displayed.
+   *
+   * @param note the note object to search for
+   * @return a {@link NoteComponent} representing the single search result
+   */
+  @Step("Search for note by title: {note.title}")
   public NoteComponent searchNoteByTitle(Note note) {
-    searchInput.fill(note.getTitle());
+   searchInput.fill(note.getTitle());
+
+    // Execute the search action
     searchButton.click();
 
-    noteRoot
+    Locator filteredNote = noteRoot
         .filter(new Locator.FilterOptions().setHasText(note.getTitle()))
         .filter(new Locator.FilterOptions().setHasText(note.getDescription()));
 
-    noteRoot.first().waitFor();
+    assertThat(filteredNote).hasCount(1);
 
-    return new NoteComponent(noteRoot.first());
+    return new NoteComponent(filteredNote.first());
   }
 
   /**
