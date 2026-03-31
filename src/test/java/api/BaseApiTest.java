@@ -65,7 +65,16 @@ public abstract class BaseApiTest implements SimpleAction {
     cleanUpUsers();
   }
 
-  protected static String token() {
+  /**
+   * Returns the auth token. Initializes it if it's currently null.
+   * @return a valid authentication token
+   */
+  public static String token() {
+    // If authToken is null, it means authUser() hasn't been called yet
+    if (authToken == null) {
+      log.info("authToken is null. Triggering authUser() to initialize session...");
+      authUser();
+    }
     return authToken;
   }
 
