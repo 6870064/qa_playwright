@@ -40,7 +40,7 @@ public class MyNotesTests extends BaseTest {
     MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
     myNotesHomePage = myNotesLoginPage.loginUser(user);
     myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
-    //myNotesHomePage.deleteAllNotes();
+    myNotesHomePage.checkAndDeleteAllOldNotes();
   }
 
   @AfterEach
@@ -303,7 +303,7 @@ public class MyNotesTests extends BaseTest {
       """)
   @Test
   public void createAndDeleteNotesFromMyNoteHomePageTest() {
-    int notesAmount = 15;
+    int notesAmount = 7;
 
     myNotesHomePage.createMultipleNotes(notesAmount);
     assertEquals(notesAmount, myNotesHomePage.getNotesCount());

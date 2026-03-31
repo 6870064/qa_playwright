@@ -154,6 +154,7 @@ public class MyNotesHomePage extends BasePage {
   @Step("Delete all notes and verify empty state message")
   public void deleteAllNotes() {
     categoryAll.click();
+
     noteRoot.first().waitFor();
 
     while (noteRoot.count() > 0) {
@@ -168,6 +169,26 @@ public class MyNotesHomePage extends BasePage {
     assertThat(noteRoot).hasCount(0);
     assertThat(emptyStateMessage).isVisible();
     assertThat(emptyStateMessage).hasText("You don't have any notes in all categories");
+  }
+
+  @Step("Delete all notes and verify empty state message")
+  public void checkAndDeleteAllOldNotes() {
+   if (!emptyStateMessage.isVisible()) {
+      noteRoot.first().waitFor();
+
+      while (noteRoot.count() > 0) {
+        Locator firstNote = noteRoot.first();
+        NoteComponent NoteCard = new NoteComponent(firstNote);
+
+        DeleteNoteModal modal = NoteCard.deleteNote();
+        modal.deleteNote();
+
+        this.waitForLoaderToDisappear();
+      }
+      assertThat(noteRoot).hasCount(0);
+      assertThat(emptyStateMessage).isVisible();
+      assertThat(emptyStateMessage).hasText("You don't have any notes in all categories");
+    }
   }
 
   /**
@@ -204,6 +225,6 @@ public class MyNotesHomePage extends BasePage {
     Locator categoryLocator = page.getByTestId(String.format("category-%s", category));
     categoryLocator.click();
 
-   assertThat(infoMessage).containsText(String.format("completed in the %s category", category));
+    assertThat(infoMessage).containsText(String.format("completed in the %s category", category));
   }
 }
