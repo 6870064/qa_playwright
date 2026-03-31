@@ -1,9 +1,11 @@
 package ui.my_notes;
 
 import io.qameta.allure.Description;
+import io.restassured.response.Response;
 import org.example.components.NoteComponent;
 import org.example.components.modals.DeleteNoteModal;
 import org.example.components.modals.NoteModal;
+import org.example.enums.HttpStatus;
 import org.example.enums.NoteCategory;
 import org.example.helpers.DataGenerator;
 import org.example.objects.Note;
@@ -13,13 +15,18 @@ import org.example.pages.my_notes.MyNotesHomePage;
 import org.example.pages.my_notes.MyNotesLoginPage;
 import org.example.pages.my_notes.MyNotesWelcomePage;
 import org.example.pages.practice.HomePage;
+import org.example.requests.user.ApiUser;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import testdata.TestUsers;
+import requests.SimpleAction;
 import ui.BaseTest;
 
+import static api.BaseApiTest.token;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static test_utils.TestUtils.assertResponseCode;
 
 /**
  * Test suite for the My Notes application.
@@ -27,8 +34,39 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * creation, verification, updates, and deletion.
  */
 public class MyNotesTests extends BaseTest {
+  private MyNotesHomePage myNotesHomePage;
+  private MyNotesWelcomePage mySecondNotesWelcomePage;
 
-  User user = TestUsers.validUser();
+  @BeforeEach
+  void userLogin() {
+    ApiUser apiUser = new ApiUser(
+        dataGenerator.generateRandomName(8, 30),
+        dataGenerator.generateRandomEmail(true),
+        dataGenerator.generateRandomPassword(8, 30));
+
+    Response createUser = SimpleAction.createUser(token(), apiUser);
+    assertResponseCode(HttpStatus.CREATED.code(), createUser);
+
+    User user = new User(
+        apiUser.email(),
+        apiUser.name(),
+        apiUser.password(),
+        apiUser.password());
+
+    HomePage homePage = new HomePage(page()).open();
+    MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
+    MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
+    myNotesHomePage = myNotesLoginPage.loginUser(user);
+    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
+  }
+
+  @AfterEach
+  void userLogout() {
+    mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
+    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
+    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
+    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
+  }
 
   @DisplayName("[UI]. Notes App. Create a new note and delete as a card from Home Page")
   @Description("""
@@ -69,12 +107,6 @@ public class MyNotesTests extends BaseTest {
         25,
         100);
 
-    HomePage homePage = new HomePage(page()).open();
-    MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
-    MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
-    MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
-    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
-
     NoteModal addNoteModal = myNotesHomePage.openAddNoteModal();
     addNoteModal.createNewNote(newNote);
     NoteComponent noteCard = myNotesHomePage.getNoteComponent(newNote);
@@ -89,11 +121,6 @@ public class MyNotesTests extends BaseTest {
     myNotesHomePage.waitForLoaderToDisappear();
     myNotesHomePage.verifyNoteIsDeleted(newNote);
     myNotesHomePage.waitForLoaderToDisappear();
-
-    MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
-    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
-    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
-    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
 
   @DisplayName("[UI]. Notes App. Create a new note and delete from Note Single Page")
@@ -135,12 +162,6 @@ public class MyNotesTests extends BaseTest {
         25,
         100);
 
-    HomePage homePage = new HomePage(page()).open();
-    MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
-    MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
-    MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
-    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
-
     NoteModal addNoteModal = myNotesHomePage.openAddNoteModal();
     addNoteModal.createNewNote(newNote);
     NoteComponent noteCard = myNotesHomePage.getNoteComponent(newNote);
@@ -157,11 +178,6 @@ public class MyNotesTests extends BaseTest {
     myNotesHomePage.waitForLoaderToDisappear();
     myNotesHomePage.verifyNoteIsDeleted(newNote);
     myNotesHomePage.waitForLoaderToDisappear();
-
-    MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
-    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
-    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
-    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
 
   /**
@@ -208,11 +224,6 @@ public class MyNotesTests extends BaseTest {
         true,
         30,
         120);
-    HomePage homePage = new HomePage(page()).open();
-    MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
-    MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
-    MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
-    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
 
     NoteModal addNoteModal = myNotesHomePage.openAddNoteModal();
     addNoteModal.createNewNote(initialNote);
@@ -233,11 +244,6 @@ public class MyNotesTests extends BaseTest {
     myNotesHomePage.waitForLoaderToDisappear();
     myNotesHomePage.verifyNoteIsDeleted(updatedNote);
     myNotesHomePage.waitForLoaderToDisappear();
-
-    MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
-    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
-    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
-    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
 
   /**
@@ -284,11 +290,6 @@ public class MyNotesTests extends BaseTest {
         true,
         30,
         120);
-    HomePage homePage = new HomePage(page()).open();
-    MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
-    MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
-    MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
-    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
 
     NoteModal addNoteModal = myNotesHomePage.openAddNoteModal();
     addNoteModal.createNewNote(newNote);
@@ -306,11 +307,6 @@ public class MyNotesTests extends BaseTest {
     myNotesHomePage.waitForLoaderToDisappear();
     myNotesHomePage.verifyNoteIsDeleted(newNote);
     myNotesHomePage.waitForLoaderToDisappear();
-
-    MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
-    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
-    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
-    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
 
   @DisplayName("[UI]. Notes App. Mass creation and mass deletion of notes")
@@ -324,22 +320,11 @@ public class MyNotesTests extends BaseTest {
       """)
   @Test
   public void createAndDeleteNotesFromMyNoteHomePageTest() {
-    int notesAmount = 15;
-
-    HomePage homePage = new HomePage(page()).open();
-    MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
-    MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
-    MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
-    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
+    int notesAmount = 7;
 
     myNotesHomePage.createMultipleNotes(notesAmount);
     assertEquals(notesAmount, myNotesHomePage.getNotesCount());
     myNotesHomePage.deleteAllNotes();
-
-    MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
-    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
-    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
-    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
 
   @DisplayName("[UI]. Notes App. Search and deletion of notes")
@@ -361,12 +346,6 @@ public class MyNotesTests extends BaseTest {
         100);
     int notesAmount = 3;
 
-    HomePage homePage = new HomePage(page()).open();
-    MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
-    MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
-    MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
-    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
-
     NoteModal addNoteModal = myNotesHomePage.openAddNoteModal();
     addNoteModal.createNewNote(newNote);
     NoteComponent noteCard = myNotesHomePage.getNoteComponent(newNote);
@@ -380,11 +359,6 @@ public class MyNotesTests extends BaseTest {
     myNotesHomePage.clearSearchInput();
 
     myNotesHomePage.deleteAllNotes();
-
-    MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
-    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
-    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
-    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
 
   @DisplayName("[UI]. Notes App. Attempt to create note without title and description")
@@ -396,24 +370,17 @@ public class MyNotesTests extends BaseTest {
       """)
   @Test
   public void AttemptToCreateEmptyNoteTest() {
-    Note newNote = new Note(NoteCategory.Home, false, "", "");
-
-    HomePage homePage = new HomePage(page()).open();
-    MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
-    MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
-    MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
-    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
+    Note newNote = new Note(
+        NoteCategory.Home,
+        false,
+        "",
+        "");
 
     NoteModal addNoteModal = myNotesHomePage.openAddNoteModal();
     addNoteModal.createNewNote(newNote);
     addNoteModal.emptyTitleErrorIsDisplayed();
     addNoteModal.emptyDescriptionErrorIsDisplayed();
     addNoteModal.cancelCreateNote();
-
-    MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
-    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
-    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
-    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
 
   @DisplayName("[UI] Notes App: Verify note creation and filtering by category")
@@ -443,12 +410,6 @@ public class MyNotesTests extends BaseTest {
         25,
         100);
 
-    HomePage homePage = new HomePage(page()).open();
-    MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
-    MyNotesLoginPage myNotesLoginPage = myNotesWelcomePage.clickLogin();
-    MyNotesHomePage myNotesHomePage = myNotesLoginPage.loginUser(user);
-    myNotesHomePage.header.assertHeaderForAuthenticatedUserIsVisible();
-
     myNotesHomePage.createNewNote(homeNote);
     myNotesHomePage.createNewNote(workNote);
     myNotesHomePage.createNewNote(personalNote);
@@ -466,10 +427,5 @@ public class MyNotesTests extends BaseTest {
     personalNoteCard.compareNote(personalNote);
 
     myNotesHomePage.deleteAllNotes();
-
-    MyNotesWelcomePage mySecondNotesWelcomePage = myNotesHomePage.header.clickLogout();
-    mySecondNotesWelcomePage.assertWelcomeTitleIsVisible();
-    mySecondNotesWelcomePage.assertLoginButtonIsVisible();
-    mySecondNotesWelcomePage.assertCreateAnAccountIsVisible();
   }
 }

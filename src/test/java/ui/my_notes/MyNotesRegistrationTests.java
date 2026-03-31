@@ -36,8 +36,8 @@ public class MyNotesRegistrationTests extends BaseTest {
         dataGenerator.generateRandomName(5, 10),
         password,
         password);
-    HomePage homePage = new HomePage(page()).open();
 
+    HomePage homePage = new HomePage(page()).open();
     MyNotesWelcomePage myNotesWelcomePage = homePage.goToNotesApp();
     MyNotesRegisterPage myNotesRegisterPage = myNotesWelcomePage.createNewAccount();
     myNotesRegisterPage.registerNewUser(user);
