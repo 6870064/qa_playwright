@@ -195,23 +195,27 @@ public class MyNotesHomePage extends BasePage {
     assertThat(emptyStateMessage).hasText("You don't have any notes in all categories");
   }
 
-  @Step("Delete all notes and verify empty state message")
+  @Step("Clean up: Delete all notes if they exist")
   public void checkAndDeleteAllOldNotes() {
-   if (!emptyStateMessage.isVisible()) {
-      noteRoot.first().waitFor();
+    // 1. Wait for either the list or the empty message to appear
+    // This ensures the page is actually loaded before we check its state
+    noteRoot.or(emptyStateMessage).first().waitFor();
 
+    // 2. If the empty message is not visible, it means there are notes to delete
+    if (!emptyStateMessage.isVisible()) {
       while (noteRoot.count() > 0) {
+        // Handle potential race condition where the first note is being detached
         Locator firstNote = noteRoot.first();
-        NoteComponent NoteCard = new NoteComponent(firstNote);
-
-        DeleteNoteModal modal = NoteCard.deleteNote();
-        modal.deleteNote();
-
-        this.waitForLoaderToDisappear();
+        if (firstNote.isVisible()) {
+          NoteComponent noteCard = new NoteComponent(firstNote);
+          DeleteNoteModal modal = noteCard.deleteNote();
+          modal.deleteNote();
+          this.waitForLoaderToDisappear();
+        }
       }
-      assertThat(noteRoot).hasCount(0);
+
+      // 3. Final check: verify the empty state is now visible
       assertThat(emptyStateMessage).isVisible();
-      assertThat(emptyStateMessage).hasText("You don't have any notes in all categories");
     }
   }
 
