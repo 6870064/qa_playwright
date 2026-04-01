@@ -103,7 +103,7 @@ public class DataGenerator {
 
     NoteCategory category = NoteCategory.values()[random.nextInt(NoteCategory.values().length)];
 
-    return new ApiNote(title.trim(), description, category);
+    return new ApiNote(title.trim(), description.trim(), category);
   }
 
   /**
@@ -129,7 +129,7 @@ public class DataGenerator {
 
     NoteCategory category = NoteCategory.values()[random.nextInt(NoteCategory.values().length)];
 
-    return new Note(category, isCompleted, title, description);
+    return new Note(category, isCompleted, title.trim(), description.trim());
   }
 
   /**
@@ -155,7 +155,7 @@ public class DataGenerator {
 
     String description = faker.lorem().sentence(descriptionWordsCount);
 
-    return new Note(category, isCompleted, title, description);
+    return new Note(category, isCompleted, title.trim(), description.trim());
   }
 
   /**
@@ -182,7 +182,7 @@ public class DataGenerator {
 
     NoteCategory category = NoteCategory.values()[random.nextInt(NoteCategory.values().length)];
 
-    return new UpdateApiNote(title.trim(), description, completed, category);
+    return new UpdateApiNote(title.trim(), description.trim(), completed, category);
   }
 
   /**
@@ -245,7 +245,7 @@ public class DataGenerator {
         fakeName = new Faker().name().firstName();
       }
     } while ((fakeName.length() < minLength || fakeName.length() > maxLength));
-    return fakeName;
+    return fakeName.trim();
   }
 
   /**

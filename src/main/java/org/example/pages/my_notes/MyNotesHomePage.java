@@ -63,16 +63,31 @@ public class MyNotesHomePage extends BasePage {
    */
   @Step("Get note component for note: {note.title}")
   public NoteComponent getNoteComponent(Note note) {
-    // Filter the collection to find a specific note by title and description
-    Locator filteredNote = noteRoot
-        .filter(new Locator.FilterOptions().setHasText(note.getTitle()))
-        .filter(new Locator.FilterOptions().setHasText(note.getDescription()));
+    // Wait for the specific title to appear to ensure the UI has re-rendered
+    page.getByText(note.getTitle()).first().waitFor();
 
-    // Ensure the element is present before wrapping it in a component
+    // Filter by title only. Description is too volatile for a stable locator.
+    // Verification of description should be done inside compareNote() assertion.
+    Locator filteredNote = noteRoot
+        .filter(new Locator.FilterOptions().setHasText(note.getTitle()));
+
+    // Ensure we have at least one match before proceeding
     filteredNote.first().waitFor();
 
     return new NoteComponent(filteredNote.first());
   }
+
+//  public NoteComponent getNoteComponent(Note note) {
+//    // Filter the collection to find a specific note by title and description
+//    Locator filteredNote = noteRoot
+//        .filter(new Locator.FilterOptions().setHasText(note.getTitle()))
+//        .filter(new Locator.FilterOptions().setHasText(note.getDescription()));
+//
+//    // Ensure the element is present before wrapping it in a component
+//    filteredNote.first().waitFor();
+//
+//    return new NoteComponent(filteredNote.first());
+//  }
 
   /**
    * Performs a search by note title and verifies that exactly one matching note is displayed.
