@@ -57,6 +57,9 @@ public abstract class BaseTest {
         .setRecordVideoDir(Paths.get("target/video"))
         .setRecordVideoSize(2560, 1440));
 
+    ctx.setDefaultTimeout(20000);
+    ctx.setDefaultNavigationTimeout(30000);
+
     ctx.route("**/*", route -> {
       String url = route.request().url();
 
